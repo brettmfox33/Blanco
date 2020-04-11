@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import TestBoi from "./components/TestBoi";
+import WelcomeModal from "./components/welcome/WelcomeModal";
 
 function App() {
   return (
-    <TestBoi />
+    <WelcomeModal />
   );
 }
 
