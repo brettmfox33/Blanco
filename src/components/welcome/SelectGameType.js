@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import {jsx} from "@emotion/core";
 
 /**
- * Step 1 in the Welcome Modal.
+ * Step 0 in the Welcome Modal.
  * Create a new game or route to an existing game.
  */
 export default function SelectGameType({setStep}) {
@@ -32,7 +32,7 @@ export default function SelectGameType({setStep}) {
           <Grid>
             <TextField
               margin="dense"
-              id="code"
+              id="game-code"
               label="Game Code"
               type="text"
             />

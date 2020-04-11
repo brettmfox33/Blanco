@@ -23,21 +23,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
- * Step 2 in the Welcome Modal.
+ * Step 1 in the Welcome Modal.
  * Create a new game by inputting player number and room name.
  **/
-export default function NewGameConfig({setOpen, setStep}) {
+export default function NewGameConfig({setStep}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const [numberOfPlayers, setNumberOfPlayers] = useState('');
   const [roomName, setRoomName] = useState('');
 
-  // Close Welcome Modal and create a new game
-  const createGame = (event) => {
-    event.preventDefault();
-    setOpen(false);
-    dispatch(actionCreators.game.createGame(numberOfPlayers, roomName))
+  // Create a new game and move modal to next step
+  const createGame = () => {
+    setStep(2);
+    dispatch(actionCreators.createGame(numberOfPlayers, roomName))
   };
 
   return (
@@ -73,7 +72,7 @@ export default function NewGameConfig({setOpen, setStep}) {
           <Grid>
             <TextField
               margin="dense"
-              id="code"
+              id="room-name"
               label="Room Name"
               type="text"
               onChange={event => {setRoomName(event.target.value)}}
@@ -83,7 +82,7 @@ export default function NewGameConfig({setOpen, setStep}) {
           <Grid>
             <Button
               color="primary"
-              onClick={event => createGame(event)}
+              onClick={() => createGame()}
               disabled={!numberOfPlayers || !roomName}
             >
               Start Game
