@@ -9,7 +9,7 @@ import NewGameConfig from "./NewGameConfig";
 
 /**
  * Welcome Modal that mounts on initial page load.
- * It's responsible for setting up the game.
+ * Responsible for setting up the game.
  **/
 export default function WelcomeModal() {
   const [open, setOpen] = useState(true);
