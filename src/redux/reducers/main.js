@@ -1,16 +1,21 @@
 import { handleActions } from "redux-actions";
 import {actionCreators} from "../actionCreators";
+import getRandomInteger from "../../utils/getRandomInteger";
 
 const initialState = {
-  input: 'poop'
+  roomID: null,
+  roomName: null,
+  numberOfPlayers: null
 };
 
 export default handleActions(
   {
-    [actionCreators.test.changeInput]: (state, action) => ({
+    [actionCreators.game.createGame]: (state, action) => ({
       ...state,
-      input: action.payload.input
-    }),
+      roomID: getRandomInteger(1000, 9000),
+      roomName: action.payload.roomName,
+      numberOfPlayers: action.payload.numberOfPlayers
+    })
   },
   initialState
 );

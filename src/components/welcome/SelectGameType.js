@@ -5,6 +5,10 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import {jsx} from "@emotion/core";
 
+/**
+ * Step 1 in the Welcome Modal.
+ * Create a new game or route to an existing game.
+ */
 export default function SelectGameType({setStep}) {
   return (
       <div id="select-game-type">

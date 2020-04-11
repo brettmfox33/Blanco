@@ -7,7 +7,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import SelectGameType from "./SelectGameType";
 import NewGameConfig from "./NewGameConfig";
 
-
+/**
+ * Welcome Modal that mounts on initial page load.
+ * It's responsible for setting up the game.
+ **/
 export default function WelcomeModal() {
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState(0);

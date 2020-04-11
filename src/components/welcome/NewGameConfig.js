@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import {useState} from "react";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton } from '@material-ui/core';
+import {useDispatch} from "react-redux";
+import {actionCreators} from "../../redux/actionCreators";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -20,10 +22,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Step 2 in the Welcome Modal.
+ * Create a new game by inputting player number and room name.
+ **/
 export default function NewGameConfig({setOpen, setStep}) {
   const classes = useStyles();
-  const [playerNumber, setPlayerNumber] = useState('');
+  const dispatch = useDispatch();
+
+  const [numberOfPlayers, setNumberOfPlayers] = useState('');
   const [roomName, setRoomName] = useState('');
+
+  // Close Welcome Modal and create a new game
+  const createGame = (event) => {
+    event.preventDefault();
+    setOpen(false);
+    dispatch(actionCreators.game.createGame(numberOfPlayers, roomName))
+  };
 
   return (
       <div id="select-game-type">
@@ -47,8 +62,8 @@ export default function NewGameConfig({setOpen, setStep}) {
               <InputLabel>Number of Players</InputLabel>
               <Select
                 label="Number of Players"
-                onChange={event => {setPlayerNumber(event.target.value)}}
-                value={playerNumber}
+                onChange={event => {setNumberOfPlayers(event.target.value)}}
+                value={numberOfPlayers}
               >
                 <MenuItem value={3}>3</MenuItem>
                 <MenuItem value={4}>4</MenuItem>
@@ -68,8 +83,8 @@ export default function NewGameConfig({setOpen, setStep}) {
           <Grid>
             <Button
               color="primary"
-              onClick={() => setOpen(false)}
-              disabled={!playerNumber || !roomName}
+              onClick={event => createGame(event)}
+              disabled={!numberOfPlayers || !roomName}
             >
               Start Game
             </Button>
