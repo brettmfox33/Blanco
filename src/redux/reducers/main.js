@@ -28,7 +28,10 @@ export default handleActions(
           score: 0
         }
       }
-    })
+    }),
+    [actionCreators.updateEntireState]: (state, action) => {
+      return action.payload.newState
+    }
   },
   initialState
 );
