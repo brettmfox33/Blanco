@@ -24,26 +24,22 @@ io.on("connection", socket => {
   // initial state to the room obj for joining rooms to ingest
   socket.on('createRoom', state => {
     socket.join(state.roomID, () => {
-      const newRoom = io.sockets.adapter.rooms[state.roomID];
-      newRoom['state'] = state;
-      newRoom['players'] = {1:socket.id}
+      io.sockets.adapter.rooms[state.roomID]['state'] = state;
     })
   });
 
   // When a user joins a game room => Attempt to join that socket room if it isn't full and valid.
   // Send back the initial state for the joining client to ingest.
-  socket.on('joinRoom', roomID => {
+  socket.on('joinRoom', (roomID, playerName) => {
     const allRooms = io.sockets.adapter.rooms;
     if (allRooms[roomID] && allRooms[roomID].length < allRooms[roomID].state.numberOfPlayers) {
       const room = allRooms[roomID];
-      socket.join(roomID, () => {
 
-        // Set the player number depending on which number room is available on the socket
+      socket.join(roomID, () => {
         let playerNumber = null;
-        for (let i=1; i<=room.state.numberOfPlayers; i++) {
-          if (!room.players[i]){
-            room.players[i] = socket.id;
-            playerNumber = i;
+        for (let i=2; i<=room.state.numberOfPlayers; i++) {
+          if(!room.state.players[i]) {
+            room.state.players[i] = {playerName:playerName};
             break
           }
         }
@@ -56,7 +52,7 @@ io.on("connection", socket => {
       if (!allRooms[roomID]) {
         socket.emit("joinFailure", "This Room doesn't exist!");
       }
-      else if (allRooms[roomID].maxLength === allRooms[roomID].length)
+      else if (allRooms[roomID].state.numberOfPlayers === allRooms[roomID].length)
       {
         socket.emit("joinFailure", "This Room is full!");
       }
@@ -64,10 +60,6 @@ io.on("connection", socket => {
         socket.emit("joinFailure", "Unknown Socket Error!");
       }
     }
-  });
-
-  socket.on('addPlayer', (playerName, playerNumber, roomID) => {
-    io.sockets.adapter.rooms[roomID].state.players[playerNumber] = {playerName: playerName};
   });
 
   // Send the new state to all clients connected to the socket room

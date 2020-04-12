@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import SelectGameType from "./SelectGameType";
 import NewGameConfig from "./NewGameConfig";
-import EnterPlayerName from "./EnterPlayerName";
+import EnterRoomInfo from "./EnterRoomInfo";
 
 /**
  * Welcome Modal that mounts on initial page load.
@@ -15,7 +15,7 @@ import EnterPlayerName from "./EnterPlayerName";
 export default function WelcomeModal({socket}) {
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState(0);
-  const [playerNumber, setPlayerNumber] = useState(null);
+
   return (
     <Dialog
       fullWidth={true}
@@ -31,12 +31,11 @@ export default function WelcomeModal({socket}) {
         </DialogTitle>
         {
           step === 0
-            ? <SelectGameType setStep={setStep} setOpen={setOpen}
-                              socket={socket} setPlayerNumber={setPlayerNumber}/>
+            ? <SelectGameType setStep={setStep}/>
           : step === 1
-            ? <NewGameConfig setStep={setStep} setOpen={setOpen} socket={socket}/>
+            ? <NewGameConfig socket={socket} setOpen={setOpen} setStep={setStep} />
           : step === 2
-            ? <EnterPlayerName setOpen={setOpen} playerNumber={playerNumber}/>
+            ? <EnterRoomInfo socket={socket} setOpen={setOpen} setStep={setStep} />
           : null
         }
       </DialogContent>

@@ -3,26 +3,41 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import {jsx} from "@emotion/core";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "../../redux/actionCreators";
+import {IconButton} from "@material-ui/core";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
-/**
- * Step 2 in the Welcome Modal.
- * Enter player name and join game.
- **/
-export default function EnterPlayerName({setOpen, playerNumber}) {
+  /**
+   * Step 2 in the Welcome Modal.
+   * Enter player name and join game.
+   **/
+export default function EnterRoomInfo({socket, setOpen, setStep}) {
   const dispatch = useDispatch();
 
   const roomName = useSelector(state => state.roomName);
 
   const [playerName, setPlayerName] = useState(null);
+  const [roomID, setRoomID] = useState(null);
+  const [joinError, setJoinError] = useState(null);
+
+  useEffect(() => {
+    socket.on("joinFailure", error => {
+      setJoinError(error);
+    });
+
+    socket.on("joinSuccess", (newState, playerNumber) => {
+      setOpen(false);
+      dispatch(actionCreators.updateEntireState(newState));
+      socket.emit("stateChange", newState, newState.roomID);
+    });
+  }, []);
 
   // Add Player to state and close Welcome Modal
   const joinGame = () => {
-    setOpen(false);
-    dispatch(actionCreators.addPlayer(playerName, playerNumber))
+    socket.emit('joinRoom', roomID, playerName);
   };
 
   return (
@@ -37,6 +52,23 @@ export default function EnterPlayerName({setOpen, playerNumber}) {
         alignItems="center"
       >
         <Grid>
+          <IconButton
+            onClick={() => setStep(0)}>
+            <ArrowBackIosIcon />
+          </IconButton>
+        </Grid>
+        <Grid>
+          <TextField
+            error={joinError ? true : false}
+            margin="dense"
+            id="game-code"
+            label="Game Code"
+            type="text"
+            onChange={event => setRoomID(event.target.value)}
+            helperText={joinError ? joinError: null}
+          />
+        </Grid>
+        <Grid>
           <TextField
             margin="dense"
             id="player-name"
@@ -50,7 +82,7 @@ export default function EnterPlayerName({setOpen, playerNumber}) {
           <Button
             color="primary"
             onClick={() => joinGame()}
-            disabled={!playerName}
+            disabled={!playerName || !roomID}
           >
             Join Game
           </Button>

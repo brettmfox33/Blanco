@@ -14,13 +14,6 @@ const socket = socketIOClient("http://127.0.0.1:4001");
 const logger = store => next => action => {
   let result = next(action);
   const nextState = store.getState();
-  if (action.type === 'addPlayer') {
-    console.log(action.payload.playerNumber);
-    socket.emit("addPlayer",
-      nextState.players[action.payload.playerNumber].playerName,
-      action.payload.playerNumber,
-      nextState.roomID);
-  }
   if (action.type !== 'updateEntireState') {
     socket.emit("stateChange", nextState, nextState.roomID);
   }
