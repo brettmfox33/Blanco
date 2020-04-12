@@ -33,7 +33,7 @@ export default function WelcomeModal({socket}) {
           step === 0
             ? <SelectGameType setStep={setStep} socket={socket}/>
           : step === 1
-            ? <NewGameConfig setStep={setStep}/>
+            ? <NewGameConfig setStep={setStep} socket={socket}/>
           : step === 2
             ? <EnterPlayerName setOpen={setOpen}/>
           : null

@@ -14,7 +14,7 @@ export default function SelectGameType({setStep, socket}) {
   const [roomID, setRoomID] = useState(null);
 
   const roomIDEnter = () => {
-    socket.emit('Join Room', roomID)
+    socket.emit('joinRoom', roomID)
   };
 
   return (
