@@ -9,10 +9,10 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from '@material-ui/core/styles';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton } from '@material-ui/core';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "../../redux/actionCreators";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,18 +26,27 @@ const useStyles = makeStyles((theme) => ({
  * Step 1 in the Welcome Modal.
  * Create a new game by inputting player number and room name.
  **/
-export default function NewGameConfig({setStep}) {
+export default function NewGameConfig({socket, setOpen, setStep}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const roomID = useSelector(state => state.roomID);
+  const state = useSelector(state => state);
+
   const [numberOfPlayers, setNumberOfPlayers] = useState('');
   const [roomName, setRoomName] = useState('');
+  const [playerName, sePlayerName] = useState('');
 
-  // Create a new game and move modal to next step
   const createGame = () => {
-    setStep(2);
-    dispatch(actionCreators.createGame(numberOfPlayers, roomName))
+    dispatch(actionCreators.createGame(numberOfPlayers, roomName, playerName))
   };
+
+  useEffect(() => {
+    if (roomID) {
+      socket.emit('createRoom', state);
+      setOpen(false);
+    }
+  }, [roomID]);
 
   return (
       <div id="select-game-type">
@@ -77,6 +86,16 @@ export default function NewGameConfig({setStep}) {
               type="text"
               onChange={event => {setRoomName(event.target.value)}}
               val={roomName}
+            />
+          </Grid>
+          <Grid>
+            <TextField
+              margin="dense"
+              id="host-name"
+              label="Player Name"
+              type="text"
+              onChange={event => {sePlayerName(event.target.value)}}
+              val={playerName}
             />
           </Grid>
           <Grid>

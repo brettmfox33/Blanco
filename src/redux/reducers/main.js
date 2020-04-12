@@ -17,15 +17,14 @@ export default handleActions(
       roomID: getRandomInteger(1000, 9000),
       roomName: action.payload.roomName,
       numberOfPlayers: action.payload.numberOfPlayers,
-      players: createPlayerObject(action.payload.numberOfPlayers)
+      players: createPlayerObject(action.payload)
     }),
     [actionCreators.addPlayer]: (state, action) => ({
       ...state,
       players: {
         ...state.players,
         [action.payload.playerNumber]: {
-          playerName: action.payload.playerName,
-          score: 0
+          playerName: action.payload.playerName
         }
       }
     }),

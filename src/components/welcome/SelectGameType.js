@@ -2,20 +2,12 @@
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import {jsx} from "@emotion/core";
-import {useState} from "react";
-
 /**
  * Step 0 in the Welcome Modal.
  * Create a new game or route to an existing game.
  */
-export default function SelectGameType({setStep, socket}) {
-  const [roomID, setRoomID] = useState(null);
-
-  const roomIDEnter = () => {
-    socket.emit('Join Room', roomID)
-  };
+export default function SelectGameType({setStep}) {
 
   return (
       <div id="select-game-type">
@@ -37,21 +29,13 @@ export default function SelectGameType({setStep, socket}) {
             </Button>
           </Grid>
           <Grid>
-            <TextField
-              margin="dense"
-              id="game-code"
-              label="Game Code"
-              type="text"
-              onChange={event => setRoomID(event.target.value)}
-            />
+            <Button
+              color="primary"
+              onClick={() => setStep(2)}
+            >
+              Join Game
+            </Button>
           </Grid>
-          <Grid>
-          <Button
-            onClick={() => roomIDEnter()}
-          >
-            Enter
-          </Button>
-        </Grid>
         </Grid>
       </div>
   )
