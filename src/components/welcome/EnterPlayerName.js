@@ -5,28 +5,30 @@ import TextField from "@material-ui/core/TextField";
 import {jsx} from "@emotion/core";
 import {useState} from "react";
 import Button from "@material-ui/core/Button";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "../../redux/actionCreators";
 
 /**
  * Step 2 in the Welcome Modal.
  * Enter player name and join game.
  **/
-export default function EnterPlayerName({setOpen}) {
+export default function EnterPlayerName({setOpen, playerNumber}) {
   const dispatch = useDispatch();
+
+  const roomName = useSelector(state => state.roomName);
 
   const [playerName, setPlayerName] = useState(null);
 
   // Add Player to state and close Welcome Modal
   const joinGame = () => {
     setOpen(false);
-    dispatch(actionCreators.addPlayer(playerName, 1))
+    dispatch(actionCreators.addPlayer(playerName, playerNumber))
   };
 
   return (
     <div id="select-game-type">
       <DialogContentText>
-        Enter Player Name
+        Enter Player Name for Room: {roomName}
       </DialogContentText>
       <Grid
         container

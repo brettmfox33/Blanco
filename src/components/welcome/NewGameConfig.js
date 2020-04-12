@@ -26,24 +26,26 @@ const useStyles = makeStyles((theme) => ({
  * Step 1 in the Welcome Modal.
  * Create a new game by inputting player number and room name.
  **/
-export default function NewGameConfig({setStep, socket}) {
+export default function NewGameConfig({setStep, setOpen, socket}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const roomID = useSelector(state => state.roomID);
+  const state = useSelector(state => state);
 
   const [numberOfPlayers, setNumberOfPlayers] = useState('');
   const [roomName, setRoomName] = useState('');
+  const [playerName, sePlayerName] = useState('');
 
   // Create a new game and move modal to next step
   const createGame = () => {
-    dispatch(actionCreators.createGame(numberOfPlayers, roomName))
+    dispatch(actionCreators.createGame(numberOfPlayers, roomName, playerName))
   };
 
   useEffect(() => {
     if (roomID) {
-      socket.emit('createRoom', roomID, numberOfPlayers);
-      setStep(2);
+      socket.emit('createRoom', state);
+      setOpen(false);
     }
   }, [roomID]);
 
@@ -85,6 +87,16 @@ export default function NewGameConfig({setStep, socket}) {
               type="text"
               onChange={event => {setRoomName(event.target.value)}}
               val={roomName}
+            />
+          </Grid>
+          <Grid>
+            <TextField
+              margin="dense"
+              id="host-name"
+              label="Player Name"
+              type="text"
+              onChange={event => {sePlayerName(event.target.value)}}
+              val={playerName}
             />
           </Grid>
           <Grid>

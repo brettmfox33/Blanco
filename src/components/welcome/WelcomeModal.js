@@ -15,7 +15,7 @@ import EnterPlayerName from "./EnterPlayerName";
 export default function WelcomeModal({socket}) {
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState(0);
-
+  const [playerNumber, setPlayerNumber] = useState(null);
   return (
     <Dialog
       fullWidth={true}
@@ -31,11 +31,12 @@ export default function WelcomeModal({socket}) {
         </DialogTitle>
         {
           step === 0
-            ? <SelectGameType setStep={setStep} socket={socket}/>
+            ? <SelectGameType setStep={setStep} setOpen={setOpen}
+                              socket={socket} setPlayerNumber={setPlayerNumber}/>
           : step === 1
-            ? <NewGameConfig setStep={setStep} socket={socket}/>
+            ? <NewGameConfig setStep={setStep} setOpen={setOpen} socket={socket}/>
           : step === 2
-            ? <EnterPlayerName setOpen={setOpen}/>
+            ? <EnterPlayerName setOpen={setOpen} playerNumber={playerNumber}/>
           : null
         }
       </DialogContent>
