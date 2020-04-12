@@ -10,11 +10,11 @@ import {actionCreators} from "../../redux/actionCreators";
 import {IconButton} from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
-  /**
-   * Step 2 in the Welcome Modal.
-   * Enter player name and join game.
-   **/
-export default function EnterRoomInfo({socket, setOpen, setStep}) {
+/**
+ * Step 2 in the Welcome Modal.
+ * Enter game code and player name.
+ **/
+export default function EnterRoomInfo({socket, setStep}) {
   const dispatch = useDispatch();
 
   const roomName = useSelector(state => state.roomName);
@@ -22,26 +22,32 @@ export default function EnterRoomInfo({socket, setOpen, setStep}) {
   const [playerName, setPlayerName] = useState(null);
   const [roomID, setRoomID] = useState(null);
   const [joinError, setJoinError] = useState(null);
+  const [nameError, setNameError] = useState(null);
 
+  // Subscribe to socket events when the component mounts
   useEffect(() => {
     socket.on("joinFailure", error => {
       setJoinError(error);
     });
 
+    socket.on("nameFailure", error => {
+      setNameError(error);
+    });
+
     socket.on("joinSuccess", (newState, playerNumber) => {
-      setOpen(false);
       dispatch(actionCreators.updateEntireState(newState));
       socket.emit("stateChange", newState, newState.roomID);
+      setStep(3);
     });
   }, []);
 
-  // Add Player to state and close Welcome Modal
+  // Add Player to state and client to socket room
   const joinGame = () => {
     socket.emit('joinRoom', roomID, playerName);
   };
 
   return (
-    <div id="select-game-type">
+    <div id="enter-room-info">
       <DialogContentText>
         Enter Player Name for Room: {roomName}
       </DialogContentText>
@@ -66,16 +72,19 @@ export default function EnterRoomInfo({socket, setOpen, setStep}) {
             type="text"
             onChange={event => setRoomID(event.target.value)}
             helperText={joinError ? joinError: null}
+            val={roomID}
           />
         </Grid>
         <Grid>
           <TextField
+            error={nameError ? true : false}
             margin="dense"
             id="player-name"
             label="Player Name"
             type="text"
             onChange={event => {setPlayerName(event.target.value)}}
-            val={playerName}
+            helperText={nameError ? nameError: null}
+            val={nameError}
           />
         </Grid>
         <Grid>

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
  * Step 1 in the Welcome Modal.
  * Create a new game by inputting player number and room name.
  **/
-export default function NewGameConfig({socket, setOpen, setStep}) {
+export default function NewGameConfig({socket, setStep}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -44,12 +44,12 @@ export default function NewGameConfig({socket, setOpen, setStep}) {
   useEffect(() => {
     if (roomID) {
       socket.emit('createRoom', state);
-      setOpen(false);
+      setStep(3);
     }
   }, [roomID]);
 
   return (
-      <div id="select-game-type">
+      <div id="new-game-config">
         <DialogContentText>
           Enter Players and name
         </DialogContentText>
