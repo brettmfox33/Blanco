@@ -3,6 +3,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {jsx} from "@emotion/core";
+
 /**
  * Step 0 in the Welcome Modal.
  * Create a new game or route to an existing game.

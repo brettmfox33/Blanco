@@ -35,6 +35,13 @@ io.on("connection", socket => {
     if (allRooms[roomID] && allRooms[roomID].length < allRooms[roomID].state.numberOfPlayers) {
       const room = allRooms[roomID];
 
+      // Check if name already exists
+      const fullPlayers = Object.values(allRooms[roomID].state.players).filter(item => item);
+      if(fullPlayers.some(e => e.playerName === playerName)) {
+        socket.emit("nameFailure", "Player name taken");
+        return
+      }
+
       socket.join(roomID, () => {
         let playerNumber = null;
         for (let i=2; i<=room.state.numberOfPlayers; i++) {
