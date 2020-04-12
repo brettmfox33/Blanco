@@ -4,9 +4,21 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import {compose, createStore} from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
 import mainReducers from './redux/reducers/main';
+import socketIOClient from "socket.io-client";
 
+const socket = socketIOClient("http://127.0.0.1:4001");
+
+// Middleware
+const logger = store => next => action => {
+  let result = next(action);
+  const nextState = store.getState();
+  socket.emit("stateChange", nextState, nextState.roomID);
+  return result
+};
+
+// FireFox Redux Dev Tools Extension
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
@@ -14,12 +26,12 @@ const composeEnhancers =
 
 const store = createStore(
   mainReducers,
-  composeEnhancers()
+  composeEnhancers(applyMiddleware(logger))
 );
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <App socket={socket}/>
   </Provider>,
   document.getElementById('root')
 );

@@ -12,7 +12,7 @@ import EnterPlayerName from "./EnterPlayerName";
  * Welcome Modal that mounts on initial page load.
  * Responsible for setting up the game.
  **/
-export default function WelcomeModal() {
+export default function WelcomeModal({socket}) {
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState(0);
 
@@ -31,7 +31,7 @@ export default function WelcomeModal() {
         </DialogTitle>
         {
           step === 0
-            ? <SelectGameType setStep={setStep}/>
+            ? <SelectGameType setStep={setStep} socket={socket}/>
           : step === 1
             ? <NewGameConfig setStep={setStep}/>
           : step === 2

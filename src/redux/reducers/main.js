@@ -28,7 +28,12 @@ export default handleActions(
           score: 0
         }
       }
-    })
+    }),
+    [actionCreators.updateEntireState]: (state, action) => {
+      console.log(state);
+      console.log(action.payload.newState);
+      return action.payload.newState
+    }
   },
   initialState
 );
