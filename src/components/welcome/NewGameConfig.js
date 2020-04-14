@@ -73,6 +73,7 @@ export default function NewGameConfig({socket, setStep}) {
                 onChange={event => {setNumberOfPlayers(event.target.value)}}
                 value={numberOfPlayers}
               >
+                <MenuItem value={2}>2</MenuItem>
                 <MenuItem value={3}>3</MenuItem>
                 <MenuItem value={4}>4</MenuItem>
               </Select>

@@ -3,7 +3,7 @@ import './App.css';
 import WelcomeModal from "./components/welcome/WelcomeModal";
 import {useDispatch} from "react-redux";
 import {actionCreators} from "./redux/actionCreators";
-import Main from "./components/Main";
+import GameBoard from "./components/GameBoard";
 
 function App({socket}) {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ function App({socket}) {
 
   return (
     <Fragment>
-      <Main />
+      <GameBoard />
       <WelcomeModal socket={socket}/>
     </Fragment>
   );
