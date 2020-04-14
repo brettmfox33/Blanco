@@ -34,7 +34,7 @@ export default function EnterRoomInfo({socket, setStep}) {
       setNameError(error);
     });
 
-    socket.on("joinSuccess", (newState, playerNumber) => {
+    socket.on("joinSuccess", (newState) => {
       dispatch(actionCreators.updateEntireState(newState));
       socket.emit("stateChange", newState, newState.roomID);
       setStep(3);

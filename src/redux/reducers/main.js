@@ -7,7 +7,9 @@ const initialState = {
   roomID: null,
   roomName: null,
   numberOfPlayers: null,
-  players: null
+  numberOfFactoryTiles: null,
+  players: null,
+  playersReady: false
 };
 
 export default handleActions(
@@ -17,16 +19,8 @@ export default handleActions(
       roomID: getRandomInteger(1000, 9000),
       roomName: action.payload.roomName,
       numberOfPlayers: action.payload.numberOfPlayers,
+      numberOfFactoryTiles: action.payload.numberOfPlayers === 2 ? 7 : 3 ? 8 : 9,
       players: createPlayerObject(action.payload)
-    }),
-    [actionCreators.addPlayer]: (state, action) => ({
-      ...state,
-      players: {
-        ...state.players,
-        [action.payload.playerNumber]: {
-          playerName: action.payload.playerName
-        }
-      }
     }),
     [actionCreators.updateEntireState]: (state, action) => {
       return action.payload.newState
