@@ -4,7 +4,9 @@ import FactoryDisplays from "./FactoryDisplays";
 import PlayerBoardLeft from "./PlayerBoardLeft";
 import Overflow from "./Overflow";
 import PlayerBoardRight from "./PlayerBoardRight";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {actionCreators} from "../redux/actionCreators";
 
 const styles = {
   app: css({
@@ -21,11 +23,20 @@ const styles = {
 };
 
 export default function GameBoard() {
+  const dispatch = useDispatch();
   const players = useSelector(state => state.players);
   const numberOfPlayers = useSelector(state => state.numberOfPlayers);
+  const [gameReady, setGameReady] = useState(false);
+
+  useEffect(() => {
+    if (players && Object.values(players).filter(item => item).length === numberOfPlayers) {
+      setGameReady(true);
+      dispatch(actionCreators.startGame())
+    }
+  }, [players]);
 
   return (
-    players && Object.values(players).filter(item => item).length === numberOfPlayers
+    gameReady
       ? <div css={styles.app}>
           <FactoryDisplays />
           <PlayerBoardLeft />
