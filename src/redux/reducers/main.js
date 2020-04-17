@@ -8,7 +8,6 @@ const initialState = {
   roomID: null,
   roomName: null,
   numberOfPlayers: null,
-  numberOfFactoryDisplays: null,
   players: null,
   playersReady: false,
   gameState: {
@@ -30,19 +29,15 @@ export default handleActions(
       roomID: getRandomInteger(1000, 9000),
       roomName: action.payload.roomName,
       numberOfPlayers: action.payload.numberOfPlayers,
-      numberOfFactoryDisplays: action.payload.numberOfPlayers === 2 ? 7 : 3 ? 8 : 9,
-      players: createPlayerObject(action.payload)
+      players: createPlayerObject(action.payload),
+      gameState: {
+        ...state.gameState,
+        factoryDisplays: buildFactoryDisplays(state, action)
+      }
     }),
     [actionCreators.updateEntireState]: (state, action) => {
       return action.payload.newState
-    },
-    [actionCreators.startGame]: state => ({
-      ...state,
-      gameState: {
-        ...state.gameState,
-        factoryDisplays: buildFactoryDisplays(state)
-      }
-    })
+    }
   },
   initialState
 );

@@ -1,9 +1,11 @@
 import randomNumber from "../../utils/getRandomInteger"
 
-export default function buildFactoryDisplays(state) {
+export default function buildFactoryDisplays(state, action) {
+  const numberOfFactoryDisplays = 5 + ((action.payload.numberOfPlayers - 2) * 2);
+
   // Generate initial factory displays
   const factoryDisplays = [];
-  for(let i=0; i<state.numberOfFactoryDisplays.length; i++){
+  for(let i=0; i<numberOfFactoryDisplays; i++){
     factoryDisplays.push({
       "tiles":{
         "black": 0,
@@ -25,7 +27,7 @@ export default function buildFactoryDisplays(state) {
 
   // Use the tile array to grab random tile objects to assign to factory displays
   factoryDisplays.map(factoryDisplay => {
-    for(let i = 0; i<4; i++){
+    for(let i=0; i<4; i++){
       //We may have a bug in the random number, needs to be 0-99
       // Getting error: Uncaught TypeError: Cannot read property 'color' of undefined
       const daRandomNumber = randomNumber(0, tiles.length);
