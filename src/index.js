@@ -9,7 +9,7 @@ import publicReducers from './redux/reducers/public';
 import privateReducers from './redux/reducers/private';
 import socketIOClient from "socket.io-client";
 
-const socket = socketIOClient("http://127.0.0.1:4001");
+const socket = socketIOClient("http://localhost:4001");
 
 // Middleware
 const logger = store => next => action => {
