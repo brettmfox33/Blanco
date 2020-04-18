@@ -17,7 +17,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 export default function EnterRoomInfo({socket, setStep}) {
   const dispatch = useDispatch();
 
-  const roomName = useSelector(state => state.roomName);
+  const roomName = useSelector(state => state.public.roomName);
 
   const [playerName, setPlayerName] = useState(null);
   const [roomID, setRoomID] = useState(null);
@@ -34,9 +34,9 @@ export default function EnterRoomInfo({socket, setStep}) {
       setNameError(error);
     });
 
-    socket.on("joinSuccess", (newState) => {
-      dispatch(actionCreators.updateEntireState(newState));
-      socket.emit("stateChange", newState, newState.roomID);
+    socket.on("joinSuccess", (publicState) => {
+      dispatch(actionCreators.updateEntireState(publicState));
+      socket.emit("stateChange", publicState, publicState.roomID);
       setStep(3);
     });
   }, []);

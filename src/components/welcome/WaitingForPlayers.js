@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 
 export default function WaitingForPlayers() {
 
-  const players = useSelector(state => state.players);
+  const players = useSelector(state => state.public.players);
 
   return(
     <div id="waiting-for-players">

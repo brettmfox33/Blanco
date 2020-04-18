@@ -20,8 +20,8 @@ const styles = {
 };
 
 export default function GameBoard() {
-  const players = useSelector(state => state.players);
-  const numberOfPlayers = useSelector(state => state.numberOfPlayers);
+  const players = useSelector(state => state.public.players);
+  const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
 
   return (
     players && Object.values(players).filter(item => item).length === numberOfPlayers

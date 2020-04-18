@@ -9,7 +9,6 @@ const initialState = {
   roomName: null,
   numberOfPlayers: null,
   players: null,
-  playersReady: false,
   gameState: {
     availableTiles: {
       black: 20,

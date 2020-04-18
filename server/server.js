@@ -23,8 +23,8 @@ io.on("connection", socket => {
   // When a user creates a new game room => Create a new socket room with that roomID and add the
   // initial state to the room obj for joining rooms to ingest
   socket.on('createRoom', state => {
-    socket.join(state.roomID, () => {
-      io.sockets.adapter.rooms[state.roomID]['state'] = state;
+    socket.join(state.public.roomID, () => {
+      io.sockets.adapter.rooms[state.public.roomID]['state'] = state;
     })
   });
 
@@ -32,11 +32,11 @@ io.on("connection", socket => {
   // Send back the initial state for the joining client to ingest.
   socket.on('joinRoom', (roomID, playerName) => {
     const allRooms = io.sockets.adapter.rooms;
-    if (allRooms[roomID] && allRooms[roomID].length < allRooms[roomID].state.numberOfPlayers) {
+    if (allRooms[roomID] && allRooms[roomID].length < allRooms[roomID].state.public.numberOfPlayers) {
       const room = allRooms[roomID];
 
       // Check if name already exists
-      const fullPlayers = Object.values(allRooms[roomID].state.players).filter(item => item);
+      const fullPlayers = Object.values(allRooms[roomID].state.public.players).filter(item => item);
       if(fullPlayers.some(e => e.playerName === playerName)) {
         socket.emit("nameFailure", "Player name taken");
         return
@@ -44,14 +44,13 @@ io.on("connection", socket => {
 
       socket.join(roomID, () => {
         let playerNumber = null;
-        for (let i=2; i<=room.state.numberOfPlayers; i++) {
-          if(!room.state.players[i]) {
-            room.state.players[i] = {playerName:playerName};
+        for (let i=2; i<=room.state.public.numberOfPlayers; i++) {
+          if(!room.state.public.players[i]) {
+            room.state.public.players[i] = {playerName:playerName};
             break
           }
         }
-
-        socket.emit("joinSuccess", allRooms[roomID].state, playerNumber)
+        socket.emit("joinSuccess", allRooms[roomID].state.public, playerNumber)
       })
     }
     // Error joining occurred
@@ -59,7 +58,7 @@ io.on("connection", socket => {
       if (!allRooms[roomID]) {
         socket.emit("joinFailure", "This Room doesn't exist!");
       }
-      else if (allRooms[roomID].state.numberOfPlayers === allRooms[roomID].length)
+      else if (allRooms[roomID].state.public.numberOfPlayers === allRooms[roomID].length)
       {
         socket.emit("joinFailure", "This Room is full!");
       }
@@ -71,7 +70,7 @@ io.on("connection", socket => {
 
   // Send the new state to all clients connected to the socket room
   socket.on("stateChange", (state, roomID) => {
-    socket.to(roomID).emit("updateEntireState", state)
+    socket.to(roomID).emit("updateEntireState", state.public)
   });
 
   socket.on("disconnect", () => {

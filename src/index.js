@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Provider } from 'react-redux';
-import {applyMiddleware, compose, createStore} from "redux";
-import mainReducers from './redux/reducers/main';
+import { Provider,  } from 'react-redux';
+import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import publicReducers from './redux/reducers/public';
+import privateReducers from './redux/reducers/private';
 import socketIOClient from "socket.io-client";
 
 const socket = socketIOClient("http://127.0.0.1:4001");
@@ -26,8 +27,13 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
+const rootReducers = combineReducers({
+  public: publicReducers,
+  private: privateReducers
+});
+
 const store = createStore(
-  mainReducers,
+  rootReducers,
   composeEnhancers(applyMiddleware(logger))
 );
 

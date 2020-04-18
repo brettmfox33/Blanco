@@ -9,8 +9,8 @@ function App({socket}) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on("updateEntireState", state  => {
-      dispatch(actionCreators.updateEntireState(state));
+    socket.on("updateEntireState", publicState  => {
+      dispatch(actionCreators.updateEntireState(publicState));
     });
   }, []);
 
