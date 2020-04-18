@@ -27,6 +27,7 @@ export default function EnterRoomInfo({socket, setStep}) {
   // Subscribe to socket events when the component mounts
   useEffect(() => {
     socket.on("joinFailure", error => {
+      console.log(error);
       setJoinError(error);
     });
 

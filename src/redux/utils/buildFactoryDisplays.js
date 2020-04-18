@@ -31,9 +31,7 @@ export default function buildFactoryDisplays(state, action) {
       //We may have a bug in the random number, needs to be 0-99
       // Getting error: Uncaught TypeError: Cannot read property 'color' of undefined
       const daRandomNumber = randomNumber(0, tiles.length - 1);
-      console.log('Random Number', daRandomNumber);
       const tileColor = tiles.splice(daRandomNumber, 1)[0].color;
-      console.log(tiles);
       state.gameState.availableTiles[tileColor] = state.gameState.availableTiles[tileColor] - 1;
       factoryDisplay["tiles"][tileColor] = factoryDisplay["tiles"][tileColor] + 1;
     }

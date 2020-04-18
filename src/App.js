@@ -18,7 +18,6 @@ function App({socket}) {
     });
 
     socket.on("setTurn", clientID => {
-      console.log(clientID);
       dispatch(actionCreators.private.setTurn(clientID))
     })
   }, []);

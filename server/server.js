@@ -24,17 +24,17 @@ io.on("connection", socket => {
   // Save socket ID to client's private state
   socket.emit("saveClientID", socket.id);
 
-  let firstTurn = null;
-
   // When a user creates a new game room => Create a new socket room with that roomID and add the
   // initial state to the room obj for joining rooms to ingest
   socket.on('createRoom', state => {
     socket.join(state.public.roomID, () => {
-      io.sockets.adapter.rooms[state.public.roomID]['state'] = state;
+      const room = io.sockets.adapter.rooms[state.public.roomID];
+      room['state'] = state;
+      room['playerNumberSockets'] = {1: socket.id};
 
-      firstTurn = Math.floor(Math.random() * (state.public.numberOfPlayers - 1 + 1) ) + 1;
-      console.log(firstTurn);
-      if (firstTurn === 1) {
+
+      room['currentTurn'] = Math.floor(Math.random() * (state.public.numberOfPlayers - 1 + 1) ) + 1;
+      if (room.currentTurn === 1) {
         socket.emit("setTurn", socket.id);
       }
     })
@@ -55,16 +55,20 @@ io.on("connection", socket => {
       }
 
       socket.join(roomID, () => {
-        let playerNumber = null;
         for (let i=2; i<=room.state.public.numberOfPlayers; i++) {
           if(!room.state.public.players[i]) {
             room.state.public.players[i] = {playerName:playerName};
+            room.playerNumberSockets[i] = socket.id;
+
             // Check if this player will have the first turn
-            socket.emit("setTurn", socket.id);
+            if (i === room.currentTurn) {
+              socket.emit("setTurn", room.playerNumberSockets[room.currentTurn]);
+            }
+
             break
           }
         }
-        socket.emit("joinSuccess", allRooms[roomID].state.public, playerNumber)
+        socket.emit("joinSuccess", allRooms[roomID].state.public)
       })
     }
     // Error joining occurred
@@ -81,6 +85,7 @@ io.on("connection", socket => {
       }
     }
   });
+
 
   // Send the new state to all clients connected to the socket room
   socket.on("stateChange", (state, roomID) => {
