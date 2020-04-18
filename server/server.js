@@ -88,8 +88,8 @@ io.on("connection", socket => {
 
 
   // Send the new state to all clients connected to the socket room
-  socket.on("stateChange", (state, roomID) => {
-    socket.to(roomID).emit("updateEntireState", state.public)
+  socket.on("publicStateChange", (publicState, roomID) => {
+    socket.to(roomID).emit("updatePublicState", publicState)
   });
 
   socket.on("disconnect", () => {

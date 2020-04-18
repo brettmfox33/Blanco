@@ -34,8 +34,8 @@ export default handleActions(
         factoryDisplays: buildFactoryDisplays(state, action)
       },
     }),
-    [actionCreators.public.updateEntireState]: (state, action) => {
-      return action.payload.newState
+    [actionCreators.public.updatePublicState]: (state, action) => {
+      return action.payload.newPublicState
     }
   },
   initialState

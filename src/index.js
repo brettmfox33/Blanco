@@ -15,8 +15,8 @@ const socket = socketIOClient("http://localhost:4001");
 const logger = store => next => action => {
   let result = next(action);
   const nextState = store.getState();
-  if (action.type !== 'updateEntireState') {
-    socket.emit("stateChange", nextState, nextState.roomID);
+  if (action.type !== 'public/updatePublicState' && !action.type.startsWith('private/')) {
+    socket.emit("publicStateChange", nextState.public, nextState.public.roomID);
   }
   return result
 };

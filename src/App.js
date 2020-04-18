@@ -9,8 +9,8 @@ function App({socket}) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on("updateEntireState", publicState  => {
-      dispatch(actionCreators.public.updateEntireState(publicState));
+    socket.on("updateState", publicState  => {
+      dispatch(actionCreators.public.updatePublicState(publicState));
     });
 
     socket.on("saveClientID", clientID => {
