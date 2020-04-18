@@ -32,7 +32,7 @@ export default handleActions(
       gameState: {
         ...state.gameState,
         factoryDisplays: buildFactoryDisplays(state, action)
-      }
+      },
     }),
     [actionCreators.public.updateEntireState]: (state, action) => {
       return action.payload.newState

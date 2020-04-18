@@ -6,6 +6,7 @@ export const actionCreators = createActions({
     updateEntireState: (newState) => ({newState}),
   },
   private: {
-    saveClientID: (clientID) => ({clientID})
+    saveClientID: (clientID) => ({clientID}),
+    setTurn: (clientID) => ({clientID})
   }
 });

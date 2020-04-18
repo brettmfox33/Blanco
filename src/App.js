@@ -16,6 +16,11 @@ function App({socket}) {
     socket.on("saveClientID", clientID => {
       dispatch(actionCreators.private.saveClientID(clientID))
     });
+
+    socket.on("setTurn", clientID => {
+      console.log(clientID);
+      dispatch(actionCreators.private.setTurn(clientID))
+    })
   }, []);
 
   return (

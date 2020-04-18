@@ -2,6 +2,7 @@
  * Set up a node server hosted on an Express application for the purpose of connecting a
  * socket.io instance.
  **/
+
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
@@ -23,11 +24,19 @@ io.on("connection", socket => {
   // Save socket ID to client's private state
   socket.emit("saveClientID", socket.id);
 
+  let firstTurn = null;
+
   // When a user creates a new game room => Create a new socket room with that roomID and add the
   // initial state to the room obj for joining rooms to ingest
   socket.on('createRoom', state => {
     socket.join(state.public.roomID, () => {
       io.sockets.adapter.rooms[state.public.roomID]['state'] = state;
+
+      firstTurn = Math.floor(Math.random() * (state.public.numberOfPlayers - 1 + 1) ) + 1;
+      console.log(firstTurn);
+      if (firstTurn === 1) {
+        socket.emit("setTurn", socket.id);
+      }
     })
   });
 
@@ -50,6 +59,8 @@ io.on("connection", socket => {
         for (let i=2; i<=room.state.public.numberOfPlayers; i++) {
           if(!room.state.public.players[i]) {
             room.state.public.players[i] = {playerName:playerName};
+            // Check if this player will have the first turn
+            socket.emit("setTurn", socket.id);
             break
           }
         }
