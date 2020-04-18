@@ -22,7 +22,9 @@ export default function FactoryDisplays() {
        {
          Object.keys(factoryDisplays).map(factoryNumber => {
            return (
-             <FactoryDisplay displayNumber={factoryNumber+1} />
+             <FactoryDisplay
+               key={`factoryTile-${factoryNumber+1}`}
+             />
            )
          })
       }

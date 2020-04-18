@@ -26,7 +26,7 @@ export default function GameBoard() {
   const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
 
   return (
-    players && Object.values(players).filter(item => item).length === numberOfPlayers
+    players && Object.values(players).filter(item => item.playerName).length === numberOfPlayers
       ? <div css={styles.app}>
           <FactoryDisplays />
           <PlayerBoardOne />

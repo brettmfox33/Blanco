@@ -50,7 +50,7 @@ io.on("connection", socket => {
       const room = allRooms[roomID];
 
       // Check if name already exists
-      const fullPlayers = Object.values(allRooms[roomID].state.public.players).filter(item => item);
+      const fullPlayers = Object.values(allRooms[roomID].state.public.players).filter(item => item.playerName);
       if(fullPlayers.some(e => e.playerName === playerName)) {
         socket.emit("nameFailure", "Player name taken");
         return
@@ -58,8 +58,8 @@ io.on("connection", socket => {
 
       socket.join(roomID, () => {
         for (let i=2; i<=room.state.public.numberOfPlayers; i++) {
-          if(!room.state.public.players[i]) {
-            room.state.public.players[i] = {playerName:playerName};
+          if(!room.state.public.players[i].playerName) {
+            room.state.public.players[i].playerName = playerName;
             room.playerNumberSockets[i] = socket.id;
 
             // Check if this player will have the first turn
