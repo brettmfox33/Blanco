@@ -32,8 +32,9 @@ io.on("connection", socket => {
       room['state'] = state;
       room['playerNumberSockets'] = {1: socket.id};
 
-
       room['currentTurn'] = Math.floor(Math.random() * (state.public.numberOfPlayers - 1 + 1) ) + 1;
+      console.log(room);
+
       if (room.currentTurn === 1) {
         socket.emit("setTurn", socket.id);
       }
@@ -44,6 +45,7 @@ io.on("connection", socket => {
   // Send back the initial state for the joining client to ingest.
   socket.on('joinRoom', (roomID, playerName) => {
     const allRooms = io.sockets.adapter.rooms;
+    // Check if the room exits and if the room is full
     if (allRooms[roomID] && allRooms[roomID].length < allRooms[roomID].state.public.numberOfPlayers) {
       const room = allRooms[roomID];
 

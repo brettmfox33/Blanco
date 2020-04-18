@@ -9,7 +9,7 @@ function App({socket}) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on("updateState", publicState  => {
+    socket.on("updatePublicState", publicState  => {
       dispatch(actionCreators.public.updatePublicState(publicState));
     });
 
