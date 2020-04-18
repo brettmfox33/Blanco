@@ -5,7 +5,6 @@ import PlayerBoardLeft from "./PlayerBoardLeft";
 import Overflow from "./Overflow";
 import PlayerBoardRight from "./PlayerBoardRight";
 import {useSelector} from "react-redux";
-
 const styles = {
   app: css({
     display: 'grid',
