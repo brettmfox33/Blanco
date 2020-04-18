@@ -36,7 +36,6 @@ export default function EnterRoomInfo({socket, setStep}) {
 
     socket.on("joinSuccess", (publicState) => {
       dispatch(actionCreators.public.updatePublicState(publicState));
-      console.log(publicState);
       socket.emit("publicStateChange", publicState, publicState.roomID);
       setStep(3);
     });
