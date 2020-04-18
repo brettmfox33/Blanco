@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import FactoryDisplay from "./game_pieces/FactoryDisplay";
 
 export default function FactoryDisplays() {
-  const numberOfFactoryTiles = useSelector(state => state.numberOfFactoryTiles);
+  const numberOfFactoryTiles = useSelector(state => state.public.numberOfFactoryTiles);
   return (
     <Grid
     //   id="factoryDisplays"

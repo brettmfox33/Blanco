@@ -15,7 +15,7 @@ import {useSelector} from "react-redux";
  * Responsible for setting up the game.
  **/
 export default function WelcomeModal({socket}) {
-  const players = useSelector(state => state.players);
+  const players = useSelector(state => state.public.players);
 
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState(0);

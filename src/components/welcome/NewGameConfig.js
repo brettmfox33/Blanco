@@ -30,7 +30,7 @@ export default function NewGameConfig({socket, setStep}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const roomID = useSelector(state => state.roomID);
+  const roomID = useSelector(state => state.public.roomID);
   const state = useSelector(state => state);
 
   const [numberOfPlayers, setNumberOfPlayers] = useState('');
@@ -38,7 +38,7 @@ export default function NewGameConfig({socket, setStep}) {
   const [playerName, sePlayerName] = useState('');
 
   const createGame = () => {
-    dispatch(actionCreators.createGame(numberOfPlayers, roomName, playerName))
+    dispatch(actionCreators.public.createGame(numberOfPlayers, roomName, playerName))
   };
 
   useEffect(() => {

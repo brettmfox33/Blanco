@@ -9,7 +9,6 @@ const initialState = {
   roomName: null,
   numberOfPlayers: null,
   players: null,
-  playersReady: false,
   gameState: {
     availableTiles: {
       black: 20,
@@ -24,7 +23,7 @@ const initialState = {
 
 export default handleActions(
   {
-    [actionCreators.createGame]: (state, action) => ({
+    [actionCreators.public.createGame]: (state, action) => ({
       ...state,
       roomID: getRandomInteger(1000, 9000),
       roomName: action.payload.roomName,
@@ -33,10 +32,10 @@ export default handleActions(
       gameState: {
         ...state.gameState,
         factoryDisplays: buildFactoryDisplays(state, action)
-      }
+      },
     }),
-    [actionCreators.updateEntireState]: (state, action) => {
-      return action.payload.newState
+    [actionCreators.public.updatePublicState]: (state, action) => {
+      return action.payload.newPublicState
     }
   },
   initialState
