@@ -20,6 +20,9 @@ const io = socketIo(server);
 io.on("connection", socket => {
   console.log("New client connected: ", socket.id);
 
+  // Save socket ID to client's private state
+  socket.emit("saveClientID", socket.id);
+
   // When a user creates a new game room => Create a new socket room with that roomID and add the
   // initial state to the room obj for joining rooms to ingest
   socket.on('createRoom', state => {

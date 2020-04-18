@@ -35,7 +35,7 @@ export default function EnterRoomInfo({socket, setStep}) {
     });
 
     socket.on("joinSuccess", (publicState) => {
-      dispatch(actionCreators.updateEntireState(publicState));
+      dispatch(actionCreators.public.updateEntireState(publicState));
       socket.emit("stateChange", publicState, publicState.roomID);
       setStep(3);
     });

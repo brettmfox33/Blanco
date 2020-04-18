@@ -23,7 +23,7 @@ const initialState = {
 
 export default handleActions(
   {
-    [actionCreators.createGame]: (state, action) => ({
+    [actionCreators.public.createGame]: (state, action) => ({
       ...state,
       roomID: getRandomInteger(1000, 9000),
       roomName: action.payload.roomName,
@@ -34,7 +34,7 @@ export default handleActions(
         factoryDisplays: buildFactoryDisplays(state, action)
       }
     }),
-    [actionCreators.updateEntireState]: (state, action) => {
+    [actionCreators.public.updateEntireState]: (state, action) => {
       return action.payload.newState
     }
   },

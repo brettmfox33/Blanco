@@ -10,7 +10,11 @@ function App({socket}) {
 
   useEffect(() => {
     socket.on("updateEntireState", publicState  => {
-      dispatch(actionCreators.updateEntireState(publicState));
+      dispatch(actionCreators.public.updateEntireState(publicState));
+    });
+
+    socket.on("saveClientID", clientID => {
+      dispatch(actionCreators.private.saveClientID(clientID))
     });
   }, []);
 

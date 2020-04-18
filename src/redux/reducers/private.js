@@ -8,7 +8,10 @@ const initialState = {
 
 export default handleActions(
   {
-
+    [actionCreators.private.saveClientID]: (state, action) => ({
+      ...state,
+      clientID: action.payload.clientID
+    })
   },
   initialState
 );
