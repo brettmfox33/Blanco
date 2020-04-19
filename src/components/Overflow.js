@@ -1,15 +1,38 @@
 /** @jsx jsx */
 import {jsx} from "@emotion/core";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import {useSelector} from "react-redux";
 
 export default function Overflow() {
+  const roomName = useSelector(state => state.public.roomName);
   return (
     <div
       id="overflow"
       css={{
         gridArea: 'overflow',
-        display: 'flex'
+        display: 'flex',
+        paddingBottom: 40
       }}
     >
+        <Paper
+          css={{width: '100%', height: '100%', marginTop: 20}}
+          elevation={2}
+        >
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            <Grid>
+              !Blanco Logo!
+            </Grid>
+            <Grid>
+              Room: {roomName}
+            </Grid>
+          </Grid>
+        </Paper>
     </div>
   )
 }

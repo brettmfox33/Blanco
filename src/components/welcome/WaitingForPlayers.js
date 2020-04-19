@@ -17,7 +17,7 @@ export default function WaitingForPlayers() {
         {Object.keys(players).map((key, index) => (
           <p key={index+1}>
             {
-              players[index+1]
+              players[index+1].playerName
                 ? `Player ${index+1}: ${players[index+1].playerName}`
                 : `Player ${index+1}: `
             }

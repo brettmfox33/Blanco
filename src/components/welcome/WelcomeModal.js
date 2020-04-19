@@ -16,14 +16,15 @@ import {useSelector} from "react-redux";
  **/
 export default function WelcomeModal({socket}) {
   const players = useSelector(state => state.public.players);
+  const roomID = useSelector(state => state.public.roomID);
+  const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
 
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    if (players && Object.values(players).indexOf(null) < 0){
+    if (players && Object.values(players).filter(item => item.playerName).length === numberOfPlayers){
       setOpen(false);
-      //TO DO: Dispatch an action to set up game state and player state
     }
   }, [players]);
 
@@ -38,7 +39,7 @@ export default function WelcomeModal({socket}) {
       <DialogContent
       style={{overflow: "hidden"}}>
         <DialogTitle>
-          Welcome to Blanco!
+          Welcome to Blanco! {roomID}
         </DialogTitle>
         {
           step === 0

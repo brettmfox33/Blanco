@@ -17,6 +17,13 @@ const initialState = {
       white: 20,
       yellow: 20
     },
+    centerTiles: {
+      black: 0,
+      blue: 0,
+      red: 0,
+      white: 0,
+      yellow: 0
+    },
     factoryDisplays: null
   }
 };
