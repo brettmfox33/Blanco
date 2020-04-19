@@ -26,10 +26,10 @@ export default function Overflow() {
             alignItems="center"
           >
             <Grid>
-              !Blanco!
+              !Blanco Logo!
             </Grid>
             <Grid>
-              {roomName}
+              Room: {roomName}
             </Grid>
           </Grid>
         </Paper>
