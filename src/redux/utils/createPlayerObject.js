@@ -9,11 +9,11 @@ export default function createPlayerObject(actionPayload) {
     board: {
       patternLines: {
         0: {
-          0: "yellow"
+          0: null
         },
         1: {
-          0: "red",
-          1: "red"
+          0: null,
+          1: null
         },
         2: {
           0: null,
@@ -74,11 +74,11 @@ export default function createPlayerObject(actionPayload) {
       floorLine: {
         0: {
           penalty: -1,
-          color: "firstPlayerToken"
+          color: null
         },
         1: {
           penalty: -1,
-          color: "blue"
+          color: null
         },
         2: {
           penalty: -2,
