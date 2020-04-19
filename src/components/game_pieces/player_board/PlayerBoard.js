@@ -6,16 +6,18 @@ import PatternLines from "./PatternLines";
 import {useSelector} from "react-redux";
 import Wall from "./Wall";
 import FloorLine from "./FloorLine";
+import ScoreBox from "./ScoreBox";
 
 export default function PlayerBoard({playerNumber}) {
   const players = useSelector(state => state.public.players);
 
   const playerBoard = players[playerNumber].board;
+  const playerName = players[playerNumber].playerName;
+  const playerScore = players[playerNumber].score;
 
   return (
     <Grid
       container
-      item
       css={{margin: 20}}
       id={`player-${playerNumber}`}
     >
@@ -30,12 +32,15 @@ export default function PlayerBoard({playerNumber}) {
           alignItems="center"
           css={{marginTop: 10}}
         >
+          {/* PATTERN LINES */}
           <Grid>
             <PatternLines
               playerNumber={playerNumber}
               playerBoard={playerBoard}
             />
           </Grid>
+
+          {/* WALL PATTERN */}
           <Grid>
             <Wall
               playerNumber={playerNumber}
@@ -44,12 +49,27 @@ export default function PlayerBoard({playerNumber}) {
           </Grid>
         </Grid>
 
-        <Grid>
+        <Grid
+          container
+          direction="row"
+        >
+          {/* FLOOR LINE */}
           <Grid
-            container
             css={{marginLeft: 47, marginTop: 10}}
           >
             <FloorLine
+              playerNumber={playerNumber}
+              playerBoard={playerBoard}
+            />
+          </Grid>
+
+          {/* SCORE BOX */}
+          <Grid
+            css={{marginTop: 10, marginLeft: 10}}
+          >
+            <ScoreBox
+              playerName={playerName}
+              playerScore={playerScore}
             />
           </Grid>
         </Grid>

@@ -10,7 +10,8 @@ export default function PatternLines({playerNumber, playerBoard}) {
     Object.keys(patternLines).map(patternRowIndex => {
       return (
         <Grid
-          container item
+          container
+          item
           direction="row"
           justify="flex-end"
           alignItems="flex-start"
@@ -20,6 +21,7 @@ export default function PatternLines({playerNumber, playerBoard}) {
               return (
                 <TileSquare
                   key={`Player${playerNumber}-${patternRowIndex}-${patternColumnIndex}`}
+                  color={patternLines[patternRowIndex][patternColumnIndex]}
                 />
               )
             })

@@ -4,14 +4,16 @@
 export default function createPlayerObject(actionPayload) {
   const playerObj = {
     playerName: null,
+    score: 0,
+
     board: {
       patternLines: {
         0: {
-          0: null
+          0: "yellow"
         },
         1: {
-          0: null,
-          1: null
+          0: "red",
+          1: "red"
         },
         2: {
           0: null,
@@ -68,6 +70,36 @@ export default function createPlayerObject(actionPayload) {
           gray: false,
           blue: false
         }
+      },
+      floorLine: {
+        0: {
+          penalty: -1,
+          color: "firstPlayerToken"
+        },
+        1: {
+          penalty: -1,
+          color: "blue"
+        },
+        2: {
+          penalty: -2,
+          color: null
+        },
+        3: {
+          penalty: -2,
+          color: null
+        },
+        4: {
+          penalty: -2,
+          color: null
+        },
+        5: {
+          penalty: -3,
+          color: null
+        },
+        6: {
+          penalty: -3,
+          color: null
+        },
       }
     }
   };

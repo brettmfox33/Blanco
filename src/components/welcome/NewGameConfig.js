@@ -103,7 +103,7 @@ export default function NewGameConfig({socket, setStep}) {
             <Button
               color="primary"
               onClick={() => createGame()}
-              disabled={!numberOfPlayers || !roomName}
+              disabled={!numberOfPlayers || !roomName || !playerName}
             >
               Start Game
             </Button>

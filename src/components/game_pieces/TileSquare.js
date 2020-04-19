@@ -1,11 +1,15 @@
 /** @jsx jsx */
 import {jsx} from "@emotion/core";
 
-export default function TileSquare() {
+export default function TileSquare({color}) {
+  if (!color){
+    color = 'white'
+  }
+  
   return (
       <img
-        alt="whiteTile"
-        src={require(`../../images/tiles/white.png`)}
+        alt="Tile Square"
+        src={require(`../../images/tiles/${color}.png`)}
         css={{border:'1px black solid'}}
       >
       </img>
