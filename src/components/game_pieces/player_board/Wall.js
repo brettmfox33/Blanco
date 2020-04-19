@@ -14,6 +14,7 @@ export default function Wall({playerNumber, playerBoard}) {
           direction="row"
           justify="flex-end"
           alignItems="flex-start"
+          key={`wall-${wallRowIndex}`}
         >
           {
             Object.keys(wall[wallRowIndex]).map(wallColumnColor => {

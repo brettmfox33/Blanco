@@ -6,7 +6,7 @@ export default function ScoreBox({playerName, playerScore}) {
   return (
     <Grid
       item
-      css={{border: "1px black solid", height: 69, width:193}}
+      css={{border: "1px black solid", height: 69, width:191}}
     >
       {playerName}
       <br />

@@ -7,9 +7,9 @@ export default function WallSquare({color, filled}) {
         alt={`${color} Tile`}
         src={require(`../../../images/tiles/${color}.png`)}
         css={[
-          {border: '1px black solid'},
-          filled ? null : {opacity: 0.3}
-          ]}
+          {border: '1px black solid', margin: 1},
+          filled ? null : {opacity: 0.4}
+        ]}
       >
       </img>
   )

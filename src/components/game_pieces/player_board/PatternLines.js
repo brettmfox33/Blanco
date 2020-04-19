@@ -15,6 +15,7 @@ export default function PatternLines({playerNumber, playerBoard}) {
           direction="row"
           justify="flex-end"
           alignItems="flex-start"
+          key={`pattern-${patternRowIndex}`}
         >
           {
             Object.keys(patternLines[patternRowIndex]).map(patternColumnIndex => {

@@ -14,15 +14,16 @@ const initialState = {
       black: 20,
       blue: 20,
       red: 20,
-      white: 20,
+      gray: 20,
       yellow: 20
     },
     centerTiles: {
       black: 0,
       blue: 0,
       red: 0,
-      white: 0,
-      yellow: 0
+      gray: 0,
+      yellow: 0,
+      firstPlayerToken: 1
     },
     factoryDisplays: null
   }

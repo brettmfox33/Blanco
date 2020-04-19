@@ -16,8 +16,9 @@ export default function FloorLine({playerNumber, playerBoard}) {
         Object.keys(floorLine).map(floorLineIndex => {
           return (
             <FloorLineTile
-            penaltyAmount={floorLine[floorLineIndex].penalty}
-            tileColor={floorLine[floorLineIndex].color}
+              key={`Floor-${floorLineIndex}`}
+              penaltyAmount={floorLine[floorLineIndex].penalty}
+              tileColor={floorLine[floorLineIndex].color}
             />
           )
         })
