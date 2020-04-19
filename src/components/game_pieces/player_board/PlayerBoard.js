@@ -30,7 +30,7 @@ export default function PlayerBoard({playerNumber}) {
           direction="row"
           justify="space-evenly"
           alignItems="center"
-          css={{marginTop: 10}}
+          css={{marginTop: 5}}
         >
           {/* PATTERN LINES */}
           <Grid>
@@ -55,7 +55,7 @@ export default function PlayerBoard({playerNumber}) {
         >
           {/* FLOOR LINE */}
           <Grid
-            css={{marginLeft: 47, marginTop: 10}}
+            css={{marginLeft: 40, marginTop: 10}}
           >
             <FloorLine
               playerNumber={playerNumber}

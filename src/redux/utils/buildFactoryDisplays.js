@@ -12,7 +12,7 @@ export default function buildFactoryDisplays(state, action) {
         "blue": 0,
         "red": 0,
         "yellow": 0,
-        "white": 0
+        "gray": 0
       }
     })
   }

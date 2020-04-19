@@ -10,7 +10,7 @@ export default function TileSquare({color}) {
       <img
         alt="Tile Square"
         src={require(`../../images/tiles/${color}.png`)}
-        css={{border:'1px black solid'}}
+        css={{border:'1px black solid', margin: 1}}
       >
       </img>
   )

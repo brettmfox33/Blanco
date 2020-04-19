@@ -8,7 +8,7 @@ export default function FloorLineTile({penaltyAmount, tileColor}) {
   }
 
   return (
-    <div>
+    <div css={{marginRight: 1, marginLeft: 1}}>
       <div
         css={{
           border:'1px black solid', backgroundColor: '#a7a7a7',
