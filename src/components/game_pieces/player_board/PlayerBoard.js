@@ -5,6 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import PatternLines from "./PatternLines";
 import {useSelector} from "react-redux";
 import Wall from "./Wall";
+import FloorLine from "./FloorLine";
 
 export default function PlayerBoard({playerNumber}) {
   const players = useSelector(state => state.public.players);
@@ -15,7 +16,7 @@ export default function PlayerBoard({playerNumber}) {
     <Grid
       container
       item
-      css={{margin: 10}}
+      css={{margin: 20}}
       id={`player-${playerNumber}`}
     >
       <Paper
@@ -27,7 +28,7 @@ export default function PlayerBoard({playerNumber}) {
           direction="row"
           justify="space-evenly"
           alignItems="center"
-          css={{marginTop: 20}}
+          css={{marginTop: 10}}
         >
           <Grid>
             <PatternLines
@@ -39,6 +40,16 @@ export default function PlayerBoard({playerNumber}) {
             <Wall
               playerNumber={playerNumber}
               playerBoard={playerBoard}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid>
+          <Grid
+            container
+            css={{marginLeft: 47, marginTop: 10}}
+          >
+            <FloorLine
             />
           </Grid>
         </Grid>
