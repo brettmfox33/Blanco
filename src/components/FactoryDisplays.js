@@ -9,11 +9,11 @@ export default function FactoryDisplays() {
 
   return (
     <Grid
-    //   id="factoryDisplays"
-    //   container
-    //   direction="row"
-    //   justify="center"
-    //   alignItems="center"
+      id="factoryDisplays"
+      container
+      direction="row"
+      justify="center"
+      alignItems="center"
       css={{
         gridArea: 'factoryDisplays',
         paddingTop: 10
