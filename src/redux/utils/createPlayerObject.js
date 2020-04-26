@@ -5,7 +5,6 @@ export default function createPlayerObject(actionPayload) {
   const playerObj = {
     playerName: null,
     score: 0,
-
     board: {
       patternLines: {
         0: {

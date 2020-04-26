@@ -9,6 +9,7 @@ const initialState = {
   roomName: null,
   numberOfPlayers: null,
   players: null,
+  currentPlayerTurn: 0,
   gameState: {
     availableTiles: {
       black: 20,
@@ -17,7 +18,7 @@ const initialState = {
       gray: 20,
       yellow: 20
     },
-    centerTiles: {
+    overflowTiles: {
       black: 0,
       blue: 0,
       red: 0,
@@ -29,9 +30,10 @@ const initialState = {
   },
   dragState: {
     dragState: null,
-    factoryDisplay: null,
     tileColor: null,
     tileCount: null,
+    factoryDisplay: null,
+    fromCenter: false,
     hoveredPatternLine: null
   }
 };
@@ -52,16 +54,26 @@ export default handleActions(
     [actionCreators.public.updatePublicState]: (state, action) => {
       return action.payload.newPublicState
     },
-    [actionCreators.public.dragStart]: (state, action) => ({
-      ...state,
-      dragState: {
-        ...state.dragState,
-        dragState: 'dragging',
-        factoryDisplay: action.payload.factoryDisplay,
-        tileColor: action.payload.tileColor,
-        tileCount: state.gameState.factoryDisplays[action.payload.factoryDisplay].tiles[action.payload.tileColor]
+    [actionCreators.public.dragStart]: (state, action) => {
+      let tileCount;
+      if (action.payload.factoryDisplay){
+        tileCount = state.gameState.factoryDisplays[action.payload.factoryDisplay].tiles[action.payload.tileColor]
       }
-    }),
+      else {
+        tileCount = state.gameState.overflowTiles[action.payload.tileColor]
+      }
+      return {
+        ...state,
+        dragState: {
+          ...state.dragState,
+          dragState: 'dragging',
+          factoryDisplay: action.payload.factoryDisplay ? action.payload.factoryDisplay : null,
+          fromCenter: !action.payload.factoryDisplay,
+          tileColor: action.payload.tileColor,
+          tileCount: tileCount
+        }
+      }
+    },
     [actionCreators.public.dropTile]: (state, action) => {
       const tileColor = state.dragState.tileColor;
 
@@ -86,17 +98,30 @@ export default handleActions(
         })
       }
 
-      // Remove the dragged tiles from the Factory Display
-      // Add the left over Factory Display tiles to the Center
-      const factoryDisplays = state.gameState.factoryDisplays;
-      const centerTiles = state.gameState.centerTiles;
+      const factoryDisplays = {...state.gameState.factoryDisplays};
+      const overflowTiles = {...state.gameState.overflowTiles};
 
-      factoryDisplays[state.dragState.factoryDisplay].tiles[state.dragState.tileColor] = 0;
-      Object.keys(factoryDisplays[state.dragState.factoryDisplay].tiles).map(factoryTileColor => {
-        centerTiles[factoryTileColor] = centerTiles[factoryTileColor] +
-          factoryDisplays[state.dragState.factoryDisplay].tiles[factoryTileColor];
-        factoryDisplays[state.dragState.factoryDisplay].tiles[factoryTileColor] = 0
-      });
+      if (action.payload.location === 'factory') {
+        // Remove the dragged tiles from the Factory Display
+        // Add the left over Factory Display tiles to the Center
+        factoryDisplays[state.dragState.factoryDisplay].tiles[state.dragState.tileColor] = 0;
+        Object.keys(factoryDisplays[state.dragState.factoryDisplay].tiles).map(factoryTileColor => {
+          overflowTiles[factoryTileColor] = overflowTiles[factoryTileColor] +
+            factoryDisplays[state.dragState.factoryDisplay].tiles[factoryTileColor];
+          factoryDisplays[state.dragState.factoryDisplay].tiles[factoryTileColor] = 0
+        });
+      }
+      else {
+        overflowTiles[state.dragState.tileColor] = 0;
+        if (overflowTiles['firstPlayerToken']) {
+          Object.keys(floorLine).map(floorLineIndex => {
+            if (overflowTiles['firstPlayerToken'] && !floorLine[floorLineIndex].color) {
+              floorLine[floorLineIndex].color = 'firstPlayerToken';
+              overflowTiles['firstPlayerToken'] = 0;
+            }
+          });
+        }
+      }
 
       return {
         ...state,
@@ -117,7 +142,7 @@ export default handleActions(
         gameState: {
           ...state.gameState,
           factoryDisplays: factoryDisplays,
-          centerTiles: centerTiles
+          overflowTiles: overflowTiles
         }
       }
     },
@@ -128,7 +153,8 @@ export default handleActions(
         factoryDisplay: null,
         tileColor: null,
         tileCount: null,
-        hoveredPatternLine: null
+        hoveredPatternLine: null,
+        fromCenter: false,
       }
     }),
     [actionCreators.public.setDragStateHover]: (state, action) => ({

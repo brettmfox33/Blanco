@@ -5,7 +5,7 @@ export const actionCreators = createActions({
     createGame: (numberOfPlayers, roomName, playerName) => ({numberOfPlayers, roomName, playerName}),
     updatePublicState: (newPublicState) => ({newPublicState}),
     dragStart: (factoryDisplay, tileColor) => ({factoryDisplay, tileColor}),
-    dropTile: (patternRowIndex, playerNumber) => ({patternRowIndex, playerNumber}),
+    dropTile: (location, patternRowIndex, playerNumber) => ({location, patternRowIndex, playerNumber}),
     clearDragState: undefined,
     setDragStateHover: (patternRowIndex) => ({patternRowIndex}),
     setDragStateDrag: undefined
