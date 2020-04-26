@@ -19,12 +19,16 @@ function App({socket}) {
 
     socket.on("setTurn", clientID => {
       dispatch(actionCreators.private.setTurn(clientID))
+    });
+
+    socket.on("setFirstPlayerTurn", playerNumber => {
+      dispatch(actionCreators.public.setFirstPlayer(playerNumber));
     })
   }, []);
 
   return (
     <Fragment>
-      <GameBoard />
+      <GameBoard socket={socket}/>
       <WelcomeModal socket={socket}/>
     </Fragment>
   );

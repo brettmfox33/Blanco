@@ -33,7 +33,8 @@ io.on("connection", socket => {
       room['playerNumberSockets'] = {1: socket.id};
 
       room['currentTurn'] = Math.floor(Math.random() * (state.public.numberOfPlayers - 1 + 1) ) + 1;
-      console.log(room);
+      socket.emit("setFirstPlayerTurn", room['currentTurn']);
+      room.state.public.currentPlayerTurn = room['currentTurn'];
 
       if (room.currentTurn === 1) {
         socket.emit("setTurn", socket.id);
@@ -88,6 +89,11 @@ io.on("connection", socket => {
     }
   });
 
+  socket.on("changeTurn", (roomID, newCurrentTurn) => {
+    const room = io.sockets.adapter.rooms[roomID];
+    room.currentTurn = newCurrentTurn;
+    io.in(roomID).emit("setTurn", room.playerNumberSockets[newCurrentTurn]);
+  });
 
   // Send the new state to all clients connected to the socket room
   socket.on("publicStateChange", (publicState, roomID) => {

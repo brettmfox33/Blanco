@@ -2,7 +2,7 @@
 import {jsx} from "@emotion/core";
 import PatternLine from "./PatternLine";
 
-export default function PatternLines({playerNumber, playerBoard}) {
+export default function PatternLines({socket, playerNumber, playerBoard}) {
   const patternLines = playerBoard.patternLines;
 
 
@@ -11,6 +11,7 @@ export default function PatternLines({playerNumber, playerBoard}) {
       return (
         <PatternLine
           key={`${playerNumber}-${patternRowIndex}`}
+          socket={socket}
           playerBoard={playerBoard}
           patternLines={patternLines}
           patternRowIndex={patternRowIndex}

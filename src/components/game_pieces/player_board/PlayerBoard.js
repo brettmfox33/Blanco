@@ -8,7 +8,7 @@ import Wall from "./Wall";
 import FloorLine from "./FloorLine";
 import ScoreBox from "./ScoreBox";
 
-export default function PlayerBoard({playerNumber}) {
+export default function PlayerBoard({playerNumber, socket}) {
   const players = useSelector(state => state.public.players);
 
   const playerBoard = players[playerNumber].board;
@@ -35,6 +35,7 @@ export default function PlayerBoard({playerNumber}) {
           {/* PATTERN LINES */}
           <Grid>
             <PatternLines
+              socket={socket}
               playerNumber={playerNumber}
               playerBoard={playerBoard}
             />
@@ -67,6 +68,7 @@ export default function PlayerBoard({playerNumber}) {
             css={{marginTop: 10, marginLeft: 10}}
           >
             <ScoreBox
+              playerNumber={playerNumber}
               playerName={playerName}
               playerScore={playerScore}
             />

@@ -21,7 +21,7 @@ const styles = {
   })
 };
 
-export default function GameBoard() {
+export default function GameBoard({socket}) {
   const players = useSelector(state => state.public.players);
   const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
 
@@ -29,10 +29,18 @@ export default function GameBoard() {
     players && Object.values(players).filter(item => item.playerName).length === numberOfPlayers
       ? <div css={styles.app}>
           <FactoryDisplays />
-          <PlayerBoardOne />
-          <PlayerBoardTwo />
-          <PlayerBoardThree />
-          <PlayerBoardFour />
+          <PlayerBoardOne
+            socket={socket}
+          />
+          <PlayerBoardTwo
+            socket={socket}
+          />
+          <PlayerBoardThree
+            socket={socket}
+          />
+          <PlayerBoardFour
+            socket={socket}
+          />
           <Overflow/>
         </div>
       : null

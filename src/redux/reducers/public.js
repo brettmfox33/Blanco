@@ -9,7 +9,7 @@ const initialState = {
   roomName: null,
   numberOfPlayers: null,
   players: null,
-  currentPlayerTurn: 0,
+  currentPlayerTurn: null,
   gameState: {
     availableTiles: {
       black: 20,
@@ -51,9 +51,17 @@ export default handleActions(
         factoryDisplays: buildFactoryDisplays(state, action)
       },
     }),
+    [actionCreators.public.setFirstPlayer]: (state, action) => ({
+      ...state,
+      currentPlayerTurn: action.payload.playerNumber
+    }),
     [actionCreators.public.updatePublicState]: (state, action) => {
       return action.payload.newPublicState
     },
+    [actionCreators.public.changeTurn]: (state, action) => ({
+      ...state,
+      currentPlayerTurn: action.payload.newCurrentTurn
+    }),
     [actionCreators.public.dragStart]: (state, action) => {
       let tileCount;
       if (action.payload.factoryDisplay){
@@ -112,6 +120,8 @@ export default handleActions(
         });
       }
       else {
+        // Remove the dragged tiles from the overflow center.
+        // If the first player token is still in the center then move it to the player's floor line.
         overflowTiles[state.dragState.tileColor] = 0;
         if (overflowTiles['firstPlayerToken']) {
           Object.keys(floorLine).map(floorLineIndex => {
