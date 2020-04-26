@@ -11,6 +11,7 @@ export default function PatternLine({playerBoard, patternLines, patternRowIndex,
   const dragState = useSelector(state => state.public.dragState);
   const dragColor = dragState.tileColor;
   const hoveredPatternLine = dragState.hoveredPatternLine;
+  const dragLocation = dragState.fromCenter ? 'center' : 'factory';
 
   const [borderColor, setBorderColor] = useState('black');
   const [canDrop, setCanDrop] = useState(false);
@@ -19,7 +20,7 @@ export default function PatternLine({playerBoard, patternLines, patternRowIndex,
     e.preventDefault();
     setBorderColor('black');
     if (canDrop) {
-      dispatch(actionCreators.public.dropTile(patternRowIndex, playerNumber));
+      dispatch(actionCreators.public.dropTile(dragLocation, patternRowIndex, playerNumber));
     }
     dispatch(actionCreators.public.clearDragState());
   };

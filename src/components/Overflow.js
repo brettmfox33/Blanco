@@ -3,6 +3,7 @@ import {jsx} from "@emotion/core";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {useSelector} from "react-redux";
+import OverflowTiles from "./overflow/OverflowTiles";
 
 export default function Overflow() {
   const roomName = useSelector(state => state.public.roomName);
@@ -30,6 +31,11 @@ export default function Overflow() {
             </Grid>
             <Grid>
               Room: {roomName}
+            </Grid>
+            <Grid
+              css={{paddingLeft: 10}}
+            >
+              <OverflowTiles />
             </Grid>
           </Grid>
         </Paper>
