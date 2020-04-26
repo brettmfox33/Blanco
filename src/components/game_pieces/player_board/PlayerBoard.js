@@ -67,6 +67,7 @@ export default function PlayerBoard({playerNumber}) {
             css={{marginTop: 10, marginLeft: 10}}
           >
             <ScoreBox
+              playerNumber={playerNumber}
               playerName={playerName}
               playerScore={playerScore}
             />

@@ -1,11 +1,13 @@
 /** @jsx jsx */
 import {jsx} from "@emotion/core";
 import {Fragment, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "../../redux/actionCreators";
 
 export default function FactoryDisplay({tiles, factoryNumber}) {
   const dispatch = useDispatch();
+  const myCurrentTurn = useSelector(state => state.private.currentTurn);
+
   const [colorToHide, setColorToHide] = useState(null);
   const hardCodedPoints = [
     [45, 50],
@@ -16,21 +18,25 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
   let tileNumber = 0;
 
   const onDragStart = (event, factoryNumber, color) => {
-    dispatch(actionCreators.public.dragStart(factoryNumber, color));
+    if (myCurrentTurn){
+      dispatch(actionCreators.public.dragStart(factoryNumber, color));
 
-    // Set the drag image
-    let dragImage = new Image();
-    dragImage.src = require(`../../images/tiles/${color}.png`);
-    event.dataTransfer.setDragImage(dragImage,25,25);
+      // Set the drag image
+      let dragImage = new Image();
+      dragImage.src = require(`../../images/tiles/${color}.png`);
+      event.dataTransfer.setDragImage(dragImage,25,25);
 
-    // Set the colors to hide in the factory display
-    setColorToHide(color);
+      // Set the colors to hide in the factory display
+      setColorToHide(color);
+    }
   };
 
   const onDragEnd = (event) => {
-    dispatch(actionCreators.public.clearDragState());
-    // Show the colors back in the factory display
-    setColorToHide(null);
+    if (myCurrentTurn) {
+      dispatch(actionCreators.public.clearDragState());
+      // Show the colors back in the factory display
+      setColorToHide(null);
+    }
   };
 
   return (
@@ -58,7 +64,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                       key={`tile-${x}-${y}`}
                       alt={`${color} Tile`}
                       src={require(`../../images/tiles/${color}.png`)}
-                      draggable={true}
+                      draggable={myCurrentTurn}
                       css={[
                         {
                           border: '1px solid black', position: 'absolute', pointerEvents: null,
