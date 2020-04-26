@@ -1,8 +1,11 @@
 /** @jsx jsx */
 import {jsx} from "@emotion/core";
 import {Fragment} from "react";
+import {useDispatch} from "react-redux";
+import {actionCreators} from "../../redux/actionCreators";
 
-export default function FactoryDisplay({tiles}) {
+export default function FactoryDisplay({tiles, factoryNumber}) {
+  const dispatch = useDispatch();
 
   const hardCodedPoints = [
     [45, 50],
@@ -12,10 +15,15 @@ export default function FactoryDisplay({tiles}) {
   ];
   let tileNumber = 0;
 
+  const onDragStart = (factoryNumber, color) => {
+    dispatch(actionCreators.public.dragStart(factoryNumber, color))
+  };
+
   return (
     <Fragment>
       <div css={{position: 'relative'}}>
         <img
+          draggable={false}
           alt="factoryTile"
           src={require(`../../images/FactoryTile.png`)}
           css={{position: 'relative'}}
@@ -29,14 +37,16 @@ export default function FactoryDisplay({tiles}) {
                 tileNumber = tileNumber + 1;
                 // const rotateTurn = getRandomInteger(0, 10) / 10;
                 return (
-                  <img
-                    key={`tile-${x}-${y}`}
-                    alt={`${color} Tile`}
-                    src={require(`../../images/tiles/${color}.png`)}
-                    css={{border: '1px solid black', position: 'absolute',
-                      left: x, top: y}}
+                    <img
+                      onDragStart={() => onDragStart(factoryNumber, color)}
+                      key={`tile-${x}-${y}`}
+                      alt={`${color} Tile`}
+                      src={require(`../../images/tiles/${color}.png`)}
+                      draggable={true}
+                      css={{border: '1px solid black', position: 'absolute',
+                        left: x, top: y}}
                       // rotate:`${rotateTurn}turn`}}
-                  />
+                    />
                 )
               })
             )

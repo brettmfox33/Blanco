@@ -25,6 +25,7 @@ export default function FactoryDisplays() {
              <FactoryDisplay
                key={`factoryTile-${factoryNumber+1}`}
                tiles={factoryDisplays[factoryNumber].tiles}
+               factoryNumber={factoryNumber}
              />
            )
          })

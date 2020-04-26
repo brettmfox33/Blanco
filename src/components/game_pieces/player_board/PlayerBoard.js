@@ -58,7 +58,6 @@ export default function PlayerBoard({playerNumber}) {
             css={{marginLeft: 40, marginTop: 10}}
           >
             <FloorLine
-              playerNumber={playerNumber}
               playerBoard={playerBoard}
             />
           </Grid>

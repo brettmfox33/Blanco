@@ -12,18 +12,18 @@ export default function createPlayerObject(actionPayload) {
           0: null
         },
         1: {
-          0: null,
-          1: null
+          0: 'red',
+          1: 'red'
         },
         2: {
-          0: null,
+          0: 'red',
           1: null,
           2: null
         },
         3: {
-          0: null,
-          1: null,
-          2: null,
+          0: 'gray',
+          1: 'gray',
+          2: 'gray',
           3: null
         },
         4: {
@@ -64,7 +64,7 @@ export default function createPlayerObject(actionPayload) {
           yellow: false,
         },
         4: {
-          yellow: false,
+          yellow: true,
           red: false,
           black: false,
           gray: false,

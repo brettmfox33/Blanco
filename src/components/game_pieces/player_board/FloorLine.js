@@ -2,8 +2,7 @@
 import {jsx} from "@emotion/core";
 import FloorLineTile from "./FloorLineTile";
 import Grid from "@material-ui/core/Grid";
-
-export default function FloorLine({playerNumber, playerBoard}) {
+export default function FloorLine({playerBoard}) {
   const floorLine = playerBoard.floorLine;
 
   return (
@@ -18,7 +17,7 @@ export default function FloorLine({playerNumber, playerBoard}) {
             <FloorLineTile
               key={`Floor-${floorLineIndex}`}
               penaltyAmount={floorLine[floorLineIndex].penalty}
-              tileColor={floorLine[floorLineIndex].color}
+              tileColor={floorLine[floorLineIndex].color ? floorLine[floorLineIndex].color : 'white'}
             />
           )
         })
