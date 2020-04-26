@@ -6,10 +6,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {actionCreators} from "../../../redux/actionCreators";
 
-export default function PatternLine({playerBoard, patternLines, patternRowIndex, playerNumber}) {
+export default function PatternLine({socket, playerBoard, patternLines, patternRowIndex, playerNumber}) {
   const dispatch = useDispatch();
   const dragState = useSelector(state => state.public.dragState);
   const currentPlayerTurn = useSelector(state => state.public.currentPlayerTurn);
+  const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
+
+  const roomID = useSelector(state => state.public.roomID);
 
   const dragColor = dragState.tileColor;
   const hoveredPatternLine = dragState.hoveredPatternLine;
@@ -24,6 +27,10 @@ export default function PatternLine({playerBoard, patternLines, patternRowIndex,
       setBorderColor('black');
       if (canDrop) {
         dispatch(actionCreators.public.dropTile(dragLocation, patternRowIndex, playerNumber));
+
+        const newTurnNumber = numberOfPlayers === currentPlayerTurn ? 1 : currentPlayerTurn + 1;
+        dispatch(actionCreators.public.changeTurn(newTurnNumber));
+        socket.emit("changeTurn", roomID, newTurnNumber)
       }
       dispatch(actionCreators.public.clearDragState());
     }

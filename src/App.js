@@ -28,7 +28,7 @@ function App({socket}) {
 
   return (
     <Fragment>
-      <GameBoard />
+      <GameBoard socket={socket}/>
       <WelcomeModal socket={socket}/>
     </Fragment>
   );

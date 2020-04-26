@@ -2,7 +2,7 @@
 import {jsx} from "@emotion/core";
 import PlayerBoard from "./game_pieces/player_board/PlayerBoard";
 
-export default function PlayerBoardOne() {
+export default function PlayerBoardOne({socket}) {
   return (
     <div
       id="playerBoardOne"
@@ -13,6 +13,7 @@ export default function PlayerBoardOne() {
     >
       <PlayerBoard
         playerNumber={1}
+        socket={socket}
       />
     </div>
   )

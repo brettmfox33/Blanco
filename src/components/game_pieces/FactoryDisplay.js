@@ -68,9 +68,10 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                       css={[
                         {
                           border: '1px solid black', position: 'absolute', pointerEvents: null,
-                          left: x, top: y, cursor: 'move'
+                          left: x, top: y
                         },
-                        color === colorToHide ? {opacity: ".7"} : null
+                        color === colorToHide ? {opacity: ".7"} : null,
+                        myCurrentTurn ? {cursor: 'move'} : null
                       ]}
                       // rotate:`${rotateTurn}turn`}}
                     />

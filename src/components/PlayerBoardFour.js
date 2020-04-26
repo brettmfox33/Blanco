@@ -3,7 +3,7 @@ import {jsx} from "@emotion/core";
 import PlayerBoard from "./game_pieces/player_board/PlayerBoard";
 import {useSelector} from "react-redux";
 
-export default function PlayerBoardFour() {
+export default function PlayerBoardFour({socket}) {
   const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
 
   return (
@@ -18,6 +18,7 @@ export default function PlayerBoardFour() {
         numberOfPlayers === 4
           ? <PlayerBoard
             playerNumber={4}
+            socket={socket}
           />
           : null
       }

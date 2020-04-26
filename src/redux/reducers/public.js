@@ -58,6 +58,10 @@ export default handleActions(
     [actionCreators.public.updatePublicState]: (state, action) => {
       return action.payload.newPublicState
     },
+    [actionCreators.public.changeTurn]: (state, action) => ({
+      ...state,
+      currentPlayerTurn: action.payload.newCurrentTurn
+    }),
     [actionCreators.public.dragStart]: (state, action) => {
       let tileCount;
       if (action.payload.factoryDisplay){

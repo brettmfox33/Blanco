@@ -7,7 +7,10 @@ import {useState} from "react";
 export default function OverflowTiles( ) {
   const dispatch = useDispatch();
 
+  const myCurrentTurn = useSelector(state => state.private.currentTurn);
+
   const [colorToHide, setColorToHide] = useState(null);
+
   const onDragStart = (event, color) => {
     dispatch(actionCreators.public.dragStart(null, color));
 
@@ -42,7 +45,8 @@ export default function OverflowTiles( ) {
                 {
                   border: `1px black solid`, margin: 1
                 },
-                color === colorToHide ? {opacity: ".7"} : null
+                color === colorToHide ? {opacity: ".7"} : null,
+                myCurrentTurn ? {cursor: 'move'} : null
               ]}
             />
           )
