@@ -1,12 +1,15 @@
 import React, {Fragment, useEffect} from 'react';
 import './App.css';
 import WelcomeModal from "./components/welcome/WelcomeModal";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "./redux/actionCreators";
 import GameBoard from "./components/GameBoard";
 
 function App({socket}) {
   const dispatch = useDispatch();
+
+  const roundTiles = useSelector(state => state.public.gameState.roundTiles);
+  const currentTurn = useSelector(state => state.private.currentTurn);
 
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
@@ -26,6 +29,13 @@ function App({socket}) {
     })
   }, []);
 
+  useEffect(() => {
+    if (roundTiles === 0 && currentTurn ) {
+      dispatch(actionCreators.public.calculateScore())
+      // TODO: Redistribute Tiles to factories
+      // TODO: Set player who had #1 token to current player
+    }
+  }, [roundTiles]);
   return (
     <Fragment>
       <GameBoard socket={socket}/>

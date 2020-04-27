@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "../../redux/actionCreators";
 import {useState} from "react";
 
-export default function OverflowTiles( ) {
+export default function OverflowTiles() {
   const dispatch = useDispatch();
 
   const myCurrentTurn = useSelector(state => state.private.currentTurn);
@@ -33,9 +33,10 @@ export default function OverflowTiles( ) {
   return (
     Object.keys(overflowTiles).map(color => {
       return (
-        Array.from({length: overflowTiles[color]}, (_, amount) => {
+        Array.from({length: overflowTiles[color]}, (_, index) => {
           return (
             <img
+              key={`overflowTile-${color}-${index}`}
               onDragStart={(event) => onDragStart(event, color)}
               onDragEnd={(event) => onDragEnd(event)}
               alt={`overflowTile-${color}`}
