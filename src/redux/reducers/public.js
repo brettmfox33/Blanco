@@ -3,6 +3,7 @@ import {actionCreators} from "../actionCreators";
 import getRandomInteger from "../../utils/getRandomInteger";
 import createPlayerObject from "../utils/createPlayerObject";
 import buildFactoryDisplays from "../utils/buildFactoryDisplays";
+import calculateScore from "../utils/calculateScore";
 
 const initialState = {
   roomID: null,
@@ -11,12 +12,21 @@ const initialState = {
   players: null,
   currentPlayerTurn: null,
   gameState: {
+    nextRoundFirstPlayer: null,
+    roundTiles:null,
     availableTiles: {
+      black: 2,
+      blue: 4,
+      red: 4,
+      gray: 3,
+      yellow: 4
+    },
+    boxTiles: {
       black: 20,
       blue: 20,
       red: 20,
       gray: 20,
-      yellow: 20
+      yellow: 20,
     },
     overflowTiles: {
       black: 0,
@@ -40,17 +50,24 @@ const initialState = {
 
 export default handleActions(
   {
-    [actionCreators.public.createGame]: (state, action) => ({
-      ...state,
-      roomID: getRandomInteger(1000, 9000),
-      roomName: action.payload.roomName,
-      numberOfPlayers: action.payload.numberOfPlayers,
-      players: createPlayerObject(action.payload),
-      gameState: {
-        ...state.gameState,
-        factoryDisplays: buildFactoryDisplays(state, action)
-      },
-    }),
+    /** Game State **/
+    [actionCreators.public.createGame]: (state, action) => {
+      const numberOfPlayers = action.payload.numberOfPlayers;
+      const factoryDisplays = buildFactoryDisplays(state, numberOfPlayers);
+
+      return {
+        ...state,
+        roomID: getRandomInteger(1000, 9000),
+        roomName: action.payload.roomName,
+        numberOfPlayers: action.payload.numberOfPlayers,
+        players: createPlayerObject(action.payload),
+        gameState: {
+          ...state.gameState,
+          factoryDisplays: factoryDisplays,
+          roundTiles: Object.keys(factoryDisplays).length * 4
+        },
+      }
+    },
     [actionCreators.public.setFirstPlayer]: (state, action) => ({
       ...state,
       currentPlayerTurn: action.payload.playerNumber
@@ -62,6 +79,26 @@ export default handleActions(
       ...state,
       currentPlayerTurn: action.payload.newCurrentTurn
     }),
+    /** End Round State **/
+    [actionCreators.public.calculateScore]: state => {
+      // Calculate Score
+      const [newPlayers, newGameState] = calculateScore(state);
+      // Redistribute tiles to factory displays
+      const factoryDisplays = buildFactoryDisplays(state, state.numberOfPlayers);
+      return {
+        ...state,
+        players: {
+          ...newPlayers
+        },
+        gameState: {
+          ...newGameState,
+          factoryDisplays: factoryDisplays,
+          roundTiles: Object.keys(factoryDisplays).length * 4,
+          nextRoundFirstPlayer: null
+        }
+      }
+    },
+    /** Drag State **/
     [actionCreators.public.dragStart]: (state, action) => {
       let tileCount;
       if (action.payload.factoryDisplay){
@@ -127,6 +164,7 @@ export default handleActions(
           Object.keys(floorLine).map(floorLineIndex => {
             if (overflowTiles['firstPlayerToken'] && !floorLine[floorLineIndex].color) {
               floorLine[floorLineIndex].color = 'firstPlayerToken';
+              state.gameState.nextRoundFirstPlayer = action.payload.playerNumber;
               overflowTiles['firstPlayerToken'] = 0;
             }
           });
@@ -152,7 +190,8 @@ export default handleActions(
         gameState: {
           ...state.gameState,
           factoryDisplays: factoryDisplays,
-          overflowTiles: overflowTiles
+          overflowTiles: overflowTiles,
+          roundTiles: state.gameState.roundTiles - state.dragState.tileCount
         }
       }
     },

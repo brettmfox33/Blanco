@@ -7,6 +7,8 @@ export const actionCreators = createActions({
     setFirstPlayer: (playerNumber) => ({playerNumber}),
     updatePublicState: (newPublicState) => ({newPublicState}),
     changeTurn: (newCurrentTurn) => ({newCurrentTurn}),
+    /** End Round State **/
+    calculateScore: undefined,
     /** Drag State **/
     dragStart: (factoryDisplay, tileColor) => ({factoryDisplay, tileColor}),
     dropTile: (location, patternRowIndex, playerNumber) => ({location, patternRowIndex, playerNumber}),
