@@ -59,7 +59,9 @@ export default function PlayerBoard({playerNumber, socket}) {
             css={{marginLeft: 40, marginTop: 10}}
           >
             <FloorLine
+              socket={socket}
               playerBoard={playerBoard}
+              playerNumber={playerNumber}
             />
           </Grid>
 

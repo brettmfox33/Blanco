@@ -11,7 +11,6 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
   const dragState = useSelector(state => state.public.dragState);
   const currentPlayerTurn = useSelector(state => state.public.currentPlayerTurn);
   const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
-
   const roomID = useSelector(state => state.public.roomID);
 
   const dragColor = dragState.tileColor;
