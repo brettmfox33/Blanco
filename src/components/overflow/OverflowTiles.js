@@ -40,7 +40,7 @@ export default function OverflowTiles() {
               onDragStart={(event) => onDragStart(event, color)}
               onDragEnd={(event) => onDragEnd(event)}
               alt={`overflowTile-${color}`}
-              draggable={color !== 'firstPlayerToken'}
+              draggable={color !== 'firstPlayerToken' && myCurrentTurn}
               src={require(`../../images/tiles/${color}.png`)}
               css={[
                 {

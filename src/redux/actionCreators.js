@@ -12,6 +12,7 @@ export const actionCreators = createActions({
     /** Drag State **/
     dragStart: (factoryDisplay, tileColor) => ({factoryDisplay, tileColor}),
     dropTile: (location, patternRowIndex, playerNumber) => ({location, patternRowIndex, playerNumber}),
+    dropTileFloor: (location, playerNumber) => ({location, playerNumber}),
     clearDragState: undefined,
     setDragStateHover: (patternRowIndex) => ({patternRowIndex}),
     setDragStateDrag: undefined

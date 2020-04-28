@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import {jsx} from "@emotion/core";
 
-export default function FloorLineTile({penaltyAmount, tileColor}) {
+export default function FloorLineTile({borderColor, penaltyAmount, tileColor}) {
   return (
     <div css={{marginRight: 1, marginLeft: 1}}>
       <div
@@ -14,7 +14,7 @@ export default function FloorLineTile({penaltyAmount, tileColor}) {
       <img
         alt="whiteTile"
         src={require(`../../../images/tiles/${tileColor}.png`)}
-        css={{border:`1px black solid`}}
+        css={{border:`1px ${borderColor} solid`}}
       >
       </img>
     </div>

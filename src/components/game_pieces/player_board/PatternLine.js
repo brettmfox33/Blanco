@@ -11,7 +11,6 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
   const dragState = useSelector(state => state.public.dragState);
   const currentPlayerTurn = useSelector(state => state.public.currentPlayerTurn);
   const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
-
   const roomID = useSelector(state => state.public.roomID);
 
   const dragColor = dragState.tileColor;
@@ -84,9 +83,6 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
       justify="flex-end"
       alignItems="flex-start"
       key={`pattern-${patternRowIndex}`}
-      onDragOver={(event) => onDragOver(event, patternLines[patternRowIndex])}
-      onDrop={(event) => onDrop(event)}
-      onDragLeave={(event) => onDragLeave()}
     >
       {
         Object.keys(patternLines[patternRowIndex]).map(patternColumnIndex => {
@@ -95,6 +91,10 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
               key={`Player${playerNumber}-${patternRowIndex}-${patternColumnIndex}`}
               color={patternLines[patternRowIndex][patternColumnIndex]}
               borderColor={borderColor}
+              onDragOver={onDragOver}
+              onDrop={onDrop}
+              onDragLeave={onDragLeave}
+              patternLine={patternLines[patternRowIndex]}
             />
           )
         })

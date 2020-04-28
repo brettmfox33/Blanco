@@ -133,14 +133,19 @@ export default handleActions(
       });
 
       // Add left over dragged tiles to the Floor Line
-      const floorLine = state.players[action.payload.playerNumber].board.floorLine;
+      const floorLine = {...state.players[action.payload.playerNumber].board.floorLine};
+      const boxTiles = {...state.gameState.boxTiles};
       if (tileCount) {
         Object.keys(floorLine).map(floorLineIndex => {
           if (tileCount && !floorLine[floorLineIndex].color) {
             floorLine[floorLineIndex].color = tileColor;
             --tileCount;
           }
-        })
+        });
+        // If the floor line is full and tiles still remain then add them to the box
+        if (tileCount) {
+          boxTiles[tileColor] = boxTiles[tileColor] + tileCount
+        }
       }
 
       const factoryDisplays = {...state.gameState.factoryDisplays};
@@ -189,6 +194,74 @@ export default handleActions(
         },
         gameState: {
           ...state.gameState,
+          boxTiles: boxTiles,
+          factoryDisplays: factoryDisplays,
+          overflowTiles: overflowTiles,
+          roundTiles: state.gameState.roundTiles - state.dragState.tileCount
+        }
+      }
+    },
+    [actionCreators.public.dropTileFloor]: (state, action) => {
+      const tileColor = state.dragState.tileColor;
+      let tileCount = state.dragState.tileCount;
+      const newBoxTiles = {...state.gameState.boxTiles};
+
+      // Moved the dragged tiles to the Floor Line
+      const newFloorLine = {...state.players[action.payload.playerNumber].board.floorLine};
+      Object.keys(newFloorLine).map(floorLineIndex => {
+        if (tileCount && !newFloorLine[floorLineIndex].color) {
+          newFloorLine[floorLineIndex].color = tileColor;
+          --tileCount;
+        }
+      });
+
+      // If the floor line is full and tiles still remain then add them to the box
+      if (tileCount) {
+        newBoxTiles[tileColor] = newBoxTiles[tileColor] + tileCount
+      }
+
+      const factoryDisplays = {...state.gameState.factoryDisplays};
+      const overflowTiles = {...state.gameState.overflowTiles};
+
+      if (action.payload.location === 'factory') {
+        // Remove the dragged tiles from the Factory Display
+        // Add the left over Factory Display tiles to the Center
+        factoryDisplays[state.dragState.factoryDisplay].tiles[state.dragState.tileColor] = 0;
+        Object.keys(factoryDisplays[state.dragState.factoryDisplay].tiles).map(factoryTileColor => {
+          overflowTiles[factoryTileColor] = overflowTiles[factoryTileColor] +
+            factoryDisplays[state.dragState.factoryDisplay].tiles[factoryTileColor];
+          factoryDisplays[state.dragState.factoryDisplay].tiles[factoryTileColor] = 0
+        });
+      } else {
+        // Remove the dragged tiles from the overflow center.
+        // If the first player token is still in the center then move it to the player's floor line.
+        overflowTiles[state.dragState.tileColor] = 0;
+        if (overflowTiles['firstPlayerToken']) {
+          Object.keys(newFloorLine).map(floorLineIndex => {
+            if (overflowTiles['firstPlayerToken'] && !newFloorLine[floorLineIndex].color) {
+              newFloorLine[floorLineIndex].color = 'firstPlayerToken';
+              state.gameState.nextRoundFirstPlayer = action.payload.playerNumber;
+              overflowTiles['firstPlayerToken'] = 0;
+            }
+          });
+        }
+      }
+
+      return {
+        ...state,
+        players: {
+          ...state.players,
+          [action.payload.playerNumber]: {
+            ...state.players[action.payload.playerNumber],
+            board: {
+              ...state.players[action.payload.playerNumber].board,
+              floorLine: newFloorLine
+            }
+          }
+        },
+        gameState: {
+          ...state.gameState,
+          boxTiles: newBoxTiles,
           factoryDisplays: factoryDisplays,
           overflowTiles: overflowTiles,
           roundTiles: state.gameState.roundTiles - state.dragState.tileCount
