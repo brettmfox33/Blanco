@@ -5,7 +5,6 @@ export default function calculateScore(state) {
   Object.keys(newPlayers).map(playerIndex => {
     const playerObj = newPlayers[playerIndex];
     const playerBoard = playerObj.board;
-    console.log('*****');
     let roundScore = 0;
     Object.keys(playerBoard.patternLines).map(patternLineIndex => {
       const patternLine = playerBoard.patternLines[patternLineIndex];
@@ -28,6 +27,10 @@ export default function calculateScore(state) {
         const wallLine = playerBoard.wall[patternLineIndex];
         const wallLineIndex = Object.keys(wallLine).indexOf(filledColor);
         const horizontalArray = Object.values(wallLine);
+
+        // Check if the array is full. This means the game is over.
+        newGameState.gameOver = (horizontalArray.filter(item=> item !== null).length === 5);
+
         let verticalArray = [];
         Object.keys(playerBoard.wall).map(wallIndex => {
           verticalArray.push(Object.values(playerBoard.wall[wallIndex])[wallLineIndex])

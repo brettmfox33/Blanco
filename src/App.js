@@ -12,6 +12,7 @@ function App({socket}) {
   const currentTurn = useSelector(state => state.private.currentTurn);
   const roomID = useSelector(state => state.public.roomID);
   const nextRoundFirstPlayer = useSelector(state => state.public.gameState.nextRoundFirstPlayer);
+  const gameOver = useSelector(state => state.public.gameState.gameOver);
 
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
@@ -38,6 +39,13 @@ function App({socket}) {
       socket.emit("changeTurn", roomID, nextRoundFirstPlayer)
     }
   }, [roundTiles]);
+
+  useEffect(() => {
+    if (gameOver) {
+      dispatch(actionCreators.public.endGame())
+    }
+  },
+    [gameOver]);
   return (
     <Fragment>
       <GameBoard socket={socket}/>
