@@ -4,6 +4,7 @@ import getRandomInteger from "../../utils/getRandomInteger";
 import createPlayerObject from "../utils/createPlayerObject";
 import buildFactoryDisplays from "../utils/buildFactoryDisplays";
 import calculateScore from "../utils/calculateScore";
+import calculateBonusScores from "../utils/calculateBonusScores";
 
 const initialState = {
   roomID: null,
@@ -14,6 +15,7 @@ const initialState = {
   gameState: {
     nextRoundFirstPlayer: null,
     roundTiles:null,
+    gameOver: false,
     availableTiles: {
       black: 2,
       blue: 4,
@@ -81,10 +83,15 @@ export default handleActions(
     }),
     /** End Round State **/
     [actionCreators.public.calculateScore]: state => {
+      let factoryDisplays = {...state.gameState.factoryDisplays};
+
       // Calculate Score
       const [newPlayers, newGameState] = calculateScore(state);
       // Redistribute tiles to factory displays
-      const factoryDisplays = buildFactoryDisplays(state, state.numberOfPlayers);
+      if (newGameState.gameOver) {
+        factoryDisplays = buildFactoryDisplays(state, state.numberOfPlayers);
+      }
+
       return {
         ...state,
         players: {
@@ -96,6 +103,15 @@ export default handleActions(
           roundTiles: Object.keys(factoryDisplays).length * 4,
           nextRoundFirstPlayer: null
         }
+      }
+    },
+    /** End Game State **/
+    [actionCreators.public.endGame]: state => {
+      const players = calculateBonusScores(state);
+      console.log('*', players);
+      return {
+        ...state,
+        players: players
       }
     },
     /** Drag State **/
