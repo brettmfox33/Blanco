@@ -12,20 +12,21 @@ const initialState = {
   players: null,
   currentPlayerTurn: null,
   gameState: {
+    nextRoundFirstPlayer: null,
     roundTiles:null,
     availableTiles: {
+      black: 2,
+      blue: 4,
+      red: 4,
+      gray: 3,
+      yellow: 4
+    },
+    boxTiles: {
       black: 20,
       blue: 20,
       red: 20,
       gray: 20,
-      yellow: 20
-    },
-    boxTiles: {
-      black: 0,
-      blue: 0,
-      red: 0,
-      gray: 0,
-      yellow: 0,
+      yellow: 20,
     },
     overflowTiles: {
       black: 0,
@@ -51,7 +52,8 @@ export default handleActions(
   {
     /** Game State **/
     [actionCreators.public.createGame]: (state, action) => {
-      const factoryDisplays = buildFactoryDisplays(state, action);
+      const numberOfPlayers = action.payload.numberOfPlayers;
+      const factoryDisplays = buildFactoryDisplays(state, numberOfPlayers);
 
       return {
         ...state,
@@ -77,13 +79,23 @@ export default handleActions(
       ...state,
       currentPlayerTurn: action.payload.newCurrentTurn
     }),
-    /** End Game State **/
+    /** End Round State **/
     [actionCreators.public.calculateScore]: state => {
+      // Calculate Score
       const [newPlayers, newGameState] = calculateScore(state);
+      // Redistribute tiles to factory displays
+      const factoryDisplays = buildFactoryDisplays(state, state.numberOfPlayers);
       return {
         ...state,
-        players: newPlayers,
-        gameState: newGameState
+        players: {
+          ...newPlayers
+        },
+        gameState: {
+          ...newGameState,
+          factoryDisplays: factoryDisplays,
+          roundTiles: Object.keys(factoryDisplays).length * 4,
+          nextRoundFirstPlayer: null
+        }
       }
     },
     /** Drag State **/
@@ -152,6 +164,7 @@ export default handleActions(
           Object.keys(floorLine).map(floorLineIndex => {
             if (overflowTiles['firstPlayerToken'] && !floorLine[floorLineIndex].color) {
               floorLine[floorLineIndex].color = 'firstPlayerToken';
+              state.gameState.nextRoundFirstPlayer = action.payload.playerNumber;
               overflowTiles['firstPlayerToken'] = 0;
             }
           });

@@ -10,6 +10,8 @@ function App({socket}) {
 
   const roundTiles = useSelector(state => state.public.gameState.roundTiles);
   const currentTurn = useSelector(state => state.private.currentTurn);
+  const roomID = useSelector(state => state.public.roomID);
+  const nextRoundFirstPlayer = useSelector(state => state.public.gameState.nextRoundFirstPlayer);
 
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
@@ -31,9 +33,9 @@ function App({socket}) {
 
   useEffect(() => {
     if (roundTiles === 0 && currentTurn ) {
-      dispatch(actionCreators.public.calculateScore())
-      // TODO: Redistribute Tiles to factories
-      // TODO: Set player who had #1 token to current player
+      dispatch(actionCreators.public.calculateScore());
+      dispatch(actionCreators.public.changeTurn(nextRoundFirstPlayer));
+      socket.emit("changeTurn", roomID, nextRoundFirstPlayer)
     }
   }, [roundTiles]);
   return (

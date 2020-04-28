@@ -8,7 +8,6 @@ export default function calculateScore(state) {
     console.log('*****');
     let roundScore = 0;
     Object.keys(playerBoard.patternLines).map(patternLineIndex => {
-      console.log('patternLineIndex', patternLineIndex);
       const patternLine = playerBoard.patternLines[patternLineIndex];
       const filledTiles = Object.values(patternLine).filter(item => item !== null);
 
@@ -19,7 +18,7 @@ export default function calculateScore(state) {
         // Add tile to wall
         playerBoard.wall[patternLineIndex][filledColor] = true;
         // Add tiles to box
-        newGameState.boxTiles[filledColor] = (newGameState.boxTiles[filledColor] + patternLineIndex);
+        newGameState.boxTiles[filledColor] = parseInt((newGameState.boxTiles[filledColor] + patternLineIndex));
         // Remove tiles from pattern line
         Object.keys(patternLine).map(patternLineIndex => {
           patternLine[patternLineIndex] = null
@@ -71,7 +70,7 @@ export default function calculateScore(state) {
       if (floorLineTile.color){
         // Add the penalty to the total score
         roundScore = roundScore + floorLineTile.penalty;
-        newGameState.boxTiles[floorLineTile.color] = newGameState.boxTiles[floorLineTile.color] + 1
+        newGameState.boxTiles[floorLineTile.color] = parseInt(newGameState.boxTiles[floorLineTile.color] + 1);
         floorLineTile.color = null
       }
     });
