@@ -83,9 +83,6 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
       justify="flex-end"
       alignItems="flex-start"
       key={`pattern-${patternRowIndex}`}
-      onDragOver={(event) => onDragOver(event, patternLines[patternRowIndex])}
-      onDrop={(event) => onDrop(event)}
-      onDragLeave={(event) => onDragLeave()}
     >
       {
         Object.keys(patternLines[patternRowIndex]).map(patternColumnIndex => {
@@ -94,6 +91,10 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
               key={`Player${playerNumber}-${patternRowIndex}-${patternColumnIndex}`}
               color={patternLines[patternRowIndex][patternColumnIndex]}
               borderColor={borderColor}
+              onDragOver={onDragOver}
+              onDrop={onDrop}
+              onDragLeave={onDragLeave}
+              patternLine={patternLines[patternRowIndex]}
             />
           )
         })
