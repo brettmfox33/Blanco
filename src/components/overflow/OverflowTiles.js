@@ -8,6 +8,7 @@ export default function OverflowTiles() {
   const dispatch = useDispatch();
 
   const myCurrentTurn = useSelector(state => state.private.currentTurn);
+  const overflowTiles = useSelector(state => state.public.gameState.overflowTiles);
 
   const [colorToHide, setColorToHide] = useState(null);
 
@@ -15,8 +16,13 @@ export default function OverflowTiles() {
     dispatch(actionCreators.public.dragStart(null, color));
 
     // Set the drag image
+    let tileCount = overflowTiles[color];
+    if (tileCount > 5) {
+      tileCount = 5
+    }
+
     let dragImage = new Image();
-    dragImage.src = require(`../../images/tiles/${color}.png`);
+    dragImage.src = require(`../../images/tiles/ghost/${tileCount}/${color}.png`);
     event.dataTransfer.setDragImage(dragImage,25,25);
 
     // Set the colors to hide in the factory display
@@ -29,7 +35,6 @@ export default function OverflowTiles() {
     setColorToHide(null);
   };
 
-  const overflowTiles = useSelector(state => state.public.gameState.overflowTiles);
   return (
     Object.keys(overflowTiles).map(color => {
       return (
@@ -44,7 +49,7 @@ export default function OverflowTiles() {
               src={require(`../../images/tiles/${color}.png`)}
               css={[
                 {
-                  border: `1px black solid`, margin: 1
+                  height: 50, width: 50, border: `1px black solid`, margin: 1
                 },
                 color === colorToHide ? {opacity: ".7"} : null,
                 myCurrentTurn ? {cursor: 'move'} : null

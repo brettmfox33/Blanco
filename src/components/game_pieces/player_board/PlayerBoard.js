@@ -23,7 +23,7 @@ export default function PlayerBoard({playerNumber, socket}) {
     >
       <Paper
         css={{width: '100%', height: '100%'}}
-        elevation={2}
+        elevation={3}
       >
         <Grid
           container

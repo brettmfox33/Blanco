@@ -8,7 +8,7 @@ export default function WallSquare({color, filled}) {
         draggable={false}
         src={require(`../../../images/tiles/${color}.png`)}
         css={[
-          {border: '1px black solid', margin: 1},
+          {height: 50, width: 50, border: '1px black solid', margin: 1, borderStyle: 'inset'},
           filled ? null : {opacity: 0.4}
         ]}
       >

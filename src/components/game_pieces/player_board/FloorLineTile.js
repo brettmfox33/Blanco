@@ -14,7 +14,7 @@ export default function FloorLineTile({borderColor, penaltyAmount, tileColor}) {
       <img
         alt="whiteTile"
         src={require(`../../../images/tiles/${tileColor}.png`)}
-        css={{border:`1px ${borderColor} solid`}}
+        css={{height: 50, width: 50, border:`1px ${borderColor} solid`, borderStyle: 'inset'}}
       >
       </img>
     </div>

@@ -4,6 +4,7 @@ import WelcomeModal from "./components/welcome/WelcomeModal";
 import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "./redux/actionCreators";
 import GameBoard from "./components/GameBoard";
+import preRenderImages from "./utils/preRenderImages";
 
 function App({socket}) {
   const dispatch = useDispatch();
@@ -29,7 +30,12 @@ function App({socket}) {
 
     socket.on("setFirstPlayerTurn", playerNumber => {
       dispatch(actionCreators.public.setFirstPlayer(playerNumber));
-    })
+    });
+
+    // Pre-render images. Whatever you do don't look in this function.
+    preRenderImages();
+
+
   }, []);
 
   useEffect(() => {

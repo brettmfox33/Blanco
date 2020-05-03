@@ -20,21 +20,21 @@ const initialState = {
       black: 2,
       blue: 4,
       red: 4,
-      gray: 3,
+      purple: 3,
       yellow: 4
     },
     boxTiles: {
       black: 20,
       blue: 20,
       red: 20,
-      gray: 20,
+      purple: 20,
       yellow: 20,
     },
     overflowTiles: {
       black: 0,
       blue: 0,
       red: 0,
-      gray: 0,
+      purple: 0,
       yellow: 0,
       firstPlayerToken: 1
     },
@@ -108,7 +108,6 @@ export default handleActions(
     /** End Game State **/
     [actionCreators.public.endGame]: state => {
       const players = calculateBonusScores(state);
-      console.log('*', players);
       return {
         ...state,
         players: players
