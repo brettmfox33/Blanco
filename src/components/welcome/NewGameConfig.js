@@ -35,10 +35,25 @@ export default function NewGameConfig({socket, setStep}) {
 
   const [numberOfPlayers, setNumberOfPlayers] = useState('');
   const [roomName, setRoomName] = useState('');
-  const [playerName, sePlayerName] = useState('');
+  const [playerName, setPlayerName] = useState('');
+  const [playerError, setPlayerError] = useState(null);
 
   const createGame = () => {
     dispatch(actionCreators.public.createGame(numberOfPlayers, roomName, playerName))
+  };
+
+  const onChange = (event) => {
+    const name = event.target.value;
+    const lowerName = name.charAt(0).toUpperCase() + name.substring(1).toLowerCase();
+
+    setPlayerName(lowerName);
+
+    if (event.target.value.length > 10){
+      setPlayerError("Must be less than 10 characters")
+    }
+    else {
+      setPlayerError(null)
+    }
   };
 
   useEffect(() => {
@@ -91,11 +106,13 @@ export default function NewGameConfig({socket, setStep}) {
           </Grid>
           <Grid>
             <TextField
+              error={playerError ? true : false}
+              helperText={playerError}
               margin="dense"
               id="host-name"
               label="Player Name"
               type="text"
-              onChange={event => {sePlayerName(event.target.value)}}
+              onChange={event => onChange(event)}
               val={playerName}
             />
           </Grid>
@@ -103,7 +120,7 @@ export default function NewGameConfig({socket, setStep}) {
             <Button
               color="primary"
               onClick={() => createGame()}
-              disabled={!numberOfPlayers || !roomName || !playerName}
+              disabled={!numberOfPlayers || !roomName || !playerName || playerError ? true : false}
             >
               Start Game
             </Button>

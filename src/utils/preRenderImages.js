@@ -81,4 +81,7 @@ export default function preRenderImages() {
   dragImage = new Image();
   dragImage.src = require(`../images/tiles/ghost/5/yellow.png`);
 
+  dragImage = new Image();
+  dragImage.src = require(`../images/gameBoardBackground.jpg`);
+
 }
