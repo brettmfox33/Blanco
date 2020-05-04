@@ -17,8 +17,6 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 export default function EnterRoomInfo({socket, setStep}) {
   const dispatch = useDispatch();
 
-  const roomName = useSelector(state => state.public.roomName);
-
   const [playerName, setPlayerName] = useState(null);
   const [roomID, setRoomID] = useState(null);
   const [joinError, setJoinError] = useState(null);
@@ -46,10 +44,25 @@ export default function EnterRoomInfo({socket, setStep}) {
     socket.emit('joinRoom', roomID, playerName);
   };
 
+  const onChange = (event) => {
+    const name = event.target.value;
+    const lowerName = name.charAt(0).toUpperCase() + name.substring(1).toLowerCase();
+
+    setPlayerName(lowerName);
+
+    if (event.target.value.length > 10){
+      setNameError("Must be less than 10 characters")
+    }
+    else {
+      setNameError(null)
+    }
+
+  };
+
   return (
     <div id="enter-room-info">
       <DialogContentText>
-        Enter Player Name for Room: {roomName}
+        Enter Player Name for Room: {roomID}
       </DialogContentText>
       <Grid
         container
@@ -82,7 +95,7 @@ export default function EnterRoomInfo({socket, setStep}) {
             id="player-name"
             label="Player Name"
             type="text"
-            onChange={event => {setPlayerName(event.target.value)}}
+            onChange={event => onChange(event)}
             helperText={nameError ? nameError: null}
             val={nameError}
           />

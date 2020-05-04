@@ -7,6 +7,7 @@ import {actionCreators} from "../../redux/actionCreators";
 export default function FactoryDisplay({tiles, factoryNumber}) {
   const dispatch = useDispatch();
   const myCurrentTurn = useSelector(state => state.private.currentTurn);
+  const factoryDisplays = useSelector(state => state.public.gameState.factoryDisplays);
 
   const [colorToHide, setColorToHide] = useState(null);
   const hardCodedPoints = [
@@ -22,8 +23,13 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
       dispatch(actionCreators.public.dragStart(factoryNumber, color));
 
       // Set the drag image
+      let tileCount = factoryDisplays[factoryNumber].tiles[color];
+      if (tileCount > 5) {
+        tileCount = 5
+      }
+
       let dragImage = new Image();
-      dragImage.src = require(`../../images/tiles/${color}.png`);
+      dragImage.src = require(`../../images/tiles/ghost/${tileCount}/${color}.png`);
       event.dataTransfer.setDragImage(dragImage,25,25);
 
       // Set the colors to hide in the factory display
@@ -67,7 +73,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                       draggable={myCurrentTurn}
                       css={[
                         {
-                          border: '1px solid black', position: 'absolute', pointerEvents: null,
+                          height: 50, width: 50, border: '1px solid black', position: 'absolute', pointerEvents: null,
                           left: x, top: y
                         },
                         color === colorToHide ? {opacity: .7} : null,

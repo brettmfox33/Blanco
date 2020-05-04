@@ -24,7 +24,7 @@ export default function buildFactoryDisplays(state, numberOfPlayers) {
         "blue": 0,
         "red": 0,
         "yellow": 0,
-        "gray": 0
+        "purple": 0
       }
     })
   }

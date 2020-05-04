@@ -11,7 +11,7 @@ export default function calculateBonusScores(state) {
       yellow: 0,
       red: 0,
       black: 0,
-      gray: 0
+      purple: 0
     };
     // Check if any rows are completed
     Object.values(wall).map(wallObj => {

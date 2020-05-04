@@ -7,6 +7,7 @@ import {useSelector} from "react-redux";
 import Wall from "./Wall";
 import FloorLine from "./FloorLine";
 import ScoreBox from "./ScoreBox";
+import Image from '../../../images/gameBoardBackground.jpg';
 
 export default function PlayerBoard({playerNumber, socket}) {
   const players = useSelector(state => state.public.players);
@@ -21,9 +22,17 @@ export default function PlayerBoard({playerNumber, socket}) {
       css={{margin: 20}}
       id={`player-${playerNumber}`}
     >
+      <Grid
+        container
+        css={{position: 'absolute', height: 110, width: 200,
+          fontSize: 40, fontFamily: 'Great Vibes', justifyContent: 'center', alignItems: 'center'
+        }}
+      >
+        {playerName}
+      </Grid>
       <Paper
-        css={{width: '100%', height: '100%'}}
-        elevation={2}
+        css={{width: '100%', height: '100%', backgroundImage:`url(${Image})`}}
+        elevation={3}
       >
         <Grid
           container
@@ -70,8 +79,6 @@ export default function PlayerBoard({playerNumber, socket}) {
             css={{marginTop: 10, marginLeft: 10}}
           >
             <ScoreBox
-              playerNumber={playerNumber}
-              playerName={playerName}
               playerScore={playerScore}
             />
           </Grid>
