@@ -17,8 +17,6 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 export default function EnterRoomInfo({socket, setStep}) {
   const dispatch = useDispatch();
 
-  const roomName = useSelector(state => state.public.roomName);
-
   const [playerName, setPlayerName] = useState(null);
   const [roomID, setRoomID] = useState(null);
   const [joinError, setJoinError] = useState(null);
@@ -64,7 +62,7 @@ export default function EnterRoomInfo({socket, setStep}) {
   return (
     <div id="enter-room-info">
       <DialogContentText>
-        Enter Player Name for Room: {roomName}
+        Enter Player Name for Room: {roomID}
       </DialogContentText>
       <Grid
         container

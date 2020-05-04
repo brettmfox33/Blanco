@@ -3,7 +3,7 @@ import {createActions} from 'redux-actions';
 export const actionCreators = createActions({
   public: {
     /** Game State **/
-    createGame: (numberOfPlayers, roomName, playerName) => ({numberOfPlayers, roomName, playerName}),
+    createGame: (numberOfPlayers, playerName) => ({numberOfPlayers, playerName}),
     setFirstPlayer: (playerNumber) => ({playerNumber}),
     updatePublicState: (newPublicState) => ({newPublicState}),
     changeTurn: (newCurrentTurn) => ({newCurrentTurn}),

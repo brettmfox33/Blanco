@@ -34,12 +34,11 @@ export default function NewGameConfig({socket, setStep}) {
   const state = useSelector(state => state);
 
   const [numberOfPlayers, setNumberOfPlayers] = useState('');
-  const [roomName, setRoomName] = useState('');
   const [playerName, setPlayerName] = useState('');
   const [playerError, setPlayerError] = useState(null);
 
   const createGame = () => {
-    dispatch(actionCreators.public.createGame(numberOfPlayers, roomName, playerName))
+    dispatch(actionCreators.public.createGame(numberOfPlayers, playerName))
   };
 
   const onChange = (event) => {
@@ -96,16 +95,6 @@ export default function NewGameConfig({socket, setStep}) {
           </Grid>
           <Grid>
             <TextField
-              margin="dense"
-              id="room-name"
-              label="Room Name"
-              type="text"
-              onChange={event => {setRoomName(event.target.value)}}
-              val={roomName}
-            />
-          </Grid>
-          <Grid>
-            <TextField
               error={playerError ? true : false}
               helperText={playerError}
               margin="dense"
@@ -120,7 +109,7 @@ export default function NewGameConfig({socket, setStep}) {
             <Button
               color="primary"
               onClick={() => createGame()}
-              disabled={!numberOfPlayers || !roomName || !playerName || playerError ? true : false}
+              disabled={!numberOfPlayers || !playerName || playerError ? true : false}
             >
               Start Game
             </Button>

@@ -2,12 +2,10 @@
 import {jsx} from "@emotion/core";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import {useSelector} from "react-redux";
 import OverflowTiles from "./overflow/OverflowTiles";
 import Image from '../images/overflowBackground.jpg';
 
 export default function Overflow() {
-  const roomName = useSelector(state => state.public.roomName);
   return (
     <div
       id="overflow"
@@ -28,11 +26,10 @@ export default function Overflow() {
             justify="center"
             alignItems="center"
           >
-            <Grid>
-              !Blanco Logo!
-            </Grid>
-            <Grid>
-              Room: {roomName}
+            <Grid
+            css={{fontFamily: 'Great Vibes', fontSize: 60}}
+            >
+              Blanco
             </Grid>
             <Grid
               css={{paddingLeft: 10}}

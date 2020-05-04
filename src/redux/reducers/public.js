@@ -8,7 +8,6 @@ import calculateBonusScores from "../utils/calculateBonusScores";
 
 const initialState = {
   roomID: null,
-  roomName: null,
   numberOfPlayers: null,
   players: null,
   currentPlayerTurn: null,
@@ -60,7 +59,6 @@ export default handleActions(
       return {
         ...state,
         roomID: getRandomInteger(1000, 9000),
-        roomName: action.payload.roomName,
         numberOfPlayers: action.payload.numberOfPlayers,
         players: createPlayerObject(action.payload),
         gameState: {
