@@ -3,6 +3,7 @@ import {jsx} from "@emotion/core";
 import {Fragment, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "../../redux/actionCreators";
+import { motion } from "framer-motion"
 
 export default function FactoryDisplay({tiles, factoryNumber}) {
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                 const x = hardCodedPoints[tileNumber][0];
                 const y = hardCodedPoints[tileNumber][1];
                 tileNumber = tileNumber + 1;
-                // const rotateTurn = getRandomInteger(0, 10) / 10;
+
                 return (
                     <img
                       id={`factoryTile-${factoryNumber}-${color}`}
@@ -79,7 +80,6 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                         color === colorToHide ? {opacity: .7} : null,
                         myCurrentTurn ? {cursor: 'move'} : null
                       ]}
-                      // rotate:`${rotateTurn}turn`}}
                     />
                 )
               })
