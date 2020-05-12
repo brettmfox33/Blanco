@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import TileSquare from "../TileSquare";
 import {jsx} from "@emotion/core";
 import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {actionCreators} from "../../../redux/actionCreators";
 
 export default function PatternLine({socket, playerBoard, patternLines, patternRowIndex, playerNumber}) {
@@ -79,8 +79,8 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
     <Grid
       container
       item
-      direction="row"
-      justify="flex-end"
+      direction="row-reverse"
+      justify="flex-start"
       alignItems="flex-start"
       key={`pattern-${patternRowIndex}`}
     >

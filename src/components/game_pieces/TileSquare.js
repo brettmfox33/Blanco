@@ -10,6 +10,16 @@ export default function TileSquare({color, borderColor, onDragOver, onDrop, onDr
     borderColor = 'black'
   }
 
+  let height = 50;
+  let width = 50;
+  let borderSize = 1;
+
+  if (borderColor !== 'black'){
+    height = 48;
+    width = 48;
+    borderSize = 2
+  }
+
   return (
       <img
         draggable={false}
@@ -17,7 +27,7 @@ export default function TileSquare({color, borderColor, onDragOver, onDrop, onDr
         src={require(`../../images/tiles/${color}.png`)}
         css={
           [
-            {height: 50, width: 50, border:`1px ${borderColor} solid`, margin: 1, borderStyle: 'inset'},
+            {height: height, width: width, border:`${borderSize}px ${borderColor} solid`, margin: 1, borderStyle: 'inset'},
             color === 'white' ? {opacity: 0.7} : null
           ]
         }
