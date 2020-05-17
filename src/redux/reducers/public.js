@@ -29,6 +29,8 @@ const initialState = {
       purple: 20,
       yellow: 20,
     },
+    overflowX: null,
+    overflowY: null,
     overflowTiles: {
       black: 0,
       blue: 0,
@@ -45,7 +47,16 @@ const initialState = {
     tileCount: null,
     factoryDisplay: null,
     fromCenter: false,
-    hoveredPatternLine: null
+    hoveredPatternLine: null,
+    originX: null,
+    originY: null
+  },
+  endTurnAnimation: {
+    destinationX: null,
+    destinationY: null,
+    factoryDisplay: null,
+    overflow: null,
+    color: null
   }
 };
 
@@ -128,7 +139,10 @@ export default handleActions(
           factoryDisplay: action.payload.factoryDisplay ? action.payload.factoryDisplay : null,
           fromCenter: !action.payload.factoryDisplay,
           tileColor: action.payload.tileColor,
-          tileCount: tileCount
+          tileCount: tileCount,
+          originX: action.payload.originX,
+          originY: action.payload.originY
+
         }
       }
     },
@@ -290,6 +304,8 @@ export default handleActions(
         tileCount: null,
         hoveredPatternLine: null,
         fromCenter: false,
+        originX: null,
+        originY: null
       }
     }),
     [actionCreators.public.setDragStateHover]: (state, action) => ({
@@ -308,6 +324,28 @@ export default handleActions(
         hoveredPatternLine: null
       }
     }),
+    [actionCreators.public.setAnimation]: (state, action) => ({
+      ...state,
+      endTurnAnimation: {
+        ...state.endTurnAnimation,
+        destinationX: action.payload.destinationX,
+        destinationY: action.payload.destinationY,
+        color: state.dragState.tileColor,
+        factoryDisplay: state.dragState.factoryDisplay
+      }
+    }),
+    [actionCreators.public.updateEndTurnAnimation]: (state, action) => ({
+      ...state,
+      endTurnAnimation: action.payload.endTurnAnimation
+    }),
+    [actionCreators.public.setOverflowCoordinates]: (state, action) => ({
+      ...state,
+      gameState: {
+        ...state.gameState,
+        overflowX: action.payload.x,
+        overflowY: action.payload.y
+      }
+    })
   },
   initialState
 );

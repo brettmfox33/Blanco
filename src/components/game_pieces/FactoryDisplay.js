@@ -9,20 +9,18 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
   const dispatch = useDispatch();
   const myCurrentTurn = useSelector(state => state.private.currentTurn);
   const factoryDisplays = useSelector(state => state.public.gameState.factoryDisplays);
+  const endTurnAnimation = useSelector(state => state.public.endTurnAnimation);
+  const pendingState = useSelector(state => state.private.pendingState);
 
   const [colorToHide, setColorToHide] = useState(null);
   const hardCodedPoints = [
-    [45, 50],
-    [100, 50],
-    [45, 105],
-    [100, 105]
+    [45, 50], [100, 50], [45, 105], [100, 105]
   ];
   let tileNumber = 0;
 
   const onDragStart = (event, factoryNumber, color) => {
     if (myCurrentTurn){
-      dispatch(actionCreators.public.dragStart(factoryNumber, color));
-
+      dispatch(actionCreators.public.dragStart(factoryNumber, color, event.clientX, event.clientY));
       // Set the drag image
       let tileCount = factoryDisplays[factoryNumber].tiles[color];
       if (tileCount > 5) {
@@ -46,6 +44,10 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
     }
   };
 
+  const onComplete = () => {
+    dispatch(actionCreators.public.updatePublicState(pendingState))
+  };
+
   return (
     <Fragment>
       <div css={{position: 'relative'}}>
@@ -62,8 +64,17 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                 const x = hardCodedPoints[tileNumber][0];
                 const y = hardCodedPoints[tileNumber][1];
                 tileNumber = tileNumber + 1;
-
                 return (
+                  <motion.div
+                    key={factoryNumber+color+tileNumber}
+                    animate={endTurnAnimation.color === color && endTurnAnimation.factoryDisplay === factoryNumber
+                      ? {x: endTurnAnimation.destinationX, y: endTurnAnimation.destinationY}
+                      : {}
+                    }
+                    onAnimationComplete={onComplete}
+                    transition={{ duration: 1 }}
+                    css={{position: 'absolute', height: 50, width: 50,  border: '1px solid black', left: x, top: y}}
+                  >
                     <img
                       id={`factoryTile-${factoryNumber}-${color}`}
                       onDragStart={(event) => onDragStart(event, factoryNumber, color)}
@@ -74,13 +85,13 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                       draggable={myCurrentTurn}
                       css={[
                         {
-                          height: 50, width: 50, border: '1px solid black', position: 'absolute', pointerEvents: null,
-                          left: x, top: y
+                          height: 50, width: 50, border: '1px solid black', pointerEvents: null
                         },
                         color === colorToHide ? {opacity: .7} : null,
                         myCurrentTurn ? {cursor: 'move'} : null
                       ]}
                     />
+                  </motion.div>
                 )
               })
             )

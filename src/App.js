@@ -17,7 +17,13 @@ function App({socket}) {
 
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
-      dispatch(actionCreators.public.updatePublicState(publicState));
+      if (publicState.endTurnAnimation.destinationX) {
+        dispatch(actionCreators.private.setPendingState(publicState));
+        dispatch(actionCreators.public.updateEndTurnAnimation(publicState.endTurnAnimation))
+      }
+      else {
+        dispatch(actionCreators.public.updatePublicState(publicState));
+      }
     });
 
     socket.on("saveClientID", clientID => {
