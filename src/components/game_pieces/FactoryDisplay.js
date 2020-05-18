@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import {jsx} from "@emotion/core";
-import {Fragment, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "../../redux/actionCreators";
 import { motion } from "framer-motion"
@@ -55,7 +55,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
           draggable={false}
           alt="factoryTile"
           src={require(`../../images/FactoryTile.png`)}
-          css={{position: 'relative'}}
+          css={{position: 'relative', zIndex: -1}}
         />
         {
           Object.keys(tiles).map(color => {
@@ -73,7 +73,9 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                     }
                     onAnimationComplete={onComplete}
                     transition={{ duration: 1 }}
-                    css={{position: 'absolute', height: 50, width: 50,  border: '1px solid black', left: x, top: y}}
+                    css={[{position: 'absolute', height: 50, width: 50,  border: '1px solid black', left: x, top: y},
+                      endTurnAnimation.color === color && endTurnAnimation.factoryDisplay === factoryNumber ? {zIndex: 3} : {zIndex:1}
+                    ]}
                   >
                     <img
                       id={`factoryTile-${factoryNumber}-${color}`}
@@ -85,10 +87,10 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                       draggable={myCurrentTurn}
                       css={[
                         {
-                          height: 50, width: 50, border: '1px solid black', pointerEvents: null
+                          zIndex: 2, position: 'relative', height: 50, width: 50, border: '1px solid black', pointerEvents: null
                         },
                         color === colorToHide ? {opacity: .7} : null,
-                        myCurrentTurn ? {cursor: 'move'} : null
+                        myCurrentTurn ? {cursor: 'move'} : null,
                       ]}
                     />
                   </motion.div>

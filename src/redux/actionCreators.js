@@ -21,7 +21,8 @@ export const actionCreators = createActions({
 
     setAnimation: (destinationX, destinationY) => ({destinationX, destinationY}),
     updateEndTurnAnimation: (endTurnAnimation) => ({endTurnAnimation}),
-    endTurn: undefined
+    endTurn: undefined,
+    setEndRoundAnimations: undefined
   },
   private: {
     saveClientID: (clientID) => ({clientID}),

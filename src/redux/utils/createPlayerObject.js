@@ -36,17 +36,17 @@ export default function createPlayerObject(actionPayload) {
       wall: {
         0: {
           blue: false,
-          yellow: false,
-          red: false,
-          black: false,
-          purple: false
+          yellow: true,
+          red: true,
+          black: true,
+          purple: true
         },
         1: {
           purple: false,
-          blue: false,
-          yellow: false,
-          red: false,
-          black: false
+          blue: true,
+          yellow: true,
+          red: true,
+          black: true
         },
         2: {
           black: false,

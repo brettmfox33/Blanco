@@ -16,17 +16,17 @@ const initialState = {
     roundTiles:null,
     gameOver: false,
     availableTiles: {
-      black: 2,
-      blue: 4,
-      red: 4,
-      purple: 3,
-      yellow: 4
+      black: 20,
+      blue: 20,
+      red: 20,
+      purple: 20,
+      yellow: 20
     },
     boxTiles: {
       black: 20,
       blue: 20,
       red: 20,
-      purple: 20,
+      purple:20,
       yellow: 20,
     },
     overflowX: null,
@@ -57,6 +57,10 @@ const initialState = {
     factoryDisplay: null,
     overflow: null,
     color: null
+  },
+  endRoundAnimations: {
+    animate: false,
+    players: {}
   }
 };
 
@@ -66,6 +70,11 @@ export default handleActions(
     [actionCreators.public.createGame]: (state, action) => {
       const numberOfPlayers = action.payload.numberOfPlayers;
       const factoryDisplays = buildFactoryDisplays(state, numberOfPlayers);
+
+      const endRoundAnimationsPlayers = {...state.endRoundAnimations.players};
+      for (let i=0; i<numberOfPlayers; i++) {
+        endRoundAnimationsPlayers[i+1] = []
+      }
 
       return {
         ...state,
@@ -77,6 +86,10 @@ export default handleActions(
           factoryDisplays: factoryDisplays,
           roundTiles: Object.keys(factoryDisplays).length * 4
         },
+        endRoundAnimations: {
+          ...state.endRoundAnimations,
+          players: endRoundAnimationsPlayers
+        }
       }
     },
     [actionCreators.public.setFirstPlayer]: (state, action) => ({
@@ -101,6 +114,14 @@ export default handleActions(
         factoryDisplays = buildFactoryDisplays(state, state.numberOfPlayers);
       }
 
+      // Reset end round animations
+      const endRoundAnimations = {...state.endRoundAnimations};
+      endRoundAnimations.animate = false;
+
+      for (let i=0; i<state.numberOfPlayers; i++) {
+        endRoundAnimations.players[i+1] = []
+      }
+
       return {
         ...state,
         players: {
@@ -111,7 +132,8 @@ export default handleActions(
           factoryDisplays: factoryDisplays,
           roundTiles: Object.keys(factoryDisplays).length * 4,
           nextRoundFirstPlayer: null
-        }
+        },
+        endRoundAnimations: endRoundAnimations
       }
     },
     /** End Game State **/
@@ -148,6 +170,7 @@ export default handleActions(
     },
     [actionCreators.public.dropTile]: (state, action) => {
       const tileColor = state.dragState.tileColor;
+      const endRoundAnimations = state.endRoundAnimations.players[action.payload.playerNumber];
 
       // Move the dragged tiles to the Pattern Line
       const patternLine = state.players[action.payload.playerNumber].board.patternLines[action.payload.patternRowIndex];
@@ -158,6 +181,11 @@ export default handleActions(
           --tileCount;
         }
       });
+
+      // If the pattern line is full then add it to the end round animations
+      if (Object.keys(patternLine).length === Object.values(patternLine).filter(item => item).length) {
+        endRoundAnimations.push(action.payload.patternRowIndex);
+      }
 
       // Add left over dragged tiles to the Floor Line
       const floorLine = {...state.players[action.payload.playerNumber].board.floorLine};
@@ -338,12 +366,11 @@ export default handleActions(
       ...state,
       endTurnAnimation: action.payload.endTurnAnimation
     }),
-    [actionCreators.public.setOverflowCoordinates]: (state, action) => ({
+    [actionCreators.public.setEndRoundAnimations]: state => ({
       ...state,
-      gameState: {
-        ...state.gameState,
-        overflowX: action.payload.x,
-        overflowY: action.payload.y
+      endRoundAnimations: {
+        ...state.endRoundAnimations,
+        animate: true
       }
     })
   },

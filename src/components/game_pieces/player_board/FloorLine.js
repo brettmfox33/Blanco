@@ -40,6 +40,8 @@ export default function FloorLine({socket,playerBoard, playerNumber}) {
       dispatch(actionCreators.public.changeTurn(newTurnNumber));
       socket.emit("changeTurn", roomID, newTurnNumber);
 
+      dispatch(actionCreators.public.endTurn());
+
       dispatch(actionCreators.public.clearDragState());
     }
   };
