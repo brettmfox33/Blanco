@@ -47,8 +47,8 @@ export default function NewGameConfig({socket, setStep}) {
 
     setPlayerName(lowerName);
 
-    if (event.target.value.length > 10){
-      setPlayerError("Must be less than 10 characters")
+    if (event.target.value.length > 6){
+      setPlayerError("Must be less than 7 characters")
     }
     else {
       setPlayerError(null)

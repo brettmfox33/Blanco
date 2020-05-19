@@ -11,6 +11,7 @@ import Image from '../../../images/gameBoardBackground.jpg';
 
 export default function PlayerBoard({playerNumber, socket}) {
   const players = useSelector(state => state.public.players);
+  const currentPlayerTurn = useSelector(state => state.public.currentPlayerTurn);
 
   const playerBoard = players[playerNumber].board;
   const playerName = players[playerNumber].playerName;
@@ -22,6 +23,21 @@ export default function PlayerBoard({playerNumber, socket}) {
       css={{margin: 20}}
       id={`player-${playerNumber}`}
     >
+      {
+        currentPlayerTurn === playerNumber
+          ? <Grid
+            container
+            css={{position: 'absolute', width: 150, marginLeft: -5, marginTop: -5}}
+          >
+            <img
+              alt="cornerBorder"
+              src={require(`../../../images/cornerBorder.png`)}
+            >
+            </img>
+          </Grid>
+          : null
+
+      }
       <Grid
         container
         css={{position: 'absolute', height: 110, width: 200,
