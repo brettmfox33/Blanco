@@ -48,7 +48,7 @@ export default function OverflowTiles() {
         Array.from({length: overflowTiles[color]}, (_, index) => {
           return (
             <motion.div
-              key={`overflowTileContainer-${color}`}
+              key={`overflowTileContainer-${color}-${index}`}
               animate={
                 endTurnAnimation.color === color && endTurnAnimation.overflow
                 ? {x: endTurnAnimation.destinationX, y: endTurnAnimation.destinationY}
