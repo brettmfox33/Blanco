@@ -29,7 +29,7 @@ export default function calculateScore(state) {
         const horizontalArray = Object.values(wallLine);
 
         // Check if the array is full. This means the game is over.
-        newGameState.gameOver = (horizontalArray.filter(item=> item !== null).length === 5);
+        newGameState.gameOver = (horizontalArray.filter(item => item !== false).length === 5);
 
         let verticalArray = [];
         Object.keys(playerBoard.wall).map(wallIndex => {

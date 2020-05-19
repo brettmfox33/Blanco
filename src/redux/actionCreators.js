@@ -12,15 +12,22 @@ export const actionCreators = createActions({
     /** End Game State **/
     endGame: undefined,
     /** Drag State **/
-    dragStart: (factoryDisplay, tileColor) => ({factoryDisplay, tileColor}),
+    dragStart: (factoryDisplay, tileColor, originX, originY) => ({factoryDisplay, tileColor, originX, originY}),
     dropTile: (location, patternRowIndex, playerNumber) => ({location, patternRowIndex, playerNumber}),
     dropTileFloor: (location, playerNumber) => ({location, playerNumber}),
     clearDragState: undefined,
     setDragStateHover: (patternRowIndex) => ({patternRowIndex}),
-    setDragStateDrag: undefined
+    setDragStateDrag: undefined,
+
+    setAnimation: (destinationX, destinationY) => ({destinationX, destinationY}),
+    updateEndTurnAnimation: (endTurnAnimation) => ({endTurnAnimation}),
+    endTurn: undefined,
+    setEndRoundAnimations: undefined,
+    setAnimatedFinished: undefined
   },
   private: {
     saveClientID: (clientID) => ({clientID}),
-    setTurn: (clientID) => ({clientID})
+    setTurn: (clientID) => ({clientID}),
+    setPendingState: (newState) => ({newState})
   }
 });

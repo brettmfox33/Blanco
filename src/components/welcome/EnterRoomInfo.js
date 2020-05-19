@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import {jsx} from "@emotion/core";
 import {useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {actionCreators} from "../../redux/actionCreators";
 import {IconButton} from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";

@@ -13,22 +13,24 @@ const initialState = {
   currentPlayerTurn: null,
   gameState: {
     nextRoundFirstPlayer: null,
-    roundTiles:null,
+    roundTiles: null,
     gameOver: false,
     availableTiles: {
-      black: 2,
-      blue: 4,
-      red: 4,
-      purple: 3,
-      yellow: 4
-    },
-    boxTiles: {
       black: 20,
       blue: 20,
       red: 20,
       purple: 20,
-      yellow: 20,
+      yellow: 20
     },
+    boxTiles: {
+      black: 0,
+      blue: 0,
+      red: 0,
+      purple:0,
+      yellow: 0,
+    },
+    overflowX: null,
+    overflowY: null,
     overflowTiles: {
       black: 0,
       blue: 0,
@@ -45,7 +47,21 @@ const initialState = {
     tileCount: null,
     factoryDisplay: null,
     fromCenter: false,
-    hoveredPatternLine: null
+    hoveredPatternLine: null,
+    originX: null,
+    originY: null
+  },
+  endTurnAnimation: {
+    destinationX: null,
+    destinationY: null,
+    factoryDisplay: null,
+    overflow: null,
+    color: null
+  },
+  endRoundAnimations: {
+    animate: false,
+    pendingAnimations: 0,
+    players: {}
   }
 };
 
@@ -55,6 +71,11 @@ export default handleActions(
     [actionCreators.public.createGame]: (state, action) => {
       const numberOfPlayers = action.payload.numberOfPlayers;
       const factoryDisplays = buildFactoryDisplays(state, numberOfPlayers);
+
+      const endRoundAnimationsPlayers = {...state.endRoundAnimations.players};
+      for (let i=0; i<numberOfPlayers; i++) {
+        endRoundAnimationsPlayers[i+1] = []
+      }
 
       return {
         ...state,
@@ -66,6 +87,10 @@ export default handleActions(
           factoryDisplays: factoryDisplays,
           roundTiles: Object.keys(factoryDisplays).length * 4
         },
+        endRoundAnimations: {
+          ...state.endRoundAnimations,
+          players: endRoundAnimationsPlayers
+        }
       }
     },
     [actionCreators.public.setFirstPlayer]: (state, action) => ({
@@ -85,9 +110,28 @@ export default handleActions(
 
       // Calculate Score
       const [newPlayers, newGameState] = calculateScore(state);
+
+      const newState = {
+        ...state,
+        gameState: newGameState,
+        players: newPlayers
+      };
+
       // Redistribute tiles to factory displays
-      if (newGameState.gameOver) {
-        factoryDisplays = buildFactoryDisplays(state, state.numberOfPlayers);
+      if (!newGameState.gameOver) {
+        factoryDisplays = buildFactoryDisplays(newState, state.numberOfPlayers);
+      }
+
+      // Reset end round animations
+      const endRoundAnimations = {
+        ...state.endRoundAnimations,
+        animate: false,
+        animationFinished: false,
+        color: null,
+      };
+
+      for (let i=0; i<state.numberOfPlayers; i++) {
+        endRoundAnimations.players[i+1] = []
       }
 
       return {
@@ -100,7 +144,8 @@ export default handleActions(
           factoryDisplays: factoryDisplays,
           roundTiles: Object.keys(factoryDisplays).length * 4,
           nextRoundFirstPlayer: null
-        }
+        },
+        endRoundAnimations: endRoundAnimations
       }
     },
     /** End Game State **/
@@ -128,12 +173,16 @@ export default handleActions(
           factoryDisplay: action.payload.factoryDisplay ? action.payload.factoryDisplay : null,
           fromCenter: !action.payload.factoryDisplay,
           tileColor: action.payload.tileColor,
-          tileCount: tileCount
+          tileCount: tileCount,
+          originX: action.payload.originX,
+          originY: action.payload.originY
+
         }
       }
     },
     [actionCreators.public.dropTile]: (state, action) => {
       const tileColor = state.dragState.tileColor;
+      const endRoundAnimations = state.endRoundAnimations.players[action.payload.playerNumber];
 
       // Move the dragged tiles to the Pattern Line
       const patternLine = state.players[action.payload.playerNumber].board.patternLines[action.payload.patternRowIndex];
@@ -144,6 +193,12 @@ export default handleActions(
           --tileCount;
         }
       });
+
+      // If the pattern line is full then add it to the end round animations
+      if (Object.keys(patternLine).length === Object.values(patternLine).filter(item => item).length) {
+        endRoundAnimations.push(action.payload.patternRowIndex);
+        state.endRoundAnimations.pendingAnimations = state.endRoundAnimations.pendingAnimations + 1;
+      }
 
       // Add left over dragged tiles to the Floor Line
       const floorLine = {...state.players[action.payload.playerNumber].board.floorLine};
@@ -290,6 +345,8 @@ export default handleActions(
         tileCount: null,
         hoveredPatternLine: null,
         fromCenter: false,
+        originX: null,
+        originY: null
       }
     }),
     [actionCreators.public.setDragStateHover]: (state, action) => ({
@@ -308,6 +365,36 @@ export default handleActions(
         hoveredPatternLine: null
       }
     }),
+    [actionCreators.public.setAnimation]: (state, action) => ({
+      ...state,
+      endTurnAnimation: {
+        ...state.endTurnAnimation,
+        destinationX: action.payload.destinationX,
+        destinationY: action.payload.destinationY,
+        color: state.dragState.tileColor,
+        factoryDisplay: state.dragState.factoryDisplay,
+        overflow: state.dragState.factoryDisplay ? null : true
+      }
+    }),
+    [actionCreators.public.updateEndTurnAnimation]: (state, action) => ({
+      ...state,
+      endTurnAnimation: action.payload.endTurnAnimation
+    }),
+    [actionCreators.public.setEndRoundAnimations]: state => ({
+      ...state,
+      endRoundAnimations: {
+        ...state.endRoundAnimations,
+        animate: true
+      }
+    }),
+    [actionCreators.public.setAnimatedFinished]: state => ({
+      ...state,
+      endRoundAnimations: {
+        ...state.endRoundAnimations,
+        pendingAnimations: state.endRoundAnimations.pendingAnimations - 1
+      }
+    })
+
   },
   initialState
 );

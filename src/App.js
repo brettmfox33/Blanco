@@ -11,13 +11,20 @@ function App({socket}) {
 
   const roundTiles = useSelector(state => state.public.gameState.roundTiles);
   const currentTurn = useSelector(state => state.private.currentTurn);
+  const gameOver = useSelector(state => state.public.gameState.gameOver);
+  const endRoundAnimations = useSelector(state => state.public.endRoundAnimations);
+  const pendingAnimations = endRoundAnimations.pendingAnimations;
   const roomID = useSelector(state => state.public.roomID);
   const nextRoundFirstPlayer = useSelector(state => state.public.gameState.nextRoundFirstPlayer);
-  const gameOver = useSelector(state => state.public.gameState.gameOver);
-
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
-      dispatch(actionCreators.public.updatePublicState(publicState));
+      if (publicState.endTurnAnimation.destinationX) {
+        dispatch(actionCreators.private.setPendingState(publicState));
+        dispatch(actionCreators.public.updateEndTurnAnimation(publicState.endTurnAnimation))
+      }
+      else {
+        dispatch(actionCreators.public.updatePublicState(publicState));
+      }
     });
 
     socket.on("saveClientID", clientID => {
@@ -35,16 +42,24 @@ function App({socket}) {
     // Pre-render images. Whatever you do don't look in this function.
     preRenderImages();
 
-
   }, []);
 
   useEffect(() => {
-    if (roundTiles === 0 && currentTurn ) {
-      dispatch(actionCreators.public.calculateScore());
+    if (!endRoundAnimations.animationFinished && roundTiles === 0 && currentTurn ) {
+      dispatch(actionCreators.public.setEndRoundAnimations());
+
       dispatch(actionCreators.public.changeTurn(nextRoundFirstPlayer));
-      socket.emit("changeTurn", roomID, nextRoundFirstPlayer)
+      socket.emit("changeTurn", roomID, nextRoundFirstPlayer);
     }
   }, [roundTiles]);
+
+  useEffect(() => {
+    if (pendingAnimations === 0 && endRoundAnimations.animate && currentTurn ) {
+        dispatch(actionCreators.public.calculateScore());
+
+        dispatch(actionCreators.public.endTurn());
+    }
+  }, [pendingAnimations]);
 
   useEffect(() => {
     if (gameOver) {
@@ -52,6 +67,7 @@ function App({socket}) {
     }
   },
     [gameOver]);
+
   return (
     <Fragment>
       <GameBoard socket={socket}/>
