@@ -41,7 +41,6 @@ function App({socket}) {
     // Pre-render images. Whatever you do don't look in this function.
     preRenderImages();
 
-
   }, []);
 
   useEffect(() => {

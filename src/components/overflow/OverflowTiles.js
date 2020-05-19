@@ -39,6 +39,14 @@ export default function OverflowTiles() {
   };
 
   const onComplete = () => {
+    pendingState.endTurnAnimation = {
+      ...pendingState.endTurnAnimation,
+      destinationX: null,
+      destinationY: null,
+      factoryDisplay: null,
+      overflow: null,
+      color: null
+    };
     dispatch(actionCreators.public.updatePublicState(pendingState));
   };
 

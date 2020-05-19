@@ -30,6 +30,7 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
         if (playerNumber === 2 || playerNumber === 4) {
           animateExtra = [240, 28]
         }
+
         dispatch(actionCreators.public.setAnimation(
           patternRef.current.getBoundingClientRect().x - dragState.originX + animateExtra[0],
           patternRef.current.getBoundingClientRect().y - dragState.originY + animateExtra[1]
