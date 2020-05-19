@@ -372,7 +372,8 @@ export default handleActions(
         destinationX: action.payload.destinationX,
         destinationY: action.payload.destinationY,
         color: state.dragState.tileColor,
-        factoryDisplay: state.dragState.factoryDisplay
+        factoryDisplay: state.dragState.factoryDisplay,
+        overflow: state.dragState.factoryDisplay ? null : true
       }
     }),
     [actionCreators.public.updateEndTurnAnimation]: (state, action) => ({

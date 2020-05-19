@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import {jsx} from "@emotion/core";
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "../../redux/actionCreators";
 import { motion } from "framer-motion"
@@ -71,7 +71,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                     }
                     onAnimationComplete={onComplete}
                     transition={{ duration: 1 }}
-                    css={[{position: 'absolute', height: 50, width: 50,  border: '1px solid black', left: x, top: y},
+                    css={[{position: 'absolute', height: 50, width: 50, left: x, top: y},
                       endTurnAnimation.color === color && endTurnAnimation.factoryDisplay === factoryNumber ? {zIndex: 3} : {zIndex:1}
                     ]}
                   >

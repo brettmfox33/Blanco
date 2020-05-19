@@ -33,6 +33,10 @@ export default function Overflow() {
             </Grid>
             <Grid
               css={{paddingLeft: 10}}
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
             >
               <OverflowTiles />
             </Grid>
