@@ -13,7 +13,7 @@ const initialState = {
   currentPlayerTurn: null,
   gameState: {
     nextRoundFirstPlayer: null,
-    roundTiles:null,
+    roundTiles: null,
     gameOver: false,
     availableTiles: {
       black: 20,
@@ -23,11 +23,11 @@ const initialState = {
       yellow: 20
     },
     boxTiles: {
-      black: 20,
-      blue: 20,
-      red: 20,
-      purple:20,
-      yellow: 20,
+      black: 0,
+      blue: 0,
+      red: 0,
+      purple:0,
+      yellow: 0,
     },
     overflowX: null,
     overflowY: null,
@@ -60,6 +60,7 @@ const initialState = {
   },
   endRoundAnimations: {
     animate: false,
+    pendingAnimations: 0,
     players: {}
   }
 };
@@ -109,14 +110,25 @@ export default handleActions(
 
       // Calculate Score
       const [newPlayers, newGameState] = calculateScore(state);
+
+      const newState = {
+        ...state,
+        gameState: newGameState,
+        players: newPlayers
+      };
+
       // Redistribute tiles to factory displays
-      if (newGameState.gameOver) {
-        factoryDisplays = buildFactoryDisplays(state, state.numberOfPlayers);
+      if (!newGameState.gameOver) {
+        factoryDisplays = buildFactoryDisplays(newState, state.numberOfPlayers);
       }
 
       // Reset end round animations
-      const endRoundAnimations = {...state.endRoundAnimations};
-      endRoundAnimations.animate = false;
+      const endRoundAnimations = {
+        ...state.endRoundAnimations,
+        animate: false,
+        animationFinished: false,
+        color: null,
+      };
 
       for (let i=0; i<state.numberOfPlayers; i++) {
         endRoundAnimations.players[i+1] = []
@@ -185,6 +197,7 @@ export default handleActions(
       // If the pattern line is full then add it to the end round animations
       if (Object.keys(patternLine).length === Object.values(patternLine).filter(item => item).length) {
         endRoundAnimations.push(action.payload.patternRowIndex);
+        state.endRoundAnimations.pendingAnimations = state.endRoundAnimations.pendingAnimations + 1;
       }
 
       // Add left over dragged tiles to the Floor Line
@@ -372,7 +385,15 @@ export default handleActions(
         ...state.endRoundAnimations,
         animate: true
       }
+    }),
+    [actionCreators.public.setAnimatedFinished]: state => ({
+      ...state,
+      endRoundAnimations: {
+        ...state.endRoundAnimations,
+        pendingAnimations: state.endRoundAnimations.pendingAnimations - 1
+      }
     })
+
   },
   initialState
 );

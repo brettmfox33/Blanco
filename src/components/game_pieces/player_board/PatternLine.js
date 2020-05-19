@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import TileSquare from "../TileSquare";
 import {jsx} from "@emotion/core";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {actionCreators} from "../../../redux/actionCreators";
 
 export default function PatternLine({socket, playerBoard, patternLines, patternRowIndex, playerNumber}) {

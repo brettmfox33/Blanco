@@ -9,9 +9,9 @@ export default function TileSquare({color, borderColor, onDragOver, onDrop, onDr
   const dispatch = useDispatch();
 
   const wallLine = useSelector(state => state.public.players[playerNumber].board.wall[patternRowIndex]);
-  const roomID = useSelector(state => state.public.roomID);
-  const nextRoundFirstPlayer = useSelector(state => state.public.gameState.nextRoundFirstPlayer);
   const endRoundAnimations = useSelector(state => state.public.endRoundAnimations);
+  const currentTurn = useSelector(state => state.private.currentTurn);
+
   const [reverse, setReverse] = useState(false);
 
   const playerAnimations = endRoundAnimations.players[playerNumber];
@@ -34,10 +34,16 @@ export default function TileSquare({color, borderColor, onDragOver, onDrop, onDr
   }
 
   const onComplete = () => {
-    dispatch(actionCreators.public.calculateScore());
-    dispatch(actionCreators.public.changeTurn(nextRoundFirstPlayer));
-    socket.emit("changeTurn", roomID, nextRoundFirstPlayer);
-    setReverse(!reverse);
+    if (currentTurn && !reverse) {
+      dispatch(actionCreators.public.setAnimatedFinished());
+    }
+
+    if (reverse){
+      setReverse(false);
+    }
+    else {
+      setReverse(true);
+    }
   };
 
   return (
@@ -50,7 +56,7 @@ export default function TileSquare({color, borderColor, onDragOver, onDrop, onDr
         css={
           [
             {position: 'absolute', height: height, width: width, border:`${borderSize}px ${borderColor} solid`, margin: 1, borderStyle: 'inset'},
-            endRoundAnimations.animate && playerAnimations.indexOf(patternRowIndex) > -1 ? {opacity: 0.1} : color === 'white' ? {opacity: 0.4} : {opacity: 0}
+            endRoundAnimations.animate && playerAnimations.indexOf(patternRowIndex) > -1 ? {opacity: 0.6} : color === 'white' ? {opacity: 0.6} : {opacity: 0}
           ]
         }
       >
@@ -77,7 +83,7 @@ export default function TileSquare({color, borderColor, onDragOver, onDrop, onDr
             css={
               [
                 {height: height, width: width, border:`${borderSize}px ${borderColor} solid`, margin: 1, borderStyle: 'inset'},
-                reverse ? {opacity: 0} : color === 'white' ? {opacity: .4} : null
+                reverse ? {opacity: 0} : color === 'white' ? {opacity: 0} : null
               ]
             }
             onDragOver={(event) => onDragOver(event, patternLine)}

@@ -12,6 +12,8 @@ function App({socket}) {
   const roundTiles = useSelector(state => state.public.gameState.roundTiles);
   const currentTurn = useSelector(state => state.private.currentTurn);
   const gameOver = useSelector(state => state.public.gameState.gameOver);
+  const endRoundAnimations = useSelector(state => state.public.endRoundAnimations);
+  const pendingAnimations = endRoundAnimations.pendingAnimations;
 
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
@@ -43,10 +45,17 @@ function App({socket}) {
   }, []);
 
   useEffect(() => {
-    if (roundTiles === 0 && currentTurn ) {
+    if (!endRoundAnimations.animationFinished && roundTiles === 0 && currentTurn ) {
       dispatch(actionCreators.public.setEndRoundAnimations());
     }
   }, [roundTiles]);
+
+  useEffect(() => {
+    if (pendingAnimations === 0 && endRoundAnimations.animate && currentTurn ) {
+        dispatch(actionCreators.public.calculateScore());
+        dispatch(actionCreators.public.endTurn());
+    }
+  }, [pendingAnimations]);
 
   useEffect(() => {
     if (gameOver) {
@@ -54,6 +63,7 @@ function App({socket}) {
     }
   },
     [gameOver]);
+
   return (
     <Fragment>
       <GameBoard socket={socket}/>

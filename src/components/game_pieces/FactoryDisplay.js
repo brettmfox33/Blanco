@@ -13,9 +13,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
   const pendingState = useSelector(state => state.private.pendingState);
 
   const [colorToHide, setColorToHide] = useState(null);
-  const hardCodedPoints = [
-    [45, 50], [100, 50], [45, 105], [100, 105]
-  ];
+  const hardCodedPoints = [[45, 50], [100, 50], [45, 105], [100, 105]];
   let tileNumber = 0;
 
   const onDragStart = (event, factoryNumber, color) => {
@@ -36,7 +34,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
     }
   };
 
-  const onDragEnd = (event) => {
+  const onDragEnd = () => {
     if (myCurrentTurn) {
       dispatch(actionCreators.public.clearDragState());
       // Show the colors back in the factory display
@@ -45,7 +43,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
   };
 
   const onComplete = () => {
-    dispatch(actionCreators.public.updatePublicState(pendingState))
+    dispatch(actionCreators.public.updatePublicState(pendingState));
   };
 
   return (
@@ -80,7 +78,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                     <img
                       id={`factoryTile-${factoryNumber}-${color}`}
                       onDragStart={(event) => onDragStart(event, factoryNumber, color)}
-                      onDragEnd={(event) => onDragEnd(event)}
+                      onDragEnd={(event) => onDragEnd()}
                       key={`tile-${x}-${y}`}
                       alt={`${color} Tile`}
                       src={require(`../../images/tiles/${color}.png`)}
