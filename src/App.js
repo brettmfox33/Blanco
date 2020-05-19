@@ -14,7 +14,8 @@ function App({socket}) {
   const gameOver = useSelector(state => state.public.gameState.gameOver);
   const endRoundAnimations = useSelector(state => state.public.endRoundAnimations);
   const pendingAnimations = endRoundAnimations.pendingAnimations;
-
+  const roomID = useSelector(state => state.public.roomID);
+  const nextRoundFirstPlayer = useSelector(state => state.public.gameState.nextRoundFirstPlayer);
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
       if (publicState.endTurnAnimation.destinationX) {
@@ -46,12 +47,16 @@ function App({socket}) {
   useEffect(() => {
     if (!endRoundAnimations.animationFinished && roundTiles === 0 && currentTurn ) {
       dispatch(actionCreators.public.setEndRoundAnimations());
+
+      dispatch(actionCreators.public.changeTurn(nextRoundFirstPlayer));
+      socket.emit("changeTurn", roomID, nextRoundFirstPlayer);
     }
   }, [roundTiles]);
 
   useEffect(() => {
     if (pendingAnimations === 0 && endRoundAnimations.animate && currentTurn ) {
         dispatch(actionCreators.public.calculateScore());
+
         dispatch(actionCreators.public.endTurn());
     }
   }, [pendingAnimations]);
