@@ -161,7 +161,7 @@ export default handleActions(
       const winnerObjs = [];
 
       Object.values(players).map(playerObject => {
-        playerObject.score = 0;
+
         if (!topScore) {
           winnerObjs.push(playerObject);
           topScore = playerObject.score;
