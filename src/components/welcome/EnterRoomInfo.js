@@ -50,8 +50,8 @@ export default function EnterRoomInfo({socket, setStep}) {
 
     setPlayerName(lowerName);
 
-    if (event.target.value.length > 10){
-      setNameError("Must be less than 10 characters")
+    if (event.target.value.length > 6){
+      setNameError("Must be less than 7 characters")
     }
     else {
       setNameError(null)

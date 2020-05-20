@@ -63,7 +63,9 @@ function App({socket}) {
 
   useEffect(() => {
     if (gameOver) {
-      dispatch(actionCreators.public.endGame())
+      dispatch(actionCreators.public.endGame());
+
+      dispatch(actionCreators.public.endTurn());
     }
   },
     [gameOver]);

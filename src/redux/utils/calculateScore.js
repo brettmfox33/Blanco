@@ -1,6 +1,7 @@
 export default function calculateScore(state) {
   const newPlayers = {...state.players};
   const newGameState = {...state.gameState};
+  let gameOver = false;
 
   Object.keys(newPlayers).map(playerIndex => {
     const playerObj = newPlayers[playerIndex];
@@ -29,7 +30,10 @@ export default function calculateScore(state) {
         const horizontalArray = Object.values(wallLine);
 
         // Check if the array is full. This means the game is over.
-        newGameState.gameOver = (horizontalArray.filter(item => item !== false).length === 5);
+        if (horizontalArray.filter(item => item !== false).length === 5){
+          gameOver = true;
+          playerObj.completedHorizontalLines = playerObj.completedHorizontalLines + 1
+        }
 
         let verticalArray = [];
         Object.keys(playerBoard.wall).map(wallIndex => {
@@ -84,6 +88,8 @@ export default function calculateScore(state) {
     // Add player 1 tile back to center
     newGameState.overflowTiles.firstPlayerToken = 1;
   });
+
+  newGameState.gameOver = gameOver;
 
   return [newPlayers, newGameState]
 }
