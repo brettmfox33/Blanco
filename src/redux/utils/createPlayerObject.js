@@ -5,6 +5,7 @@ export default function createPlayerObject(actionPayload) {
   const playerObj = {
     playerName: null,
     score: 0,
+    completedHorizontalLines: 0,
     board: {
       patternLines: {
         0: {
@@ -36,10 +37,10 @@ export default function createPlayerObject(actionPayload) {
       wall: {
         0: {
           blue: false,
-          yellow: false,
-          red: false,
-          black: false,
-          purple: false
+          yellow: true,
+          red: true,
+          black: true,
+          purple: true
         },
         1: {
           purple: false,

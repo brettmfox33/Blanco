@@ -37,9 +37,13 @@ const initialState = {
       red: 0,
       purple: 0,
       yellow: 0,
-      firstPlayerToken: 1
+      firstPlayerToken: 1,
     },
     factoryDisplays: null,
+    endGameStats: {
+      winners: [],
+      winningScore: null,
+    },
   },
   dragState: {
     dragState: null,
@@ -151,9 +155,46 @@ export default handleActions(
     /** End Game State **/
     [actionCreators.public.endGame]: state => {
       const players = calculateBonusScores(state);
+
+      // Determine the winner(s)
+      let topScore = null;
+      const winnerObjs = [];
+
+      Object.values(players).map(playerObject => {
+        playerObject.score = 0;
+        if (!topScore) {
+          winnerObjs.push(playerObject);
+          topScore = playerObject.score;
+        }
+        else if (playerObject.score >= topScore) {
+          winnerObjs.push(playerObject);
+          topScore = playerObject.score;
+        }
+      });
+
+      const winners = [];
+      let topHorizontalLines = 1;
+
+      if (winnerObjs.length >= 1) {
+        winnerObjs.map(winnerObj => {
+          if (winnerObj.completedHorizontalLines >= topHorizontalLines) {
+            winners.push(winnerObj.playerName);
+            topHorizontalLines = winnerObj.completedHorizontalLines;
+          }
+        })
+      }
+
       return {
         ...state,
-        players: players
+        players: players,
+        gameState: {
+          ...state.gameState,
+          endGameStats: {
+            ...state.endGameStats,
+            winners: winners,
+            winningScore: topScore
+          }
+        },
       }
     },
     /** Drag State **/

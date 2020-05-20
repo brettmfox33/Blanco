@@ -12,6 +12,8 @@ import Image from '../../../images/gameBoardBackground.jpg';
 export default function PlayerBoard({playerNumber, socket}) {
   const players = useSelector(state => state.public.players);
   const currentPlayerTurn = useSelector(state => state.public.currentPlayerTurn);
+  const gameOver = useSelector(state => state.public.gameState.gameOver);
+  const endGameStats = useSelector(state => state.public.gameState.endGameStats);
 
   const playerBoard = players[playerNumber].board;
   const playerName = players[playerNumber].playerName;
@@ -24,7 +26,7 @@ export default function PlayerBoard({playerNumber, socket}) {
       id={`player-${playerNumber}`}
     >
       {
-        currentPlayerTurn === playerNumber
+        currentPlayerTurn === playerNumber && !gameOver
           ? <Grid
             container
             css={{position: 'absolute', width: 150, marginLeft: -5, marginTop: -5}}
@@ -44,7 +46,9 @@ export default function PlayerBoard({playerNumber, socket}) {
           fontSize: 40, fontFamily: 'Great Vibes', justifyContent: 'center', alignItems: 'center'
         }}
       >
-        {playerName}
+        <Grid>
+          {endGameStats.winners.indexOf(playerName) > -1 ? `${playerName} wins!` : playerName}
+        </Grid>
       </Grid>
       <Paper
         css={{width: '100%', height: '100%', backgroundImage:`url(${Image})`}}
