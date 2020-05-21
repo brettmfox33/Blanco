@@ -17,7 +17,7 @@ const styles = {
     gridTemplateAreas: `
         "factoryDisplays factoryDisplays factoryDisplays"
         "playerBoardOne overflow playerBoardTwo"
-        "playerBoardThree overflow playerBoardFour"
+        "playerBoardFour overflow playerBoardThree"
         `
   })
 };
@@ -36,10 +36,10 @@ export default function GameBoard({socket}) {
           <PlayerBoardTwo
             socket={socket}
           />
-          <PlayerBoardThree
+          <PlayerBoardFour
             socket={socket}
           />
-          <PlayerBoardFour
+          <PlayerBoardThree
             socket={socket}
           />
           <Overflow/>
