@@ -84,8 +84,8 @@ export default function EnterRoomInfo({socket, setStep}) {
           <TextField
             error={joinError ? true : false}
             margin="dense"
-            id="game-code"
-            label="Game Code"
+            id="room-code"
+            label="Room Code"
             type="text"
             onChange={event => setRoomID(event.target.value)}
             helperText={joinError ? joinError: null}

@@ -67,7 +67,7 @@ export default function NewGameConfig({socket, setStep}) {
         <DialogContentText
           css={{justifyContent: "center", alignItems: "center", display: "grid"}}
         >
-          Enter Players and name
+          Enter number of players and your player name
         </DialogContentText>
         <Grid
           container
@@ -95,7 +95,8 @@ export default function NewGameConfig({socket, setStep}) {
               </Select>
             </FormControl>
           </Grid>
-          <Grid>
+          <Grid
+          >
             <TextField
               error={playerError ? true : false}
               helperText={playerError}

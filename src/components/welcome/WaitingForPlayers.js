@@ -4,17 +4,18 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import {jsx} from "@emotion/core";
 import {useSelector} from "react-redux";
 
-export default function WaitingForPlayers({roomID}) {
-
+export default function WaitingForPlayers() {
   const players = useSelector(state => state.public.players);
+  const roomID = useSelector(state => state.public.roomID);
 
   return(
     <div id="waiting-for-players">
-      <DialogContentText>
-        Waiting for players to join game...
+      <DialogContentText
+        css={{justifyContent: "center", alignItems: "center", display: "grid"}}
+      >
+        Waiting for players. Share the following room code for others to join: {roomID}
       </DialogContentText>
       <div>
-        <p>Room ID: {roomID}</p>
         {Object.keys(players).map((key, index) => (
           <p key={index+1}>
             {

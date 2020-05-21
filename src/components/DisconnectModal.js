@@ -5,6 +5,7 @@ import {jsx} from "@emotion/core";
 import React from "react";
 import {useSelector} from "react-redux";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContentText from "@material-ui/core/DialogContentText";
 
 export default function DisconnectModal() {
 
@@ -18,12 +19,16 @@ export default function DisconnectModal() {
       aria-labelledby="form-dialog-title"
       keepMounted
     >
-      <DialogTitle>
-        A player has disconnected from the game.
+      <DialogTitle
+        css={{justifyContent: "center", alignItems: "center", display: "grid"}}
+      >
+        A player has disconnected from the game
       </DialogTitle>
-      <DialogContent>
-        Please refresh to start a new game.
-      </DialogContent>
+      <DialogContentText
+        css={{justifyContent: "center", alignItems: "center", display: "grid"}}
+      >
+        Refresh to start a new game
+      </DialogContentText>
     </Dialog>
   )
 
