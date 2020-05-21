@@ -13,7 +13,7 @@ export default function WaitingForPlayers() {
       <DialogContentText
         css={{justifyContent: "center", alignItems: "center", display: "grid"}}
       >
-        Waiting for players. Share the following room code for others to join: {roomID}
+        Waiting for players. Share the room code for others to join: {roomID}
       </DialogContentText>
       <div>
         {Object.keys(players).map((key, index) => (

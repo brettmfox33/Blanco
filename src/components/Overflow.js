@@ -4,10 +4,13 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import OverflowTiles from "./overflow/OverflowTiles";
 import Image from '../images/overflowBackground.jpg';
+import IconButton from "@material-ui/core/IconButton";
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 export default function Overflow() {
   return (
-    <div
+    <Grid
+      container
       id="overflow"
       css={{
         gridArea: 'overflow',
@@ -32,7 +35,6 @@ export default function Overflow() {
               Blanco
             </Grid>
             <Grid
-              css={{paddingLeft: 10}}
               container
               direction="row"
               justify="center"
@@ -42,6 +44,21 @@ export default function Overflow() {
             </Grid>
           </Grid>
         </Paper>
-    </div>
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="flex-end"
+      >
+        <IconButton
+          css={{position: 'absolute'}}
+          aria-label="info"
+        >
+          <InfoOutlinedIcon
+            fontSize="large"
+          />
+        </IconButton>
+      </Grid>
+    </Grid>
   )
 }
