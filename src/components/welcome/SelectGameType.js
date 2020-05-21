@@ -3,6 +3,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {jsx} from "@emotion/core";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 /**
  * Step 0 in the Welcome Modal.
@@ -11,7 +12,10 @@ import {jsx} from "@emotion/core";
 export default function SelectGameType({setStep}) {
 
   return (
-      <div id="select-game-type">
+      <div
+        id="select-game-type"
+         css={{justifyContent: "center", alignItems: "center", display: "grid"}}
+      >
         <DialogContentText>
           Start a new game or enter a room-code to join a game.
         </DialogContentText>
@@ -23,6 +27,7 @@ export default function SelectGameType({setStep}) {
         >
           <Grid>
             <Button
+              variant="contained"
               color="primary"
               onClick={() => setStep(1)}
             >
@@ -31,6 +36,7 @@ export default function SelectGameType({setStep}) {
           </Grid>
           <Grid>
             <Button
+              variant="contained"
               color="primary"
               onClick={() => setStep(2)}
             >

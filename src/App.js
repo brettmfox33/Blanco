@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {actionCreators} from "./redux/actionCreators";
 import GameBoard from "./components/GameBoard";
 import preRenderImages from "./utils/preRenderImages";
+import DisconnectModal from "./components/DisconnectModal";
 
 function App({socket}) {
   const dispatch = useDispatch();
@@ -16,6 +17,8 @@ function App({socket}) {
   const pendingAnimations = endRoundAnimations.pendingAnimations;
   const roomID = useSelector(state => state.public.roomID);
   const nextRoundFirstPlayer = useSelector(state => state.public.gameState.nextRoundFirstPlayer);
+  const disconnected = useSelector(state => state.public.disconnected);
+
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
       if (publicState.endTurnAnimation.destinationX) {
@@ -37,6 +40,10 @@ function App({socket}) {
 
     socket.on("setFirstPlayerTurn", playerNumber => {
       dispatch(actionCreators.public.setFirstPlayer(playerNumber));
+    });
+
+    socket.on("disconnectFromRoom", () => {
+      dispatch(actionCreators.public.disconnect())
     });
 
     // Pre-render images. Whatever you do don't look in this function.
@@ -67,14 +74,17 @@ function App({socket}) {
 
       dispatch(actionCreators.public.endTurn());
     }
-  },
-    [gameOver]);
+  }, [gameOver]);
 
   return (
-    <Fragment>
-      <GameBoard socket={socket}/>
-      <WelcomeModal socket={socket}/>
-    </Fragment>
+    !disconnected
+      ?
+      <Fragment>
+        <GameBoard socket={socket}/>
+        <WelcomeModal socket={socket}/>
+      </Fragment>
+      :
+      <DisconnectModal />
   );
 }
 

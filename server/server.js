@@ -101,6 +101,24 @@ io.on("connection", socket => {
   });
 
   socket.on("disconnect", () => {
+    const allRooms =  io.sockets.adapter.rooms;
+    const rooms = [];
+
+    Object.keys(allRooms).map(roomID => {
+      if (roomID.length === 4)
+      {
+        const room_obj = allRooms[roomID];
+        if (Object.values(room_obj.playerNumberSockets).indexOf(socket.id) > -1) {
+          rooms.push(roomID);
+        }
+      }
+    });
+    rooms.map(roomID => {
+      socket.to(roomID).emit("disconnectFromRoom", {});
+      delete rooms[roomID]
+    });
+
+    console.log(rooms);
     console.log("Client disconnected: ", socket.id);
   });
 });

@@ -11,6 +11,7 @@ const initialState = {
   numberOfPlayers: null,
   players: null,
   currentPlayerTurn: null,
+  disconnected: false,
   gameState: {
     nextRoundFirstPlayer: null,
     roundTiles: null,
@@ -434,8 +435,11 @@ export default handleActions(
         ...state.endRoundAnimations,
         pendingAnimations: state.endRoundAnimations.pendingAnimations - 1
       }
+    }),
+    [actionCreators.public.disconnect]: () => ({
+      ...initialState,
+      disconnected: true
     })
-
   },
   initialState
 );
