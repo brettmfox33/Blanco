@@ -64,7 +64,9 @@ export default function NewGameConfig({socket, setStep}) {
 
   return (
       <div id="new-game-config">
-        <DialogContentText>
+        <DialogContentText
+          css={{justifyContent: "center", alignItems: "center", display: "grid"}}
+        >
           Enter Players and name
         </DialogContentText>
         <Grid
@@ -107,6 +109,7 @@ export default function NewGameConfig({socket, setStep}) {
           </Grid>
           <Grid>
             <Button
+              variant="contained"
               color="primary"
               onClick={() => createGame()}
               disabled={!numberOfPlayers || !playerName || playerError ? true : false}

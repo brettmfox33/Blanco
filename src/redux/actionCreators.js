@@ -18,12 +18,14 @@ export const actionCreators = createActions({
     clearDragState: undefined,
     setDragStateHover: (patternRowIndex) => ({patternRowIndex}),
     setDragStateDrag: undefined,
-
+    /** Animations **/
     setAnimation: (destinationX, destinationY) => ({destinationX, destinationY}),
     updateEndTurnAnimation: (endTurnAnimation) => ({endTurnAnimation}),
     endTurn: undefined,
     setEndRoundAnimations: undefined,
-    setAnimatedFinished: undefined
+    setAnimatedFinished: undefined,
+    /** Disconnect **/
+    disconnect: undefined
   },
   private: {
     saveClientID: (clientID) => ({clientID}),

@@ -38,7 +38,9 @@ export default function WelcomeModal({socket}) {
     >
       <DialogContent
       style={{overflow: "hidden"}}>
-        <DialogTitle>
+        <DialogTitle
+        css={{justifyContent: "center", alignItems: "center", display: "grid"}}
+        >
           Welcome to Blanco! {roomID}
         </DialogTitle>
         {

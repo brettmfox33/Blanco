@@ -60,8 +60,12 @@ export default function EnterRoomInfo({socket, setStep}) {
   };
 
   return (
-    <div id="enter-room-info">
-      <DialogContentText>
+    <div
+      id="enter-room-info"
+    >
+      <DialogContentText
+        css={{justifyContent: "center", alignItems: "center", display: "grid"}}
+      >
         Enter Player Name for Room: {roomID}
       </DialogContentText>
       <Grid
@@ -102,6 +106,7 @@ export default function EnterRoomInfo({socket, setStep}) {
         </Grid>
         <Grid>
           <Button
+            variant="contained"
             color="primary"
             onClick={() => joinGame()}
             disabled={!playerName || !roomID}
