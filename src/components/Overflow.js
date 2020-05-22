@@ -6,19 +6,28 @@ import OverflowTiles from "./overflow/OverflowTiles";
 import Image from '../images/overflowBackground.jpg';
 import IconButton from "@material-ui/core/IconButton";
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import React, {Fragment, useState} from "react";
+import InfoModal from "./info_modal/InfoModal";
 
 export default function Overflow() {
-  return (
-    <Grid
-      container
-      id="overflow"
-      css={{
-        gridArea: 'overflow',
-        display: 'flex',
-        paddingBottom: 40
+  const [modalOpen, setModalOpen] = useState(false);
 
-      }}
-    >
+  return (
+    <Fragment>
+      <InfoModal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+      />
+      <Grid
+        container
+        id="overflow"
+        css={{
+          gridArea: 'overflow',
+          display: 'flex',
+          paddingBottom: 40
+
+        }}
+      >
         <Paper
           css={{width: '100%', height: '100%', marginTop: 20, backgroundImage:`url(${Image})`}}
           elevation={3}
@@ -30,7 +39,7 @@ export default function Overflow() {
             alignItems="center"
           >
             <Grid
-            css={{fontFamily: 'Great Vibes', fontSize: 60}}
+              css={{fontFamily: 'Great Vibes', fontSize: 60}}
             >
               Blanco
             </Grid>
@@ -44,21 +53,23 @@ export default function Overflow() {
             </Grid>
           </Grid>
         </Paper>
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="flex-end"
-      >
-        <IconButton
-          css={{position: 'absolute'}}
-          aria-label="info"
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="flex-end"
         >
-          <InfoOutlinedIcon
-            fontSize="large"
-          />
-        </IconButton>
+          <IconButton
+            css={{position: 'absolute'}}
+            aria-label="info"
+            onClick={() => setModalOpen(true)}
+          >
+            <InfoOutlinedIcon
+              fontSize="large"
+            />
+          </IconButton>
+        </Grid>
       </Grid>
-    </Grid>
+    </Fragment>
   )
 }

@@ -1,5 +1,4 @@
 /** @jsx jsx */
-import DialogContent from "@material-ui/core/DialogContent";
 import Dialog from "@material-ui/core/Dialog";
 import {jsx} from "@emotion/core";
 import React from "react";
