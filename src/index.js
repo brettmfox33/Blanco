@@ -9,7 +9,7 @@ import publicReducers from './redux/reducers/public';
 import privateReducers from './redux/reducers/private';
 import socketIOClient from "socket.io-client";
 
-const socket = socketIOClient("http://socket-server-dev.us-east-2.elasticbeanstalk.com/");
+const socket = socketIOClient("https://socket-server-dev.us-east-2.elasticbeanstalk.com/");
 
 // Middleware
 const logger = store => next => action => {
