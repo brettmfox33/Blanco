@@ -16,7 +16,6 @@ import {useSelector} from "react-redux";
  **/
 export default function WelcomeModal({socket}) {
   const players = useSelector(state => state.public.players);
-  const roomID = useSelector(state => state.public.roomID);
   const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
 
   const [open, setOpen] = useState(true);
@@ -41,7 +40,7 @@ export default function WelcomeModal({socket}) {
         <DialogTitle
         css={{justifyContent: "center", alignItems: "center", display: "grid"}}
         >
-          Welcome to Blanco! {roomID}
+          Welcome to Blanco!
         </DialogTitle>
         {
           step === 0
