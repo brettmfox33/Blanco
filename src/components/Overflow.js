@@ -14,10 +14,10 @@ export default function Overflow() {
 
   return (
     <Fragment>
-      <InfoModal
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-      />
+      {/*<InfoModal*/}
+      {/*  modalOpen={modalOpen}*/}
+      {/*  setModalOpen={setModalOpen}*/}
+      {/*/>*/}
       <Grid
         container
         id="overflow"
