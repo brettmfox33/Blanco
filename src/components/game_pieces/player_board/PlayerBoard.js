@@ -32,6 +32,7 @@ export default function PlayerBoard({playerNumber, socket}) {
             css={{position: 'absolute', width: 150, marginLeft: -5, marginTop: -5}}
           >
             <img
+              draggable={false}
               alt="cornerBorder"
               src={require(`../../../images/cornerBorder.png`)}
             >

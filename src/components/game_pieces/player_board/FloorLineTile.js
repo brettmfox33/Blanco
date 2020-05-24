@@ -22,6 +22,7 @@ export default function FloorLineTile({borderColor, penaltyAmount, tileColor}) {
         {penaltyAmount}
       </div>
       <img
+        draggable={false}
         alt="whiteTile"
         src={require(`../../../images/tiles/${tileColor}.png`)}
         css={
