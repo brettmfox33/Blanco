@@ -39,8 +39,8 @@ export default function PlayerBoard({playerNumber, socket}) {
             </img>
           </Grid>
           : null
-
       }
+
       <Grid
         container
         css={{position: 'absolute', height: 110, width: 200,
