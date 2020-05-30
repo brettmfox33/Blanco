@@ -357,6 +357,11 @@ export default handleActions(
         }
       }
 
+      let endRoundAnimationsAnimate = false;
+      if (!state.gameState.roundTiles) {
+        endRoundAnimationsAnimate = true
+      }
+
       return {
         ...state,
         players: {
@@ -375,6 +380,10 @@ export default handleActions(
           factoryDisplays: factoryDisplays,
           overflowTiles: overflowTiles,
           roundTiles: state.gameState.roundTiles - state.dragState.tileCount
+        },
+        endRoundAnimations: {
+          ...state.endRoundAnimations,
+          animate: endRoundAnimationsAnimate
         }
       }
     },
