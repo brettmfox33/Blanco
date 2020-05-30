@@ -89,6 +89,20 @@ export default function PoweredBy() {
             />
           </IconButton>
         </Tooltip>
+        <Tooltip title="Amazon Web Service">
+          <IconButton
+            aria-label="info"
+            href="https://aws.amazon.com/"
+            target="_blank"
+          >
+            <img
+              draggable={false}
+              alt="react"
+              src={require(`../../images/info_icons/aws.png`)}
+              css={{width: '2.1875rem'}}
+            />
+          </IconButton>
+        </Tooltip>
       </Grid>
     </Fragment>
   )
