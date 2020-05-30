@@ -9,8 +9,13 @@ import publicReducers from './redux/reducers/public';
 import privateReducers from './redux/reducers/private';
 import socketIOClient from "socket.io-client";
 
-// const socket = socketIOClient("http://localhost:4001");
-const socket = socketIOClient("https://socket-server-dev.us-east-2.elasticbeanstalk.com:8080");
+let socket;
+if (process.env.NODE_ENV === 'development') {
+  socket = socketIOClient("http://localhost:4001");
+}
+else {
+  socket = socketIOClient("https://socket-server-dev.us-east-2.elasticbeanstalk.com:8080");
+}
 
 // Middleware
 const logger = store => next => action => {
@@ -33,10 +38,20 @@ const rootReducers = combineReducers({
   private: privateReducers
 });
 
-const store = createStore(
-  rootReducers,
-  composeEnhancers(applyMiddleware(logger))
-);
+let store;
+if (process.env.NODE_ENV === 'development') {
+  store = createStore(
+    rootReducers,
+    composeEnhancers(applyMiddleware(logger))
+  );
+}
+else {
+  store = createStore(
+    rootReducers,
+    applyMiddleware(logger)
+  );
+}
+
 
 ReactDOM.render(
   <Provider store={store}>
