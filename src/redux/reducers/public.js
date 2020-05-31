@@ -67,7 +67,8 @@ const initialState = {
     animate: false,
     pendingAnimations: 0,
     players: {}
-  }
+  },
+  gameChat: [{playerName:'Brett',message:'Hey'}, {playerName:'Adam',message:"What's up?"}, {playerName:'Brett',message:'N2m'}]
 };
 
 export default handleActions(
@@ -448,7 +449,19 @@ export default handleActions(
     [actionCreators.public.disconnect]: () => ({
       ...initialState,
       disconnected: true
-    })
+    }),
+    [actionCreators.public.sendMessage]: (state, action) => {
+      const newGameChat = [...state.gameChat];
+
+      newGameChat.push({
+        'playerName': state.players[action.payload.playerNumber].playerName,
+        'message': action.payload.message
+      });
+      return {
+        ...state,
+        gameChat: newGameChat
+      }
+    }
   },
   initialState
 );

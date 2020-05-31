@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import React, {Fragment, useState} from "react";
 import InfoModal from "./info_modal/InfoModal";
+import ChatContainer from "./chat/ChatContainer";
 
 export default function Overflow() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -53,22 +54,24 @@ export default function Overflow() {
             </Grid>
           </Grid>
         </Paper>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="flex-end"
-        >
-          <IconButton
-            css={{position: 'absolute'}}
-            aria-label="info"
-            onClick={() => setModalOpen(true)}
-          >
-            <InfoOutlinedIcon
-              fontSize="large"
-            />
-          </IconButton>
-        </Grid>
+
+        <ChatContainer />
+        {/*<Grid*/}
+        {/*  container*/}
+        {/*  direction="row"*/}
+        {/*  justify="center"*/}
+        {/*  alignItems="flex-end"*/}
+        {/*>*/}
+        {/*  <IconButton*/}
+        {/*    css={{position: 'absolute'}}*/}
+        {/*    aria-label="info"*/}
+        {/*    onClick={() => setModalOpen(true)}*/}
+        {/*  >*/}
+        {/*    <InfoOutlinedIcon*/}
+        {/*      fontSize="large"*/}
+        {/*    />*/}
+        {/*  </IconButton>*/}
+        {/*</Grid>*/}
       </Grid>
     </Fragment>
   )

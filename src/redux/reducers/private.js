@@ -4,7 +4,8 @@ import {actionCreators} from "../actionCreators";
 const initialState = {
   clientID: null,
   currentTurn: false,
-  pendingState: null
+  pendingState: null,
+  playerNumber: null
 };
 
 export default handleActions(
@@ -21,6 +22,10 @@ export default handleActions(
       ...state,
       pendingState: action.payload.newState
     }),
+    [actionCreators.private.setPlayerNumber]: (state, action) => ({
+      ...state,
+      playerNumber: action.payload.playerNumber
+    })
   },
   initialState
 );

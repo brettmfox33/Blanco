@@ -19,6 +19,7 @@ function App({socket}) {
   const roomID = useSelector(state => state.public.roomID);
   const nextRoundFirstPlayer = useSelector(state => state.public.gameState.nextRoundFirstPlayer);
   const disconnected = useSelector(state => state.public.disconnected);
+  const gameChat = useSelector(state => state.public.gameChat);
 
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
@@ -39,6 +40,10 @@ function App({socket}) {
       dispatch(actionCreators.private.setTurn(clientID))
     });
 
+    socket.on("setPlayerNumber", playerNumber => {
+      dispatch(actionCreators.private.setPlayerNumber(playerNumber))
+    });
+
     socket.on("setFirstPlayerTurn", playerNumber => {
       dispatch(actionCreators.public.setFirstPlayer(playerNumber));
     });
@@ -46,6 +51,8 @@ function App({socket}) {
     socket.on("disconnectFromRoom", () => {
       dispatch(actionCreators.public.disconnect())
     });
+
+    // socket.on("newMessage", () =);
 
     // Pre-render images. Whatever you do don't look in this function.
     preRenderImages();
@@ -76,6 +83,10 @@ function App({socket}) {
       dispatch(actionCreators.public.endTurn());
     }
   }, [gameOver]);
+
+  useEffect(() => {
+    socket.emit("newMessage", gameChat, roomID);
+  }, [gameChat]);
 
   return (
     !disconnected

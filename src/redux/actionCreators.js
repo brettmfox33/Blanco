@@ -25,11 +25,14 @@ export const actionCreators = createActions({
     setEndRoundAnimations: undefined,
     setAnimatedFinished: undefined,
     /** Disconnect **/
-    disconnect: undefined
+    disconnect: undefined,
+    /** Game Chat **/
+    sendMessage: (playerNumber, message) => ({playerNumber, message})
   },
   private: {
     saveClientID: (clientID) => ({clientID}),
     setTurn: (clientID) => ({clientID}),
-    setPendingState: (newState) => ({newState})
+    setPendingState: (newState) => ({newState}),
+    setPlayerNumber: (playerNumber) => ({playerNumber})
   }
 });
