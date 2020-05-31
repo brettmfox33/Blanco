@@ -6,8 +6,17 @@ import Grid from "@material-ui/core/Grid";
 import BuiltBy from "./BuiltBy";
 import PoweredBy from "./PoweredBy";
 import DesignedBy from "./DesignedBy";
+import {actionCreators} from "../../redux/actionCreators";
+import {useDispatch} from "react-redux";
 
 export default function InfoModal({modalOpen, setModalOpen}) {
+  const dispatch = useDispatch();
+
+  const closeModal = () => {
+    setModalOpen(false);
+    dispatch(actionCreators.public.toggleInfoModalState());
+  };
+
   return (
     <Dialog
       fullWidth={true}
@@ -15,7 +24,7 @@ export default function InfoModal({modalOpen, setModalOpen}) {
       open={modalOpen}
       aria-labelledby="form-dialog-info"
       keepMounted
-      onBackdropClick={() => setModalOpen(false)}
+      onBackdropClick={() => closeModal()}
     >
       <DialogContent>
         <Grid

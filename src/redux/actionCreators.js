@@ -25,7 +25,9 @@ export const actionCreators = createActions({
     setEndRoundAnimations: undefined,
     setAnimatedFinished: undefined,
     /** Disconnect **/
-    disconnect: undefined
+    disconnect: undefined,
+    /** Info Modal **/
+    toggleInfoModalState: undefined
   },
   private: {
     saveClientID: (clientID) => ({clientID}),

@@ -12,6 +12,7 @@ const initialState = {
   players: null,
   currentPlayerTurn: null,
   disconnected: false,
+  infoModalShow: false,
   gameState: {
     nextRoundFirstPlayer: null,
     roundTiles: null,
@@ -448,6 +449,10 @@ export default handleActions(
     [actionCreators.public.disconnect]: () => ({
       ...initialState,
       disconnected: true
+    }),
+    [actionCreators.public.toggleInfoModalState]: state => ({
+      ...state,
+      infoModalShow: !state.infoModalShow
     })
   },
   initialState

@@ -8,9 +8,18 @@ import IconButton from "@material-ui/core/IconButton";
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import React, {Fragment, useState} from "react";
 import InfoModal from "./info_modal/InfoModal";
+import {useDispatch} from "react-redux";
+import {actionCreators} from "../redux/actionCreators";
 
 export default function Overflow() {
+  const dispatch = useDispatch();
+
   const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+    dispatch(actionCreators.public.toggleInfoModalState());
+  };
 
   return (
     <Fragment>
@@ -62,7 +71,7 @@ export default function Overflow() {
           <IconButton
             css={{position: 'absolute'}}
             aria-label="info"
-            onClick={() => setModalOpen(true)}
+            onClick={() => openModal()}
           >
             <InfoOutlinedIcon
               fontSize="large"
