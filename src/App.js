@@ -15,6 +15,7 @@ function App({socket}) {
   const gameOver = useSelector(state => state.public.gameState.gameOver);
   const endRoundAnimations = useSelector(state => state.public.endRoundAnimations);
   const pendingAnimations = endRoundAnimations.pendingAnimations;
+  const animate = endRoundAnimations.animate;
   const roomID = useSelector(state => state.public.roomID);
   const nextRoundFirstPlayer = useSelector(state => state.public.gameState.nextRoundFirstPlayer);
   const disconnected = useSelector(state => state.public.disconnected);
@@ -61,12 +62,12 @@ function App({socket}) {
   }, [roundTiles]);
 
   useEffect(() => {
-    if (pendingAnimations === 0 && endRoundAnimations.animate && currentTurn ) {
+    if (pendingAnimations === 0 && animate && currentTurn ) {
         dispatch(actionCreators.public.calculateScore());
 
         dispatch(actionCreators.public.endTurn());
     }
-  }, [pendingAnimations]);
+  }, [animate, currentTurn, pendingAnimations]);
 
   useEffect(() => {
     if (gameOver) {
