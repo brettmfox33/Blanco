@@ -11,6 +11,7 @@ export default function TileSquare({color, borderColor, onDragOver, onDrop, onDr
   const wallLine = useSelector(state => state.public.players[playerNumber].board.wall[patternRowIndex]);
   const endRoundAnimations = useSelector(state => state.public.endRoundAnimations);
   const currentTurn = useSelector(state => state.private.currentTurn);
+  const infoModalShow = useSelector(state => state.public.infoModalShow);
 
   const [reverse, setReverse] = useState(false);
 
@@ -64,7 +65,7 @@ export default function TileSquare({color, borderColor, onDragOver, onDrop, onDr
         <motion.div
           key={`${patternRowIndex}-${patternColumnIndex}`}
           css={[{position: 'relative', marginBottom: -4},
-            patternColumnIndex === "0" ? {zIndex: 9999} : {}
+            patternColumnIndex === "0" && infoModalShow === false ? {zIndex: 9999} : {zIndex: 0}
           ]}
           animate={
             reverse

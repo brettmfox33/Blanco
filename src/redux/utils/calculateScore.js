@@ -6,7 +6,7 @@ export default function calculateScore(state) {
   Object.keys(newPlayers).map(playerIndex => {
     const playerObj = newPlayers[playerIndex];
     const playerBoard = playerObj.board;
-    let roundScore = 0;
+
     Object.keys(playerBoard.patternLines).map(patternLineIndex => {
       const patternLine = playerBoard.patternLines[patternLineIndex];
       const filledTiles = Object.values(patternLine).filter(item => item !== null);
@@ -45,28 +45,28 @@ export default function calculateScore(state) {
           &&
           (verticalArray[parseInt(patternLineIndex) - 1] || verticalArray[parseInt(patternLineIndex) + 1])
         ) {
-          roundScore = roundScore + 2;
+          playerObj.score = playerObj.score +  2;
         }
         else {
-          roundScore = roundScore + 1;
+          playerObj.score = playerObj.score + 1;
         }
 
         // Adjacent Horizontal Left
         for (let i=wallLineIndex-1; horizontalArray[i]; i--){
-          roundScore = roundScore + 1;
+          playerObj.score = playerObj.score + 1;
         }
         // Adjacent Horizontal Left
         for (let i=wallLineIndex+1; horizontalArray[i]; i++){
-          roundScore = roundScore + 1;
+          playerObj.score = playerObj.score + 1;
         }
 
         // Adjacent Vertical Up
         for (let i=parseInt(patternLineIndex)-1; verticalArray[i]; i--){
-          roundScore = roundScore + 1;
+          playerObj.score = playerObj.score + 1;
         }
         // Adjacent Vertical Down
         for (let i=parseInt(patternLineIndex)+1; verticalArray[i]; i++){
-          roundScore = roundScore + 1;
+          playerObj.score = playerObj.score + 1;
         }
       }
     });
@@ -76,14 +76,16 @@ export default function calculateScore(state) {
       const floorLineTile = playerBoard.floorLine[floorLineIndex];
       if (floorLineTile.color){
         // Add the penalty to the total score
-        roundScore = roundScore + floorLineTile.penalty;
+        playerObj.score = playerObj.score +  floorLineTile.penalty;
         newGameState.boxTiles[floorLineTile.color] = parseInt(newGameState.boxTiles[floorLineTile.color] + 1);
         floorLineTile.color = null
       }
     });
 
-    // Add Round score to total score
-    playerObj.score = playerObj.score + roundScore;
+    // Score can't be negative
+    if (playerObj.score < 0){
+      playerObj.score = 0
+    }
 
     // Add player 1 tile back to center
     newGameState.overflowTiles.firstPlayerToken = 1;

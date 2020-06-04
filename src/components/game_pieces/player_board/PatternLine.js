@@ -12,6 +12,7 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
   const currentPlayerTurn = useSelector(state => state.public.currentPlayerTurn);
   const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
   const roomID = useSelector(state => state.public.roomID);
+  const roundTiles = useSelector(state => state.public.gameState.roundTiles);
 
   const dragColor = dragState.tileColor;
   const hoveredPatternLine = dragState.hoveredPatternLine;
@@ -37,10 +38,11 @@ export default function PatternLine({socket, playerBoard, patternLines, patternR
         ));
 
         dispatch(actionCreators.public.dropTile(dragLocation, patternRowIndex, playerNumber));
-
-        const newTurnNumber = numberOfPlayers === currentPlayerTurn ? 1 : currentPlayerTurn + 1;
-        dispatch(actionCreators.public.changeTurn(newTurnNumber));
-        socket.emit("changeTurn", roomID, newTurnNumber);
+        if (roundTiles > dragState.tileCount) {
+          const newTurnNumber = numberOfPlayers === currentPlayerTurn ? 1 : currentPlayerTurn + 1;
+          dispatch(actionCreators.public.changeTurn(newTurnNumber));
+          socket.emit("changeTurn", roomID, newTurnNumber);
+        }
 
         dispatch(actionCreators.public.endTurn());
       }

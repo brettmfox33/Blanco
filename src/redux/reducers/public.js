@@ -12,6 +12,7 @@ const initialState = {
   players: null,
   currentPlayerTurn: null,
   disconnected: false,
+  infoModalShow: false,
   gameState: {
     nextRoundFirstPlayer: null,
     roundTiles: null,
@@ -131,12 +132,21 @@ export default handleActions(
       const endRoundAnimations = {
         ...state.endRoundAnimations,
         animate: false,
-        animationFinished: false,
-        color: null,
+        pendingAnimations: 0
       };
 
-      for (let i=0; i<state.numberOfPlayers; i++) {
-        endRoundAnimations.players[i+1] = []
+      // Reset end turn animations
+      const endTurnAnimation =  {
+        ...state.endTurnAnimation,
+          destinationX: null,
+          destinationY: null,
+          factoryDisplay: null,
+          overflow: null,
+          color: null
+      }
+
+      for (let i=1; i<=state.numberOfPlayers; i++) {
+        endRoundAnimations.players[i] = []
       }
 
       return {
@@ -150,6 +160,7 @@ export default handleActions(
           roundTiles: Object.keys(factoryDisplays).length * 4,
           nextRoundFirstPlayer: null
         },
+        endTurnAnimation: endTurnAnimation,
         endRoundAnimations: endRoundAnimations
       }
     },
@@ -448,6 +459,10 @@ export default handleActions(
     [actionCreators.public.disconnect]: () => ({
       ...initialState,
       disconnected: true
+    }),
+    [actionCreators.public.toggleInfoModalState]: state => ({
+      ...state,
+      infoModalShow: !state.infoModalShow
     })
   },
   initialState

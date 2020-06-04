@@ -62,7 +62,7 @@ export default function OverflowTiles() {
                 ? {x: endTurnAnimation.destinationX, y: endTurnAnimation.destinationY}
                 : {}
               }
-              onAnimationComplete={onComplete}
+              onAnimationComplete={() => onComplete()}
               transition={{ duration: 1 }}
               css={[
                   {height: 50, width: 50, margin: 3},

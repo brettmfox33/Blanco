@@ -15,6 +15,8 @@ export default function FloorLine({socket,playerBoard, playerNumber}) {
   const hoveredPatternLine = dragState.hoveredPatternLine;
   const roomID = useSelector(state => state.public.roomID);
   const numberOfPlayers = useSelector(state => state.public.numberOfPlayers);
+  const roundTiles = useSelector(state => state.public.gameState.roundTiles);
+
   const lineRef = useRef(null);
 
   const floorLine = playerBoard.floorLine;
@@ -32,9 +34,11 @@ export default function FloorLine({socket,playerBoard, playerNumber}) {
 
       dispatch(actionCreators.public.dropTileFloor(dragLocation, playerNumber));
 
-      const newTurnNumber = numberOfPlayers === currentPlayerTurn ? 1 : currentPlayerTurn + 1;
-      dispatch(actionCreators.public.changeTurn(newTurnNumber));
-      socket.emit("changeTurn", roomID, newTurnNumber);
+      if (roundTiles > dragState.tileCount) {
+        const newTurnNumber = numberOfPlayers === currentPlayerTurn ? 1 : currentPlayerTurn + 1;
+        dispatch(actionCreators.public.changeTurn(newTurnNumber));
+        socket.emit("changeTurn", roomID, newTurnNumber);
+      }
 
       dispatch(actionCreators.public.endTurn());
 
