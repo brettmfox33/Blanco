@@ -56,9 +56,6 @@ function App({socket}) {
   useEffect(() => {
     if (roundTiles === 0 && currentTurn ) {
       dispatch(actionCreators.public.setEndRoundAnimations());
-
-      // dispatch(actionCreators.public.changeTurn(nextRoundFirstPlayer));
-      // socket.emit("changeTurn", roomID, nextRoundFirstPlayer);
     }
   }, [roundTiles]);
 
@@ -75,12 +72,12 @@ function App({socket}) {
 
   // End Game
   useEffect(() => {
-    if (gameOver) {
+    if (gameOver && currentTurn) {
       dispatch(actionCreators.public.endGame());
 
       dispatch(actionCreators.public.endTurn());
     }
-  }, [gameOver]);
+  }, [gameOver, currentTurn]);
 
   return (
     !disconnected

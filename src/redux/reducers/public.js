@@ -173,7 +173,6 @@ export default handleActions(
       const winnerObjs = [];
 
       Object.values(players).map(playerObject => {
-
         if (!topScore) {
           winnerObjs.push(playerObject);
           topScore = playerObject.score;
@@ -184,16 +183,19 @@ export default handleActions(
         }
       });
 
-      const winners = [];
+      let winners = [];
       let topHorizontalLines = 1;
 
-      if (winnerObjs.length >= 1) {
+      if (winnerObjs.length > 1) {
         winnerObjs.map(winnerObj => {
           if (winnerObj.completedHorizontalLines >= topHorizontalLines) {
             winners.push(winnerObj.playerName);
             topHorizontalLines = winnerObj.completedHorizontalLines;
           }
         })
+      }
+      else {
+        winners.push(winnerObjs[0].playerName)
       }
 
       return {
