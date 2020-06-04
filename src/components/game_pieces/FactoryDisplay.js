@@ -78,7 +78,7 @@ export default function FactoryDisplay({tiles, factoryNumber}) {
                       ? {x: endTurnAnimation.destinationX, y: endTurnAnimation.destinationY}
                       : {}
                     }
-                    onAnimationComplete={onComplete}
+                    onAnimationComplete={() => onComplete()}
                     transition={{ duration: 1 }}
                     css={[{position: 'absolute', height: 50, width: 50, left: x, top: y},
                       endTurnAnimation.color === color && endTurnAnimation.factoryDisplay === factoryNumber ? {zIndex: 3} : {zIndex:1}

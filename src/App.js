@@ -52,23 +52,28 @@ function App({socket}) {
 
   }, []);
 
+  // End Round Pre-Animations
   useEffect(() => {
-    if (!endRoundAnimations.animationFinished && roundTiles === 0 && currentTurn ) {
+    if (roundTiles === 0 && currentTurn ) {
       dispatch(actionCreators.public.setEndRoundAnimations());
 
-      dispatch(actionCreators.public.changeTurn(nextRoundFirstPlayer));
-      socket.emit("changeTurn", roomID, nextRoundFirstPlayer);
+      // dispatch(actionCreators.public.changeTurn(nextRoundFirstPlayer));
+      // socket.emit("changeTurn", roomID, nextRoundFirstPlayer);
     }
   }, [roundTiles]);
 
+  // End Round Post-Animations
   useEffect(() => {
     if (pendingAnimations === 0 && animate && currentTurn ) {
         dispatch(actionCreators.public.calculateScore());
 
+        dispatch(actionCreators.public.changeTurn(nextRoundFirstPlayer));
+        socket.emit("changeTurn", roomID, nextRoundFirstPlayer);
         dispatch(actionCreators.public.endTurn());
     }
   }, [animate, currentTurn, pendingAnimations]);
 
+  // End Game
   useEffect(() => {
     if (gameOver) {
       dispatch(actionCreators.public.endGame());
