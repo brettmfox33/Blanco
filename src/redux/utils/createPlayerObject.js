@@ -37,10 +37,10 @@ export default function createPlayerObject(actionPayload) {
       wall: {
         0: {
           blue: false,
-          yellow: true,
-          red: true,
-          black: true,
-          purple: true
+          yellow: false,
+          red: false,
+          black: false,
+          purple: false
         },
         1: {
           purple: false,
@@ -109,9 +109,6 @@ export default function createPlayerObject(actionPayload) {
     finalPlayerObj[i] = {
       ...playerObj,
       playerName: i === 1 ? actionPayload.playerName : null
-    }
-    if (i === 1) {
-      finalPlayerObj[i].score = 100
     }
   }
   return finalPlayerObj
