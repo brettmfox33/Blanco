@@ -18,18 +18,18 @@ const initialState = {
     roundTiles: null,
     gameOver: false,
     availableTiles: {
-      black: 20,
-      blue: 20,
-      red: 20,
-      purple: 20,
-      yellow: 20
+      black: 4,
+      blue: 4,
+      red: 4,
+      purple: 4,
+      yellow: 4
     },
     boxTiles: {
-      black: 0,
-      blue: 0,
-      red: 0,
-      purple:0,
-      yellow: 0,
+      black: 16,
+      blue: 16,
+      red: 16,
+      purple: 16,
+      yellow: 16,
     },
     overflowX: null,
     overflowY: null,
@@ -122,7 +122,6 @@ export default handleActions(
         gameState: newGameState,
         players: newPlayers
       };
-
       // Redistribute tiles to factory displays
       if (!newGameState.gameOver) {
         factoryDisplays = buildFactoryDisplays(newState, state.numberOfPlayers);
@@ -429,6 +428,7 @@ export default handleActions(
         hoveredPatternLine: null
       }
     }),
+    /** Animations **/
     [actionCreators.public.setAnimation]: (state, action) => ({
       ...state,
       endTurnAnimation: {
@@ -458,6 +458,7 @@ export default handleActions(
         pendingAnimations: state.endRoundAnimations.pendingAnimations - 1
       }
     }),
+    /** Various **/
     [actionCreators.public.disconnect]: () => ({
       ...initialState,
       disconnected: true
