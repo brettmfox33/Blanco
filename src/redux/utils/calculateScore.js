@@ -77,7 +77,9 @@ export default function calculateScore(state) {
       if (floorLineTile.color){
         // Add the penalty to the total score
         playerObj.score = playerObj.score +  floorLineTile.penalty;
-        newGameState.boxTiles[floorLineTile.color] = newGameState.boxTiles[floorLineTile.color] + 1;
+        if (floorLineTile.color !== 'firstPlayerToken') {
+          newGameState.boxTiles[floorLineTile.color] = newGameState.boxTiles[floorLineTile.color] + 1;
+        }
         floorLineTile.color = null
       }
     });

@@ -34,8 +34,6 @@ export default function buildFactoryDisplays(state, numberOfPlayers) {
   // Use the tile array to grab random tile objects to assign to factory displays
   factoryDisplays.map(factoryDisplay => {
     for(let i=0; i<4; i++){
-      const randomNum = randomNumber(0, tileObjs.length - 1);
-
       // If we are out of tiles to put in factory displays then move the tiles from
       // the box to the bag and continue distribution.
       if (tileObjs.length === 0) {
@@ -45,7 +43,9 @@ export default function buildFactoryDisplays(state, numberOfPlayers) {
         tileObjs = buildTileObjects()
       }
 
+      const randomNum = randomNumber(0, tileObjs.length - 1);
       const tileColor = tileObjs.splice(randomNum, 1)[0].color;
+
       state.gameState.availableTiles[tileColor] = state.gameState.availableTiles[tileColor] - 1;
       factoryDisplay["tiles"][tileColor] = factoryDisplay["tiles"][tileColor] + 1;
       numberOfTilesNeeded = numberOfTilesNeeded - 1;
