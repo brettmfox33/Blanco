@@ -42,7 +42,11 @@ export default function buildFactoryDisplays(state, numberOfPlayers) {
         state.gameState.boxTiles = {...tempBag};
         tileObjs = buildTileObjects()
       }
-
+      
+      if (tileObjs.length === 0) {
+        return factoryDisplays
+      }
+      
       const randomNum = randomNumber(0, tileObjs.length - 1);
       const tileColor = tileObjs.splice(randomNum, 1)[0].color;
 

@@ -18,18 +18,18 @@ const initialState = {
     roundTiles: null,
     gameOver: false,
     availableTiles: {
-      black: 4,
-      blue: 4,
-      red: 4,
-      purple: 4,
-      yellow: 4
+      black: 20,
+      blue: 20,
+      red: 20,
+      purple: 20,
+      yellow: 20
     },
     boxTiles: {
-      black: 16,
-      blue: 16,
-      red: 16,
-      purple: 16,
-      yellow: 16,
+      black: 0,
+      blue: 0,
+      red: 0,
+      purple: 0,
+      yellow: 0,
     },
     overflowX: null,
     overflowY: null,
