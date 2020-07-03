@@ -1,5 +1,5 @@
-export default function calculateBonusScores(state) {
-  const newPlayers = {...state.players};
+export default function calculateBonusScores(newPlayers) {
+  // const newPlayers = {...state.players};
 
   Object.keys(newPlayers).map(playerNumber => {
     const playerObj = newPlayers[playerNumber];
@@ -43,7 +43,7 @@ export default function calculateBonusScores(state) {
         bonusScore = bonusScore + 10
       }
     });
-    newPlayers[playerNumber].score = newPlayers[playerNumber].score + bonusScore
+    playerObj.score = playerObj.score + bonusScore
   });
   return newPlayers
 }
