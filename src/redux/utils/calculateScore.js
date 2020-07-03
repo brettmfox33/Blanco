@@ -1,6 +1,8 @@
+import calculateBonusScores from "../utils/calculateBonusScores";
+
 export default function calculateScore(state) {
-  const newPlayers = {...state.players};
-  const newGameState = {...state.gameState};
+  let newPlayers = {...state.players};
+  let newGameState = {...state.gameState};
   let gameOver = false;
 
   Object.keys(newPlayers).map(playerIndex => {
@@ -32,6 +34,7 @@ export default function calculateScore(state) {
         // Check if the array is full. This means the game is over.
         if (horizontalArray.filter(item => item !== false).length === 5){
           gameOver = true;
+          console.log('Calculate score gameOver set to True')
           playerObj.completedHorizontalLines = playerObj.completedHorizontalLines + 1
         }
 
@@ -94,6 +97,44 @@ export default function calculateScore(state) {
   });
 
   newGameState.gameOver = gameOver;
-
+  if (gameOver) {
+    newPlayers = calculateBonusScores(newPlayers);
+    [newPlayers, newGameState] = DetermineWinners(newPlayers, newGameState)
+  }
   return [newPlayers, newGameState]
+}
+
+function DetermineWinners(players, newGameState) {
+  let topScore = null;
+  const winnerObjs = [];
+
+  Object.values(players).map(playerObject => {
+    if (!topScore) {
+      winnerObjs.push(playerObject);
+      topScore = playerObject.score;
+    }
+    else if (playerObject.score >= topScore) {
+      winnerObjs.push(playerObject);
+      topScore = playerObject.score;
+    }
+  });
+
+  let winners = [];
+  let topHorizontalLines = 1;
+
+  if (winnerObjs.length > 1) {
+    winnerObjs.map(winnerObj => {
+      if (winnerObj.completedHorizontalLines >= topHorizontalLines) {
+        winners.push(winnerObj.playerName);
+        topHorizontalLines = winnerObj.completedHorizontalLines;
+      }
+    })
+  }
+  else {
+    winners.push(winnerObjs[0].playerName)
+  }
+
+  newGameState.endGameStats.winners = winners;
+  newGameState.endGameStats.topScore = topScore;
+  return [players, newGameState]
 }

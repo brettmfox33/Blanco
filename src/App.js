@@ -12,14 +12,14 @@ function App({socket}) {
 
   const roundTiles = useSelector(state => state.public.gameState.roundTiles);
   const currentTurn = useSelector(state => state.private.currentTurn);
-  const gameOver = useSelector(state => state.public.gameState.gameOver);
+  const gameState = useSelector(state => state.public.gameState);
   const endRoundAnimations = useSelector(state => state.public.endRoundAnimations);
   const pendingAnimations = endRoundAnimations.pendingAnimations;
   const animate = endRoundAnimations.animate;
   const roomID = useSelector(state => state.public.roomID);
   const nextRoundFirstPlayer = useSelector(state => state.public.gameState.nextRoundFirstPlayer);
   const disconnected = useSelector(state => state.public.disconnected);
-
+  
   useEffect(() => {
     socket.on("updatePublicState", publicState  => {
       if (publicState.endTurnAnimation.destinationX) {
@@ -68,16 +68,7 @@ function App({socket}) {
         socket.emit("changeTurn", roomID, nextRoundFirstPlayer);
         dispatch(actionCreators.public.endTurn());
     }
-  }, [animate, currentTurn, pendingAnimations]);
-
-  // End Game
-  useEffect(() => {
-    if (gameOver && currentTurn) {
-      dispatch(actionCreators.public.endGame());
-
-      dispatch(actionCreators.public.endTurn());
-    }
-  }, [gameOver, currentTurn]);
+  }, [animate, currentTurn, pendingAnimations, gameState]);
 
   return (
     !disconnected

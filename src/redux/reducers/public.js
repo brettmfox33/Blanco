@@ -163,53 +163,6 @@ export default handleActions(
         endRoundAnimations: endRoundAnimations
       }
     },
-    /** End Game State **/
-    [actionCreators.public.endGame]: state => {
-      const players = calculateBonusScores(state);
-
-      // Determine the winner(s)
-      let topScore = null;
-      const winnerObjs = [];
-
-      Object.values(players).map(playerObject => {
-        if (!topScore) {
-          winnerObjs.push(playerObject);
-          topScore = playerObject.score;
-        }
-        else if (playerObject.score >= topScore) {
-          winnerObjs.push(playerObject);
-          topScore = playerObject.score;
-        }
-      });
-
-      let winners = [];
-      let topHorizontalLines = 1;
-
-      if (winnerObjs.length > 1) {
-        winnerObjs.map(winnerObj => {
-          if (winnerObj.completedHorizontalLines >= topHorizontalLines) {
-            winners.push(winnerObj.playerName);
-            topHorizontalLines = winnerObj.completedHorizontalLines;
-          }
-        })
-      }
-      else {
-        winners.push(winnerObjs[0].playerName)
-      }
-
-      return {
-        ...state,
-        players: players,
-        gameState: {
-          ...state.gameState,
-          endGameStats: {
-            ...state.endGameStats,
-            winners: winners,
-            winningScore: topScore
-          }
-        },
-      }
-    },
     /** Drag State **/
     [actionCreators.public.dragStart]: (state, action) => {
       let tileCount;
